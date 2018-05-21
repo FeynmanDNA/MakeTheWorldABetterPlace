@@ -1,6 +1,6 @@
 import ChooseCalculator from './ChooseCalculator';
 
 export default {
-  path: '/choosecalculator',
+  path: '/calculator/choosecalculator',
   component: ChooseCalculator
 };
