@@ -16,6 +16,7 @@ const routes = require('./Routes/RouteConfig').default();
 const RouteWithSubRoutes = route => (
   <Route
     path={route.path}
+    exact
     render={props => (
       // pass the sub-routes down to keep nesting
       <route.component {...props} routes={route.routes} />

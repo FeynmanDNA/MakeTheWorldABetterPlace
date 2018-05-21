@@ -1,9 +1,6 @@
-import React from 'react';
 import CalculatorView from './CalculatorView';
 
-const routes = {
+export default {
   path: "/",
-  component: CalculatorView,
+  component: CalculatorView
 };
-
-export default routes;
