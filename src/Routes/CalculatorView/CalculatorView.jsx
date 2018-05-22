@@ -1,6 +1,6 @@
 import React from 'react';
 import RouteWithSubRoutes from '../../RouteWithSubRoutes';
-import Steps from './Steps';
+import StepsBar from './StepsBar';
 import './CalculatorView.css';
 
 class CalculatorView extends React.Component {
@@ -12,7 +12,7 @@ class CalculatorView extends React.Component {
     return (
       <div className="main_container">
         <div className="steps_container">
-          <Steps />
+          <StepsBar />
         </div>
         <div className="side_container">
           sidebar here

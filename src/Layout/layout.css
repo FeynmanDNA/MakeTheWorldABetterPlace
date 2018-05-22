@@ -1,3 +1,8 @@
+/* no need for @import '~antd/dist/antd.css';
+ * babel-plugin-import will import styles and import components */
+
+/* another annoying feature of antd is the ridiculous global css style */
+
 html {
     box-sizing: border-box;
 }
@@ -6,21 +11,37 @@ html {
     box-sizing: inherit;
 }
 
-body {
-    background: #1c2431;
-    font-family: "Roboto", Arial, Helvetica, sans-serif;
-    color: rgb(211,211,211);
-    margin:0;
-    padding:0;
+.layout_header {
+    background-color: #343944;
+    width: 100%;
+    height: 72px;
+    border-bottom: 1px solid #32394a;
+    padding: 30px 30px;
+    color: #ebeff2;
 }
 
-header {
+.layout_footer {
+    background-color: #343944;
     width: 100%;
     height: 72px;
     border-bottom: 1px solid #32394a;
     padding: 10px;
+    color: #ebeff2;
 }
 
-h1 {
+/* main_container is shared */
+.main_container {
+    min-height: 500px;
+    background: #21242b;
+    font-family: "Roboto", Arial, Helvetica, sans-serif;
+    color: #ebeff2;
     margin:0;
+    padding:0;
+}
+
+.layout_header h1,
+.layout_footer h1 {
+    font-size: 16px;
+    margin:0;
+    color: #ebeff2;
 }
