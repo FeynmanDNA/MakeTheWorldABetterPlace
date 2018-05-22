@@ -1,3 +1,6 @@
 import ChooseConstantTF from './ChooseConstantTF';
 
-export default ChooseConstantTF;
+export default {
+  path: '/calculator/choosemode',
+  component: ChooseConstantTF
+};

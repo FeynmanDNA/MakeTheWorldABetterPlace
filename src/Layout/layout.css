@@ -29,16 +29,6 @@ html {
     color: #ebeff2;
 }
 
-/* main_container is shared */
-.main_container {
-    min-height: 500px;
-    background: #21242b;
-    font-family: "Roboto", Arial, Helvetica, sans-serif;
-    color: #ebeff2;
-    margin:0;
-    padding:0;
-}
-
 .layout_header h1,
 .layout_footer h1 {
     font-size: 16px;

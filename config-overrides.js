@@ -1,5 +1,6 @@
 const { injectBabelPlugin } = require('react-app-rewired');
 const rewireLess = require('react-app-rewire-less');
+const rewireMobx = require('react-app-rewire-mobx');
 
 module.exports = function override(config, env) {
   //do stuff with the webpack config..
@@ -7,9 +8,10 @@ module.exports = function override(config, env) {
   config = injectBabelPlugin(['import', { libraryName: 'antd', style: true }], config);  // change importing css to less
   config = rewireLess.withLoaderOptions({
     modifyVars: {
-      "@primary-color": "#007eba",
+      "@primary-color": "#01807C",
       "@body-background": "#21242b"
     },
   })(config, env);
+  config = rewireMobx(config, env);
   return config;
 };

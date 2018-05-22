@@ -14,14 +14,15 @@ class CalculatorView extends React.Component {
         <div className="steps_container">
           <StepsBar />
         </div>
-        <div className="side_container">
-          sidebar here
-        </div>
-        <div className="info_container">
-          {this.props.routes.map((route, i) => (
-            <RouteWithSubRoutes key={i} {...route} />
-          ))}
-          choose your calculator here friend
+        <div className="calculator_container">
+          <div className="side_container">
+            sidebar here
+          </div>
+          <div className="info_container">
+            {this.props.routes.map((route, i) => (
+              <RouteWithSubRoutes key={i} {...route} />
+            ))}
+          </div>
         </div>
       </div>
     );
