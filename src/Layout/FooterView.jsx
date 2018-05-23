@@ -10,7 +10,7 @@ class FooterView extends React.Component {
           textAlign: 'center',
           height: 25,
           padding:2,
-          backgroundColor:"#fff"
+          backgroundColor:"#fff",
         }}>
         <a href="https://www.physics.nus.edu.sg/~biosmm/"
            target="_blank"

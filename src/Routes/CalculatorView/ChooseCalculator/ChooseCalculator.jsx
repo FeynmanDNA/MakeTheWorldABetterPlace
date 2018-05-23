@@ -6,6 +6,10 @@ import { Card, Col, Row } from 'antd';
 @inject('global_store')
 @observer
 class ChooseCalculator extends React.Component {
+  componentDidMount() {
+    this.props.global_store.switchStep(0);
+  }
+
   handleClick = () => {
     this.props.global_store.chooseMode("Mode1");
   }

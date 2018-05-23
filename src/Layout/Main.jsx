@@ -11,7 +11,10 @@ class Main extends React.Component {
       <Layout style={{minWidth: 1100}}>
         <HeaderView />
         <Content
-          style={{ padding: '20px 50px' }}
+          style={{
+            padding: '20px 50px',
+            minHeight: 520
+          }}
         >
             {this.props.children}
         </Content>
