@@ -1,9 +1,9 @@
 import Calculator from './CalculatorView';
-import Contributors from './Contributors';
-import Documentation from './Documentation';
+import Publications from './Publications';
+import About from './About';
 
 const routes = () => [
-  Calculator, Contributors, Documentation
+  Calculator, Publications, About
 ];
 
 export default routes;

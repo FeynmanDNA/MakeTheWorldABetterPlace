@@ -4,15 +4,16 @@ import { inject, observer } from 'mobx-react';
 
 @inject('global_store')
 @observer
-class InputView extends React.Component {
+class About extends React.Component {
   componentDidMount() {
-    this.props.global_store.switchStep(2);
+    this.props.global_store.switchMenu("3");
   }
-
+  
   render() {
     return (
-      <h2>here are the inputs, txtx</h2>
+      <p>These are the contributors for this project</p>
     );
   }
 }
-export default InputView;
+
+export default About;
