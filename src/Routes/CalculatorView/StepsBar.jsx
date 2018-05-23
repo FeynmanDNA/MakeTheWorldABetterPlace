@@ -10,7 +10,11 @@ const Step = Steps.Step;
 class StepsBar extends React.Component {
   render() {
     return (
-      <div className="stepsbar">
+      <div
+        style={{
+          paddingLeft:10,
+          paddingRight: 70,
+        }}>
         <Steps current={this.props.global_store.step}>
           <Step title="Choose Calculator" description="from three types of calculators" />
           <Step title="Choose Mode" description="Constant Force or Torque" />
