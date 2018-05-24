@@ -1,7 +1,10 @@
 import React from 'react';
 // get current step from global_store
+// and to manage global states
 import { inject, observer } from 'mobx-react';
-import { Card, Col, Row } from 'antd';
+import { Button, Icon, Card, Col, Row } from 'antd';
+
+const ButtonGroup = Button.Group;
 
 @inject('global_store')
 @observer
@@ -58,6 +61,14 @@ class ChooseCalculator extends React.Component {
             </Card>
           </Col>
         </Row>
+    <ButtonGroup>
+      <Button type="primary" disabled={this.props.global_store.mode ? false : true}>
+        <Icon type="left" />Go back
+      </Button>
+      <Button type="primary">
+        Go forward<Icon type="right" />
+      </Button>
+    </ButtonGroup>
       </div>
     );
   }
