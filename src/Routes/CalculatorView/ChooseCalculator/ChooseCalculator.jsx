@@ -1,13 +1,27 @@
 import React from 'react';
-import CardBareDNA from './CardBareDNA';
-import CardWithNul from './CardWithNul';
-import CardWithIns from './CardWithIns';
+import CardView from './CardView';
+//imgs for the card
+import BareDNAImg from '../../../Assets/bareDNA.jpg';
+import WithNulImg from '../../../Assets/WithNucleosome.png';
+import WithInsImg from '../../../Assets/WithInsert.jpg';
 // get current step from global_store
 // and to manage global states
 import { inject, observer } from 'mobx-react';
-import { Button, Icon, Card, Col, Row } from 'antd';
+import { Button, Icon, Col, Row } from 'antd';
 
 const ButtonGroup = Button.Group;
+
+const BareDNAInfo =  (
+  <p>Bare DNA version of the program calculates the conformation of bare DNA under force and torque constraints.<br /> In the calculations, DNA is allowed to transit between 4 DNA structural states: B-, L-, P- and S-DNA.</p>
+);
+
+const WithNulInfo = (
+  <p>This version calculates the conformation of DNA in the presence of nucleosome formation by histone octamers under force and torque constraints applied to the DNA.<br /> In the calculations, DNA is allowed to transit between 3 structural states: B-, L- and P-DNA. Nucleosomes are assumed to form only on B-DNA parts of the polymer.</p>
+);
+
+const WithInsInfo = (
+  <p>lalala</p>
+);
 
 @inject('global_store')
 @observer
@@ -16,22 +30,46 @@ class ChooseCalculator extends React.Component {
     this.props.global_store.switchStep(0);
   }
 
+  clickBareDNA = () => {
+    this.props.global_store.chooseCalculator("Bare DNA");
+  }
+
+  clickWithNul = () => {
+    this.props.global_store.chooseCalculator("With Nucleosome");
+  }
+
+  clickWithIns = () => {
+    this.props.global_store.chooseCalculator("With DNA-insert");
+  }
   render() {
     return (
       <div>
         <Row type="flex" justify="space-around">
           <Col span={7}>
-            <CardBareDNA />
+            <CardView
+              title="Bare DNA"
+              imgsrc={BareDNAImg}
+              info={BareDNAInfo}
+              handleClick={this.clickBareDNA}
+            />
           </Col>
           <Col span={7}>
-            <CardWithNul />
+            <CardView
+              title="With Nucleosome"
+              imgsrc={WithNulImg}
+              info={WithNulInfo}
+              handleClick={this.clickWithNul}
+            />
           </Col>
           <Col span={7}>
-            <CardWithIns />
+            <CardView
+              title="With DNA-insert"
+              imgsrc={WithInsImg}
+              info={WithInsInfo}
+              handleClick={this.clickWithIns}
+            />
           </Col>
         </Row>
-      <br />
-      <br />
       <br />
         <ButtonGroup>
           <Button
@@ -42,7 +80,7 @@ class ChooseCalculator extends React.Component {
           </Button>
           <Button
             type="primary"
-            disabled={this.props.global_store.mode
+            disabled={this.props.global_store.calculator
               ? false
               : true}>
             Go forward

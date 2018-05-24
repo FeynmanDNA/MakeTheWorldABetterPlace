@@ -8,6 +8,7 @@ import { inject, observer } from 'mobx-react';
 class About extends React.Component {
   componentDidMount() {
     this.props.global_store.switchMenu("3");
+    console.log("find a way to display server uptime and other info");
   }
 
   render() {
