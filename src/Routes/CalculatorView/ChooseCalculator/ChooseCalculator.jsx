@@ -1,4 +1,7 @@
 import React from 'react';
+import CardBareDNA from './CardBareDNA';
+import CardWithNul from './CardWithNul';
+import CardWithIns from './CardWithIns';
 // get current step from global_store
 // and to manage global states
 import { inject, observer } from 'mobx-react';
@@ -13,62 +16,39 @@ class ChooseCalculator extends React.Component {
     this.props.global_store.switchStep(0);
   }
 
-  handleClick = () => {
-    this.props.global_store.chooseMode("Mode1");
-  }
-
-  testHistory = () => {
-    this.props.history.push('/calculator/'+1+'/choosemode');
-  }
-
-  clearStore = () => {
-    this.props.global_store.clearState();
-    this.props.history.push('/calculator/choosecalculator');
-  }
-
   render() {
     return (
       <div>
-        <Row gutter={16}>
-          <Col span={8}>
-            <Card
-              title="Bare DNA"
-              bordered={false}
-              hoverable
-              onClick={this.handleClick}
-            >
-              Card content
-            </Card>
+        <Row type="flex" justify="space-around">
+          <Col span={7}>
+            <CardBareDNA />
           </Col>
-          <Col span={8}>
-            <Card
-              title="With Nucleosome"
-              bordered={false}
-              hoverable
-              onClick={this.testHistory}
-            >
-              Card content
-            </Card>
+          <Col span={7}>
+            <CardWithNul />
           </Col>
-          <Col span={8}>
-            <Card
-              title="3rd type"
-              bordered={false}
-              hoverable
-              onClick = {this.clearStore}
-            >
-              Card content
-            </Card>
+          <Col span={7}>
+            <CardWithIns />
           </Col>
         </Row>
-    <ButtonGroup>
-      <Button type="primary" disabled={this.props.global_store.mode ? false : true}>
-        <Icon type="left" />Go back
-      </Button>
-      <Button type="primary">
-        Go forward<Icon type="right" />
-      </Button>
-    </ButtonGroup>
+      <br />
+      <br />
+      <br />
+        <ButtonGroup>
+          <Button
+            type="primary"
+            disabled>
+            <Icon type="left" />
+            Go back
+          </Button>
+          <Button
+            type="primary"
+            disabled={this.props.global_store.mode
+              ? false
+              : true}>
+            Go forward
+            <Icon type="right" />
+          </Button>
+        </ButtonGroup>
       </div>
     );
   }
