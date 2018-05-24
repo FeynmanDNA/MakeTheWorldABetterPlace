@@ -27,6 +27,7 @@ const WithInsInfo = (
 @observer
 class ChooseCalculator extends React.Component {
   componentDidMount() {
+    //stepbar show step1
     this.props.global_store.switchStep(0);
   }
 
@@ -41,6 +42,29 @@ class ChooseCalculator extends React.Component {
   clickWithIns = () => {
     this.props.global_store.chooseCalculator("With DNA-insert");
   }
+
+  ProceedtoMode = () => {
+    switch(this.props.global_store.calculator) {
+      case "Bare DNA":
+        this.props.history.push(
+          '/calculator/1/choosemode'
+        );
+        break;
+      case "With Nucleosome":
+        this.props.history.push(
+          '/calculator/2/choosemode'
+        );
+        break;
+      case "With DNA-insert":
+        this.props.history.push(
+          '/calculator/3/choosemode'
+        );
+        break;
+      default:
+        break;
+    }
+  }
+
   render() {
     return (
       <div>
@@ -79,6 +103,7 @@ class ChooseCalculator extends React.Component {
             Go back
           </Button>
           <Button
+            onClick={this.ProceedtoMode}
             type="primary"
             disabled={this.props.global_store.calculator
               ? false

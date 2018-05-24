@@ -6,6 +6,7 @@ class GlobalStore {
   @observable step = 0;
   @observable calculator= "";
   @observable mode= "";
+  @observable calType="";
 
   @action.bound switchMenu(menu)
   {
@@ -26,11 +27,30 @@ class GlobalStore {
   {
     this.mode = mode;
   }
+
   @action.bound clearState()
   {
     this.step = 0;
     this.calculator = "";
     this.mode = "";
+  }
+
+  @action.bound setCalType(calType)
+  {
+    this.calType = calType;
+    switch(calType) {
+      case "1":
+        this.calculator = "Bare DNA";
+        break;
+      case "2":
+        this.calculator = "With Nucleosome";
+        break;
+      case "3":
+        this.calculator = "With DNA-insert";
+        break;
+      default:
+        break;
+    }
   }
 }
 
