@@ -1,6 +1,6 @@
 import InputView from './InputView';
 
 export default {
-  path: '/calculator/inputview',
+  path: '/calculator/:calType/:calMode/inputview',
   component: InputView
 };

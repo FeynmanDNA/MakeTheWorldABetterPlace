@@ -6,6 +6,12 @@ class CardView extends React.Component {
     key: 'pin',
   }
 
+  componentDidMount() {
+    this.setState({
+      key: 'pin',
+    });
+  }
+
   onTabChange = (key, type) => {
     this.setState({
       [type]: key,
@@ -25,7 +31,10 @@ class CardView extends React.Component {
         <img
           alt="whatever"
           src={this.props.imgsrc}
-          style={{width: 150}}
+          style={{
+            width: 240,
+            height:200,
+          }}
         />,
       info:
         this.props.info,

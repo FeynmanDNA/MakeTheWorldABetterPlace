@@ -6,6 +6,12 @@ class CardView extends React.Component {
     key: 'pin',
   }
 
+  componentDidMount() {
+    this.setState({
+      key: 'pin',
+    });
+  }
+
   onTabChange = (key, type) => {
     this.setState({
       [type]: key,

@@ -7,6 +7,7 @@ class GlobalStore {
   @observable calculator= "";
   @observable mode= "";
   @observable calType="";
+  @observable calMode="";
 
   @action.bound switchMenu(menu)
   {
@@ -47,6 +48,21 @@ class GlobalStore {
         break;
       case "3":
         this.calculator = "With DNA-insert";
+        break;
+      default:
+        break;
+    }
+  }
+
+  @action.bound setCalMode(calMode)
+  {
+    this.calMode = calMode;
+    switch(calMode) {
+      case "1":
+        this.mode = "Constant Torque";
+        break;
+      case "2":
+        this.mode = "Constant Force";
         break;
       default:
         break;
