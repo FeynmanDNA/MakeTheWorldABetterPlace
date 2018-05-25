@@ -1,4 +1,5 @@
 import React from 'react';
+import InputForm from './InputForm';
 // get current step from global_store
 import { inject, observer } from 'mobx-react';
 
@@ -20,7 +21,7 @@ class InputView extends React.Component {
   render() {
     // different 3/2 2/1 need different input groups...
     return (
-      <h2>here are the inputs, txtx</h2>
+      <InputForm />
     );
   }
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout } from 'antd';
+import { Layout, Tooltip } from 'antd';
 const { Footer } = Layout;
 
 class FooterView extends React.Component {
@@ -12,11 +12,13 @@ class FooterView extends React.Component {
           padding:2,
           backgroundColor:"#fff",
         }}>
-        <a href="https://www.physics.nus.edu.sg/~biosmm/"
-           target="_blank"
-           rel="noopener noreferrer">
-          Yan Jie Group
-        </a>
+        <Tooltip title="Our main website @ NUSPhysics">
+          <a href="https://www.physics.nus.edu.sg/~biosmm/"
+             target="_blank"
+             rel="noopener noreferrer">
+            Yan Jie Group
+          </a>
+        </Tooltip>
         &nbsp;
         © 2018 
       </Footer>
