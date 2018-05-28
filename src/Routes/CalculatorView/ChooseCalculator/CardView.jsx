@@ -1,4 +1,5 @@
 import React from 'react';
+import '../calculator.css';
 import { Button, Icon, Card } from 'antd';
 
 class CardView extends React.Component {
@@ -31,7 +32,6 @@ class CardView extends React.Component {
         <img
           alt="whatever"
           src={this.props.imgsrc}
-          style={{width: 150}}
         />,
       info:
         this.props.info,
@@ -41,7 +41,7 @@ class CardView extends React.Component {
       <Card
         style={{
           cursor:"default",
-          height:380
+          height:480,
         }}
         title={this.props.title}
         tabList={tabList}
@@ -52,13 +52,14 @@ class CardView extends React.Component {
         }
         hoverable
       >
-        <div style={{
-          fontSize:12,
-          height: 212,
-        }}>
+        <div className="CardContentList">
           {contentList[this.state.key]}
         </div>
-        <Button onClick={this.props.handleClick}>Select</Button>
+        <Button
+          onClick={this.props.handleClick}
+        >
+          Select
+        </Button>
       </Card>
     );
   }

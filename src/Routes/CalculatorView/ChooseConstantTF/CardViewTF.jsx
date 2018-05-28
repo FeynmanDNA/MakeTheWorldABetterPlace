@@ -56,7 +56,7 @@ class CardView extends React.Component {
         hoverable
       >
         <div style={{
-          fontSize:12,
+          fontSize:14,
           height: 212,
         }}>
           {contentList[this.state.key]}

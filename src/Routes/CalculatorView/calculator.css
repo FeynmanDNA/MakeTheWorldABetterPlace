@@ -1,0 +1,10 @@
+.CardContentList {
+    font-size: 14px;
+    height: 304px;
+    margin-bottom: 15px;
+}
+
+.CardContentList img {
+    margin: 0 auto;
+    width: 100%;
+}

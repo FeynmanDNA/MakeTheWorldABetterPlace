@@ -2,7 +2,7 @@ import React from 'react';
 import CardView from './CardView';
 //imgs for the card
 import BareDNAImg from '../../../Assets/bareDNA.jpg';
-import WithNulImg from '../../../Assets/WithNucleosome.png';
+import WithNulImg from '../../../Assets/WithNucleosome.jpg';
 import WithInsImg from '../../../Assets/WithInsert.jpg';
 // get current step from global_store
 // and to manage global states

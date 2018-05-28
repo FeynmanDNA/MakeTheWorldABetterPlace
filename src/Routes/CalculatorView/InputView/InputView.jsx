@@ -2,6 +2,11 @@ import React from 'react';
 import InputForm from './InputForm';
 // get current step from global_store
 import { inject, observer } from 'mobx-react';
+import { Form, Input, Button, Icon } from 'antd';
+
+const ButtonGroup = Button.Group;
+const FormItem = Form.Item;
+
 
 @inject('global_store')
 @observer
@@ -19,9 +24,35 @@ class InputView extends React.Component {
   }
 
   render() {
-    // different 3/2 2/1 need different input groups...
+    const { calType } = this.props.match.params;
+    const { calMode } = this.props.match.params;
     return (
-      <InputForm />
+      <div>
+        <Form>
+          <FormItem
+            label="DNA Length">
+              <Input placeholder="DNA length" />
+          </FormItem>
+        </Form>
+        {calType==="1"&&calMode==="2" 
+          ? <p>1+2</p>
+          : <p>nothing</p>
+        }
+        <ButtonGroup>
+          <Button
+            type="primary"
+          >
+            <Icon type="left" />
+            Go back
+          </Button>
+          <Button
+            type="primary"
+          >
+            Go forward
+            <Icon type="right" />
+          </Button>
+        </ButtonGroup>
+      </div>
     );
   }
 }
