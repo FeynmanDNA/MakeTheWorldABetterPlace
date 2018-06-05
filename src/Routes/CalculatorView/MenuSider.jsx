@@ -13,7 +13,7 @@ class MenuSider extends React.Component {
       ? (
         <span>
           <Badge status="success" />
-          {this.props.global_store.calculator}
+          <b>{this.props.global_store.calculator}</b>
         </span>
       )
       : ( 
@@ -26,7 +26,7 @@ class MenuSider extends React.Component {
       ? (
         <span>
           <Badge status="success" />
-          {this.props.global_store.mode}
+          <b>{this.props.global_store.mode}</b>
         </span>
       )
       : ( 

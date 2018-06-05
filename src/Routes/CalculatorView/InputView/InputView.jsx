@@ -1,11 +1,10 @@
 import React from 'react';
 import InputForm from './InputForm';
-// get current step from global_store
+// get current states from global_store
 import { inject, observer } from 'mobx-react';
-import { Form, Input, Button, Icon } from 'antd';
+import { Button, Icon } from 'antd';
 
 const ButtonGroup = Button.Group;
-const FormItem = Form.Item;
 
 
 @inject('global_store')
@@ -23,23 +22,25 @@ class InputView extends React.Component {
     this.props.global_store.setCalMode(calMode);
   }
 
+  ProceedBack = () => {
+    this.props.history.push(
+      '/calculator/'
+      +this.props.global_store.calType
+      +'/choosemode'
+    );
+  }
+
   render() {
-    const { calType } = this.props.match.params;
-    const { calMode } = this.props.match.params;
     return (
       <div>
-        <Form>
-          <FormItem
-            label="DNA Length">
-              <Input placeholder="DNA length" />
-          </FormItem>
-        </Form>
-        {calType==="1"&&calMode==="2" 
-          ? <p>1+2</p>
-          : <p>nothing</p>
-        }
+        <h3>
+          Inputs for {this.props.global_store.calculator}
+          &nbsp;with {this.props.global_store.mode}
+        </h3>
+        <InputForm />
         <ButtonGroup>
           <Button
+            onClick={this.ProceedBack}
             type="primary"
           >
             <Icon type="left" />
@@ -48,8 +49,8 @@ class InputView extends React.Component {
           <Button
             type="primary"
           >
-            Go forward
-            <Icon type="right" />
+            Submit
+            <Icon type="upload" />
           </Button>
         </ButtonGroup>
       </div>
