@@ -1,7 +1,7 @@
 import React from 'react';
 import { Slider, InputNumber, Row, Col } from 'antd';
 
-class SliderInput extends React.Component {
+class SliderInputConstForce extends React.Component {
   state = {
     sliderLength: this.props.inputValue,
   }
@@ -10,16 +10,18 @@ class SliderInput extends React.Component {
     this.setState({
       sliderLength: value,
     });
+    this.props.validateForce(value);
   }
 
   onChangeInputValue = (value) => {
-    // validate inputs are only integers
-    const onlyInt = /^[0-9]+$/;
-    if (onlyInt.test(value)) {
+    // validate inputs are signed and float numbers
+    const onlyNum = /^-?\d+\.?\d*$/;
+    if (onlyNum.test(value)) {
       this.setState({
         sliderLength: value,
       });
     }
+    this.props.validateForce(value);
   }
 
   render() {
@@ -50,4 +52,4 @@ class SliderInput extends React.Component {
   }
 }
 
-export default SliderInput;
+export default SliderInputConstForce;
