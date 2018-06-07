@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Tooltip, Icon } from 'antd';
 import SliderInput from './SliderInput';
+import SliderInputRange from './SliderInputRange';
 import SliderInputConstForce from './SliderInputConstForce';
 
 const FormItem = Form.Item;
@@ -31,6 +32,8 @@ class InputForm extends React.Component {
     console.log("look here!", document.getElementById("DNALength").value);
     console.log(document.getElementById("ConstForce").value);
     console.log(document.getElementById("MaxMode").value);
+    console.log(document.getElementById("RangeStart").value);
+    console.log(document.getElementById("RangeEnd").value);
   }
 
   render() {
@@ -86,16 +89,15 @@ class InputForm extends React.Component {
           {...formItemLayout}
           label={(
             <span>
-              Input3Here&nbsp;(nm)&nbsp;
-              <Tooltip title="Input3">
+              Torque&nbsp;(pN*nm)&nbsp;
+              <Tooltip title="Torque between -30 to +50 pN*nm">
                 <Icon type="question-circle-o" />
               </Tooltip>
             </span>
           )}
         >
-          <SliderInput
-            inputValue={1000}
-          />
+          <SliderInputRange />
+          <p>Torque arrays</p>
         </FormItem>
         <FormItem
           {...formItemLayout}
