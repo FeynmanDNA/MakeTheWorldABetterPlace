@@ -8,12 +8,20 @@ const FormItem = Form.Item;
 
 class InputForm extends React.Component {
   state = {
-    validateForce: null,
+    ArrayDisplay: null,
+    validateForce: 'success',
     errorForce: null,
+    validateStep: 'success',
+    errorStep:null,
+  }
+
+  componentDidMount() {
+    this.setState({
+      ArrayDisplay: "TODO get some array initial value",
+    });
   }
 
   validateZero = (number) => {
-    console.log(number);
     if (number === 0) {
       this.setState({
         validateForce: 'error',
@@ -25,7 +33,45 @@ class InputForm extends React.Component {
         errorForce: null,
       });
     }
-    console.log(this.state);
+  }
+
+  // for torque array, the step size is 0.1
+  // for force array, the step size is 0.01
+  validateArrayLength = (value) => {
+    console.log("value received is: ", value);
+    console.log(value.sliderValue);
+    console.log(value.StepSize);
+    let ArrayRange = [];
+    let [ start, end ] = value.sliderValue;
+    const step = value.StepSize;
+    console.log("step is now: ", step);
+    if (step===0) {
+      this.setState({
+        validateStep: 'error',
+        errorStep: "step should be zero",
+      });
+    } else if (typeof step === "string") {
+      this.setState({
+        validateStep: 'error',
+        errorStep: "step should be number",
+      });
+    } else {
+      this.setState({
+        validateStep: 'success',
+        errorStep: null,
+      });
+    }
+    if (this.state.validateStep === 'success') {
+      while (start <= end) {
+        ArrayRange.push(start);
+        start = +(start + step).toFixed(2);
+        // Note the plus sign that drops any "extra" zeroes at the end.
+        // It changes the result (which is a string) into a number again (think "0 + foo"),
+      }
+      this.setState({
+        ArrayDisplay: ArrayRange.toString(),        
+      });
+    }
   }
 
   handleSubmit = () => {
@@ -87,6 +133,8 @@ class InputForm extends React.Component {
         </FormItem>
         <FormItem
           {...formItemLayout}
+          validateStatus={this.state.validateStep}
+          help={this.state.errorStep}
           label={(
             <span>
               Torque&nbsp;(pN*nm)&nbsp;
@@ -96,8 +144,16 @@ class InputForm extends React.Component {
             </span>
           )}
         >
-          <SliderInputRange />
+          <SliderInputRange
+            inputValue={[-10,10]}
+            minValue={-30}
+            maxValue={50}
+            marksValue={{0:'0'}}
+            stepValue={0.1}
+            validateRange={(value) => this.validateArrayLength(value)}
+          />
           <p>Torque arrays</p>
+          {this.state.ArrayDisplay}
         </FormItem>
         <FormItem
           {...formItemLayout}

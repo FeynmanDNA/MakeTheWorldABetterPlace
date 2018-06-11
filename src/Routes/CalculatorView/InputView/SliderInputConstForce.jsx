@@ -6,8 +6,8 @@ class SliderInputConstForce extends React.Component {
     sliderLength: this.props.inputValue,
   }
 
-  onChangeSliderValue = (value) => {
-    this.setState({
+  onChangeSliderValue = async (value) => {
+    await this.setState({
       sliderLength: value,
     });
     this.props.validateForce(value);

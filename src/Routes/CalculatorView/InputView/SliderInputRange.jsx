@@ -3,32 +3,53 @@ import { Slider, InputNumber, Row, Col } from 'antd';
 
 class SliderInput extends React.Component {
   state = {
-    sliderValue: [-10,10],
+    sliderValue: this.props.inputValue,
+    StepSize: this.props.stepValue,
   }
 
-  onChangeSliderValue = (value) => {
-    this.setState({
+  onChangeSliderValue = async (value) => {
+    await this.setState({
       sliderValue: value,
     });
+    this.props.validateRange({...this.state});
   }
 
-  onChangeInputValue0 = (value) => {
+  onChangeInputValue0 = async (value) => {
     // validate inputs are signed and float numbers
     const onlyNum = /^-?\d+\.?\d*$/;
     if (onlyNum.test(value)) {
-      this.setState((prevState) => ({
+      if (value>this.state.sliderValue[1]) {
+        return;
+      }
+      await this.setState((prevState) => ({
         sliderValue: [value, prevState.sliderValue[1]], 
       }));
+      this.props.validateRange({...this.state});
     }
   }
 
-  onChangeInputValue1 = (value) => {
+  onChangeInputValue1 = async (value) => {
     // validate inputs are signed and float numbers
     const onlyNum = /^-?\d+\.?\d*$/;
     if (onlyNum.test(value)) {
-      this.setState((prevState) => ({
+      if (value<this.state.sliderValue[0]) {
+        return;
+      }
+      await this.setState((prevState) => ({
         sliderValue: [prevState.sliderValue[0], value],
       }));
+      this.props.validateRange({...this.state});
+    }
+  }
+
+  onChangeStepSize = async (value) => {
+    // validate inputs are signed and float numbers
+    const onlyNum = /^-?\d+\.?\d*$/;
+    if (onlyNum.test(value)) {
+      await this.setState({
+        StepSize: value,
+      });
+      this.props.validateRange({...this.state});
     }
   }
 
@@ -39,39 +60,60 @@ class SliderInput extends React.Component {
           <Col span={22}>
             <Slider
               range
-              min={-30}
-              max={50}
-              marks={{0:'0'}}
+              min={this.props.minValue}
+              max={this.props.maxValue}
+              marks={this.props.marksValue}
               onChange={this.onChangeSliderValue}
               value={this.state.sliderValue}
             />
           </Col>
         </Row>
         <Row>
-          <Col span={12}>
+          <Col span={8}>
             Range from:
+          </Col>
+          <Col span={8}>
+            to:
+          </Col>
+          <Col span={8}>
+            Step size:
+          </Col>
+        </Row>
+        <Row>
+          <Col span={8}>
             <InputNumber
               id="RangeStart"
               size="small"
-              min={-30}
-              max={50}
-              step={0.01}
-              style={{ marginLeft: 16 }}
+              min={this.props.minValue}
+              max={this.props.maxValue}
+              step={this.props.stepValue}
               onChange={this.onChangeInputValue0}
               value={this.state.sliderValue[0]}
             />
           </Col>
-          <Col span={12}>
-            To:
+          <Col span={8}>
             <InputNumber
               id="RangeEnd"
               size="small"
-              min={-30}
-              max={50}
-              step={0.01}
-              style={{ marginLeft: 16 }}
+              min={this.props.minValue}
+              max={this.props.maxValue}
+              step={this.props.stepValue}
               onChange={this.onChangeInputValue1}
               value={this.state.sliderValue[1]}
+            />
+          </Col>
+          <Col span={8}>
+            <InputNumber
+              id="StepSize"
+              size="small"
+              min={this.props.stepValue}
+              max={
+                this.state.sliderValue[1]-this.state.sliderValue[0]
+              }
+              defaultValue={this.props.stepValue}
+              step={this.props.stepValue}
+              onChange={this.onChangeStepSize}
+              value={this.state.StepSize}
             />
           </Col>
         </Row>
