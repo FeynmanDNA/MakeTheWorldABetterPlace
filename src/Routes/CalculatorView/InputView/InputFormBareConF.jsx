@@ -1,23 +1,31 @@
 import React from 'react';
-import { Form, Tooltip, Icon } from 'antd';
+import { Form, Tooltip, Icon, Card } from 'antd';
 import SliderInput from './SliderInput';
 import SliderInputRange from './SliderInputRange';
 import SliderInputConstForce from './SliderInputConstForce';
 
 const FormItem = Form.Item;
 
-class InputForm extends React.Component {
+class InputFormBareConF extends React.Component {
   state = {
-    ArrayDisplay: null,
+    ArrayDisplay: [],
     validateForce: 'success',
-    errorForce: null,
+    errorForce: '',
     validateStep: 'success',
-    errorStep:null,
+    errorStep: '',
   }
 
   componentDidMount() {
+    let ArrayRange = [];
+    const step = parseFloat(document.getElementById("StepSize").value);
+    let start = parseFloat(document.getElementById("RangeStart").value);
+    const end = parseFloat(document.getElementById("RangeEnd").value);
+    while (start<=end) {
+      ArrayRange.push(start);
+      start = +(start+step).toFixed(2);
+    }
     this.setState({
-      ArrayDisplay: "TODO get some array initial value",
+      ArrayDisplay: ArrayRange,
     });
   }
 
@@ -30,7 +38,7 @@ class InputForm extends React.Component {
     } else {
       this.setState({
         validateForce: 'success',
-        errorForce: null,
+        errorForce: '',
       });
     }
   }
@@ -38,27 +46,28 @@ class InputForm extends React.Component {
   // for torque array, the step size is 0.1
   // for force array, the step size is 0.01
   validateArrayLength = (value) => {
-    console.log("value received is: ", value);
-    console.log(value.sliderValue);
-    console.log(value.StepSize);
     let ArrayRange = [];
     let [ start, end ] = value.sliderValue;
     const step = value.StepSize;
-    console.log("step is now: ", step);
     if (step===0) {
       this.setState({
         validateStep: 'error',
-        errorStep: "step should be zero",
+        errorStep: "step should not be zero",
       });
     } else if (typeof step === "string") {
       this.setState({
         validateStep: 'error',
         errorStep: "step should be number",
       });
+    } else if ( ((end-start)/step +1) > 100 ) {
+      this.setState({
+        validateStep: 'error',
+        errorStep: "please limit the Array to below 100 items"
+      });
     } else {
       this.setState({
         validateStep: 'success',
-        errorStep: null,
+        errorStep: '',
       });
     }
     if (this.state.validateStep === 'success') {
@@ -69,7 +78,7 @@ class InputForm extends React.Component {
         // It changes the result (which is a string) into a number again (think "0 + foo"),
       }
       this.setState({
-        ArrayDisplay: ArrayRange.toString(),        
+        ArrayDisplay: ArrayRange,
       });
     }
   }
@@ -77,9 +86,8 @@ class InputForm extends React.Component {
   handleSubmit = () => {
     console.log("look here!", document.getElementById("DNALength").value);
     console.log(document.getElementById("ConstForce").value);
+    console.log(this.state.ArrayDisplay);
     console.log(document.getElementById("MaxMode").value);
-    console.log(document.getElementById("RangeStart").value);
-    console.log(document.getElementById("RangeEnd").value);
   }
 
   render() {
@@ -145,15 +153,29 @@ class InputForm extends React.Component {
           )}
         >
           <SliderInputRange
-            inputValue={[-10,10]}
+            inputValue={[-4.9, 5]}
             minValue={-30}
             maxValue={50}
             marksValue={{0:'0'}}
             stepValue={0.1}
             validateRange={(value) => this.validateArrayLength(value)}
           />
-          <p>Torque arrays</p>
-          {this.state.ArrayDisplay}
+          <Card title={`Torque Array of ${this.state.ArrayDisplay.length}`}>
+            {this.state.ArrayDisplay.map( (value, index) => {
+              return (
+                <Card.Grid
+                  key={index}
+                  style={{
+                    padding:3,
+                    width: "10%",
+                    textAlign:'left'
+                  }}
+                >
+                  <small>{value}</small>
+                </Card.Grid>
+              );
+            })}
+          </Card>
         </FormItem>
         <FormItem
           {...formItemLayout}
@@ -184,4 +206,4 @@ class InputForm extends React.Component {
   }
 }
 
-export default InputForm;
+export default InputFormBareConF;

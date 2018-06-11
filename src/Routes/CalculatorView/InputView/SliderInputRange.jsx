@@ -107,9 +107,6 @@ class SliderInput extends React.Component {
               id="StepSize"
               size="small"
               min={this.props.stepValue}
-              max={
-                this.state.sliderValue[1]-this.state.sliderValue[0]
-              }
               defaultValue={this.props.stepValue}
               step={this.props.stepValue}
               onChange={this.onChangeStepSize}

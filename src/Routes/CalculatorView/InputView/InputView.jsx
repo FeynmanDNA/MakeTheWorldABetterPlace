@@ -1,5 +1,6 @@
 import React from 'react';
-import InputForm from './InputForm';
+import InputFormBareConF from './InputFormBareConF';
+import InputFormBareConT from './InputFormBareConT';
 // get current states from global_store
 import { inject, observer } from 'mobx-react';
 import { Button, Icon } from 'antd';
@@ -31,13 +32,46 @@ class InputView extends React.Component {
   }
 
   render() {
+    const ConditionalRenderForm = () => {
+      if (this.props.global_store.calculator === "Bare DNA"
+          &&
+          this.props.global_store.mode === "Constant Force") {
+        return (<InputFormBareConF />);
+      }
+      if (this.props.global_store.calculator === "Bare DNA"
+          &&
+          this.props.global_store.mode === "Constant Torque") {
+        return (<InputFormBareConT />);
+      }
+      if (this.props.global_store.calculator === "With Nucleosome"
+          &&
+          this.props.global_store.mode === "Constant Force") {
+        return (<InputFormBareConF />);
+      }
+      if (this.props.global_store.calculator === "With Nucleosome"
+          &&
+          this.props.global_store.mode === "Constant Torque") {
+        return (<InputFormBareConF />);
+      }
+      if (this.props.global_store.calculator === "With DNA-insert"
+          &&
+          this.props.global_store.mode === "Constant Force") {
+        return (<InputFormBareConF />);
+      }
+      if (this.props.global_store.calculator === "With DNA-insert"
+          &&
+          this.props.global_store.mode === "Constant Torque") {
+        return (<InputFormBareConF />);
+      }
+    }
+
     return (
       <div>
         <h3>
           Inputs for {this.props.global_store.calculator}
           &nbsp;with {this.props.global_store.mode}
         </h3>
-        <InputForm />
+        {ConditionalRenderForm()}
         <ButtonGroup>
           <Button
             onClick={this.ProceedBack}
