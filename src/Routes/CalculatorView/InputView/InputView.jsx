@@ -1,6 +1,10 @@
 import React from 'react';
 import InputFormBareConF from './InputFormBareConF';
 import InputFormBareConT from './InputFormBareConT';
+import InputFormWithNulConF from './InputFormWithNulConF';
+import InputFormWithNulConT from './InputFormWithNulConT';
+import InputFormWithInsConF from './InputFormWithInsConF';
+import InputFormWithInsConT from './InputFormWithInsConT';
 // get current states from global_store
 import { inject, observer } from 'mobx-react';
 import { Button, Icon } from 'antd';
@@ -23,12 +27,22 @@ class InputView extends React.Component {
     this.props.global_store.setCalMode(calMode);
   }
 
+  componentWillUnmount() {
+    // clear the form data in the global_store before leaving
+    this.props.global_store.clearForm();
+  }
+
   ProceedBack = () => {
     this.props.history.push(
       '/calculator/'
       +this.props.global_store.calType
       +'/choosemode'
     );
+  }
+
+  handleSubmit = () => {
+    console.log("look here!", document.getElementById("DNALength").value);
+    console.log(document.getElementById("MaxMode").value);
   }
 
   render() {
@@ -46,22 +60,22 @@ class InputView extends React.Component {
       if (this.props.global_store.calculator === "With Nucleosome"
           &&
           this.props.global_store.mode === "Constant Force") {
-        return (<InputFormBareConF />);
+        return (<InputFormWithNulConF />);
       }
       if (this.props.global_store.calculator === "With Nucleosome"
           &&
           this.props.global_store.mode === "Constant Torque") {
-        return (<InputFormBareConF />);
+        return (<InputFormWithNulConT />);
       }
       if (this.props.global_store.calculator === "With DNA-insert"
           &&
           this.props.global_store.mode === "Constant Force") {
-        return (<InputFormBareConF />);
+        return (<InputFormWithInsConF />);
       }
       if (this.props.global_store.calculator === "With DNA-insert"
           &&
           this.props.global_store.mode === "Constant Torque") {
-        return (<InputFormBareConF />);
+        return (<InputFormWithInsConT />);
       }
     }
 
@@ -81,7 +95,11 @@ class InputView extends React.Component {
             Go back
           </Button>
           <Button
+            onClick={this.handleSubmit}
             type="primary"
+            disabled={this.props.global_store.inputStatus === false
+              ? true
+              : false}>
           >
             Submit
             <Icon type="upload" />

@@ -1,15 +1,17 @@
 import React from 'react';
 import { Form, Tooltip, Icon, Card } from 'antd';
 import SliderInput from './SliderInput';
-import SliderInputConstTorque from './SliderInputConstTorque';
 import SliderInputRange from './SliderInputRange';
+import SliderInputConstForce from './SliderInputConstForce';
 import AdvBDNAParam from './AdvBDNAParam';
 
 const FormItem = Form.Item;
 
-class InputFormBareConT extends React.Component {
+class InputFormBareConF extends React.Component {
   state = {
     ArrayDisplay: [],
+    validateForce: 'success',
+    errorForce: '',
     validateStep: 'success',
     errorStep: '',
   }
@@ -63,11 +65,6 @@ class InputFormBareConT extends React.Component {
         validateStep: 'error',
         errorStep: "please limit the Array to no more than 100 items"
       });
-    } else if (start === 0 || end === 0) {
-      this.setState({
-        validateStep: "error",
-        errorStep: "Force cannot be zero"
-      });
     } else {
       this.setState({
         validateStep: 'success',
@@ -116,8 +113,8 @@ class InputFormBareConT extends React.Component {
         </FormItem>
         <FormItem
           {...formItemLayout}
-          validateStatus={this.state.validateStep}
-          help={this.state.errorStep}
+          validateStatus={this.state.validateForce}
+          help={this.state.errorForce}
           label={(
             <span>
               Force&nbsp;(pN)&nbsp;
@@ -127,15 +124,37 @@ class InputFormBareConT extends React.Component {
             </span>
           )}
         >
-          <SliderInputRange
-            inputValue={[0.03, 1.02]}
+          <SliderInputConstForce
+            idValue="ConstForce"
+            inputValue={10}
             minValue={0}
             maxValue={200}
-            marksValue={{31:'31'}}
             stepValue={0.01}
+            validateForce={(value) => this.validateZero(value)}
+          />
+        </FormItem>
+        <FormItem
+          {...formItemLayout}
+          validateStatus={this.state.validateStep}
+          help={this.state.errorStep}
+          label={(
+            <span>
+              Torque&nbsp;(pN*nm)&nbsp;
+              <Tooltip title="Torque between -30 to +50 pN*nm">
+                <Icon type="question-circle-o" />
+              </Tooltip>
+            </span>
+          )}
+        >
+          <SliderInputRange
+            inputValue={[-4.9, 5]}
+            minValue={-30}
+            maxValue={50}
+            marksValue={{0:'0'}}
+            stepValue={0.1}
             validateRange={(value) => this.validateArrayLength(value)}
           />
-          <Card title={`Force Array of ${this.state.ArrayDisplay.length}`}>
+          <Card title={`Torque Array of ${this.state.ArrayDisplay.length}`}>
             {this.state.ArrayDisplay.map( (value, index) => {
               return (
                 <Card.Grid
@@ -151,28 +170,6 @@ class InputFormBareConT extends React.Component {
               );
             })}
           </Card>
-        </FormItem>
-        <FormItem
-          {...formItemLayout}
-          label={(
-            <span>
-              Torque&nbsp;(pN*nm)&nbsp;
-              <Tooltip title="Torque between -30 to +50 pN*nm">
-                <Icon type="question-circle-o" />
-              </Tooltip>
-            </span>
-          )}
-        >
-          <SliderInputConstTorque
-            idValue="ConstTorque"
-            marksValue={{
-              0:"0",
-            }}
-            inputValue={-10}
-            minValue={-30}
-            maxValue={50}
-            stepValue={0.1}
-          />
         </FormItem>
         <FormItem
           {...formItemLayout}
@@ -215,4 +212,4 @@ class InputFormBareConT extends React.Component {
   }
 }
 
-export default InputFormBareConT;
+export default InputFormBareConF;

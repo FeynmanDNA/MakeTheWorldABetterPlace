@@ -31,6 +31,10 @@ class CardView extends React.Component {
       pin:
         <img
           alt="whatever"
+          style={{
+            width: "auto",
+            maxHeight: "100%",
+          }}
           src={this.props.imgsrc}
         />,
       info:

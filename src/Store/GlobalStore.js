@@ -8,6 +8,8 @@ class GlobalStore {
   @observable mode= "";
   @observable calType="";
   @observable calMode="";
+  @observable inputStatus=true;
+  @observable FormInputs={};
 
   @action.bound switchMenu(menu)
   {
@@ -29,15 +31,9 @@ class GlobalStore {
     this.mode = mode;
   }
 
-  @action.bound clearState()
-  {
-    this.step = 0;
-    this.calculator = "";
-    this.mode = "";
-  }
-
   @action.bound setCalType(calType)
   {
+    // this.calType is needed for history.push
     this.calType = calType;
     switch(calType) {
       case "1":
@@ -56,6 +52,7 @@ class GlobalStore {
 
   @action.bound setCalMode(calMode)
   {
+    // this.calMode is needed for history.push
     this.calMode = calMode;
     switch(calMode) {
       case "1":
@@ -67,6 +64,18 @@ class GlobalStore {
       default:
         break;
     }
+  }
+
+  @action.bound clearForm()
+  {
+    // when leaving InputView component, clear the fom data
+    this.FormInputs={};
+  }
+
+  @action.bound SubmitBtnStatus(value)
+  {
+    // change the inputStatus depending on the validation of the form
+    value ? this.inputStatus = true : this.inputStatus = false;
   }
 }
 

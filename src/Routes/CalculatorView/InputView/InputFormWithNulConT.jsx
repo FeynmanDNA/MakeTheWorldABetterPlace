@@ -3,11 +3,11 @@ import { Form, Tooltip, Icon, Card } from 'antd';
 import SliderInput from './SliderInput';
 import SliderInputConstTorque from './SliderInputConstTorque';
 import SliderInputRange from './SliderInputRange';
-import AdvBDNAParam from './AdvBDNAParam';
+import SliderInputProteinE from './SliderInputProteinE';
 
 const FormItem = Form.Item;
 
-class InputFormBareConT extends React.Component {
+class InputFormWithNulConT extends React.Component {
   state = {
     ArrayDisplay: [],
     validateStep: 'success',
@@ -67,6 +67,11 @@ class InputFormBareConT extends React.Component {
       this.setState({
         validateStep: "error",
         errorStep: "Force cannot be zero"
+      });
+    } else if (start === 31 || end === 31) {
+      this.setState({
+        validateStep: "error",
+        errorStep: "Force cannot be more than 31pN"
       });
     } else {
       this.setState({
@@ -130,8 +135,7 @@ class InputFormBareConT extends React.Component {
           <SliderInputRange
             inputValue={[0.03, 1.02]}
             minValue={0}
-            maxValue={200}
-            marksValue={{31:'31'}}
+            maxValue={31}
             stepValue={0.01}
             validateRange={(value) => this.validateArrayLength(value)}
           />
@@ -178,6 +182,28 @@ class InputFormBareConT extends React.Component {
           {...formItemLayout}
           label={(
             <span>
+              Protein Energy&nbsp;(kB*T)&nbsp;
+              <Tooltip title="binding energy of histone octamers to DNA in kB*T">
+                <Icon type="question-circle-o" />
+              </Tooltip>
+            </span>
+          )}
+        >
+          <SliderInputProteinE
+            idValue="ProteinE"
+            marksValue={{
+              0:"0",
+            }}
+            inputValue={40}
+            minValue={-20}
+            maxValue={100}
+            stepValue={1}
+          />
+        </FormItem>
+        <FormItem
+          {...formItemLayout}
+          label={(
+            <span>
               Max Mode&nbsp;
               <Tooltip title="number of modes taken into account in the transfer matrix calculations">
                 <Icon type="question-circle-o" />
@@ -197,22 +223,9 @@ class InputFormBareConT extends React.Component {
             stepValue={1}
           />
         </FormItem>
-        <FormItem
-          {...formItemLayout}
-          label={(
-            <span>
-              <small>Advanced parameters&nbsp;</small>
-              <Tooltip title="Advanced parameters can be left to defaults">
-                <Icon type="question-circle-o" />
-              </Tooltip>
-            </span>
-          )}
-        >
-          <AdvBDNAParam />
-        </FormItem>
       </Form>
     );
   }
 }
 
-export default InputFormBareConT;
+export default InputFormWithNulConT;

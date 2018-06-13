@@ -3,9 +3,14 @@ import { Form, Tooltip, Icon, Card } from 'antd';
 import SliderInput from './SliderInput';
 import SliderInputRange from './SliderInputRange';
 import SliderInputConstForce from './SliderInputConstForce';
+import AdvBDNAParam from './AdvBDNAParam';
+// access the global_store to modify the SubmitBtnStatus
+import { inject, observer } from 'mobx-react';
 
 const FormItem = Form.Item;
 
+@inject('global_store')
+@observer
 class InputFormBareConF extends React.Component {
   state = {
     ArrayDisplay: [],
@@ -35,11 +40,14 @@ class InputFormBareConF extends React.Component {
         validateForce: 'error',
         errorForce: 'force cannot be 0',
       });
+      // disable submit button if validation fails
+      this.props.global_store.SubmitBtnStatus(false);
     } else {
       this.setState({
         validateForce: 'success',
         errorForce: '',
       });
+      this.props.global_store.SubmitBtnStatus(true);
     }
   }
 
@@ -59,10 +67,10 @@ class InputFormBareConF extends React.Component {
         validateStep: 'error',
         errorStep: "step should be number",
       });
-    } else if ( ((end-start)/step +1) > 100 ) {
+    } else if ( ((end-start)/step +1) >= 100 ) {
       this.setState({
         validateStep: 'error',
-        errorStep: "please limit the Array to below 100 items"
+        errorStep: "please limit the Array to no more than 100 items"
       });
     } else {
       this.setState({
@@ -81,13 +89,6 @@ class InputFormBareConF extends React.Component {
         ArrayDisplay: ArrayRange,
       });
     }
-  }
-
-  handleSubmit = () => {
-    console.log("look here!", document.getElementById("DNALength").value);
-    console.log(document.getElementById("ConstForce").value);
-    console.log(this.state.ArrayDisplay);
-    console.log(document.getElementById("MaxMode").value);
   }
 
   render() {
@@ -200,7 +201,19 @@ class InputFormBareConF extends React.Component {
             stepValue={1}
           />
         </FormItem>
-        <button onClick={this.handleSubmit}>Submit</button>
+        <FormItem
+          {...formItemLayout}
+          label={(
+            <span>
+              <small>Advanced parameters&nbsp;</small>
+              <Tooltip title="Advanced parameters can be left to defaults">
+                <Icon type="question-circle-o" />
+              </Tooltip>
+            </span>
+          )}
+        >
+          <AdvBDNAParam />
+        </FormItem>
       </Form>
     );
   }
