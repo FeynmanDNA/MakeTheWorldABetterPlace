@@ -1,7 +1,6 @@
 //from create-react-app
 import React from 'react';
 import ReactDOM from 'react-dom';
-import registerServiceWorker from './registerServiceWorker';
 //Mobx
 import { Provider } from 'mobx-react';
 import * as stores from './Store';
@@ -26,5 +25,3 @@ ReactDOM.render(
   ),
   document.getElementById('root')
 );
-
-registerServiceWorker();

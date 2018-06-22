@@ -80,6 +80,7 @@ class GlobalStore {
   }
 
   // six JSON formats for three calculator types
+  // Format 1 BareDNA Constant Force, Torque Array
   @action.bound SubmitBareConF(inputArray)
   {
     this.FormInputs = {
@@ -90,7 +91,18 @@ class GlobalStore {
     };
   }
 
-  // extend the observable state of FormInputs
+  // Format 2 BareDNA Force Array, Constant Torque
+  @action.bound SubmitBareConT(inputArray)
+  {
+    this.FormInputs = {
+      "DNALength": parseInt(document.getElementById("DNALength").value, 10),
+      "force": inputArray,
+      "torque": parseFloat(document.getElementById("ConstTorque").value),
+      "maxmode": parseInt(document.getElementById("MaxMode").value, 10),
+    };
+  }
+
+  // extend the observable state of FormInputs for BareDNA's AdvBDNAParam
   @action.bound addStateMobx(newState)
   {
     const { b_BValue, A_BValue, C_BValue, lambda_B } = newState;

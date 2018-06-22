@@ -1,4 +1,6 @@
 import React from 'react';
+//axios to send ajax request
+import axios from 'axios';
 // get current states from global_store
 import { inject, observer } from 'mobx-react';
 import { Button, Icon } from 'antd';
@@ -21,11 +23,19 @@ class OutputView extends React.Component {
     this.props.global_store.setCalMode(calMode);
     // TODO: ajax the input json
     // this.global_store.axiosInput
+    console.log("FormInputs is: ", this.props.global_store.FormInputs);
+    console.log(this.props.global_store.FormInputs.force.length);
+    // set the request content type to application/json for the .json property to work
+    axios({
+      method: 'post',
+      url: 'http://localhost:7717/BareDNA',
+      headers: {"Content-Type": "application/json"},
+      data: this.props.global_store.FormInputs,
+    });
+
   }
 
   componentWillUnmount() {
-    // all inputs in the form has default values, no need to clear when Unmount
-    // TODO: clear the global state for calculations
   }
 
   ProceedBack = () => {
