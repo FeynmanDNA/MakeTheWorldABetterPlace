@@ -19,6 +19,7 @@ class Unbuffered(object):
 
 sys.stdout = Unbuffered(sys.stdout)
 
+# the build folder from react run build
 app = Flask(__name__, static_folder='../build/static',
         template_folder="../build")
 

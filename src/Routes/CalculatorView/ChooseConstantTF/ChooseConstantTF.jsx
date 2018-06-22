@@ -133,7 +133,8 @@ class ChooseConstantTF extends React.Component {
             type="primary"
             disabled={this.props.global_store.mode
               ? false
-              : true}>
+              : true}
+          >
             Go forward
             <Icon type="right" />
           </Button>

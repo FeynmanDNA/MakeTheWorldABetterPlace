@@ -4,9 +4,13 @@ import SliderInput from './SliderInput';
 import SliderInputConstTorque from './SliderInputConstTorque';
 import SliderInputRange from './SliderInputRange';
 import AdvBDNAParam from './AdvBDNAParam';
+// access the global_store to modify the SubmitBtnStatus
+import { inject, observer } from 'mobx-react';
 
 const FormItem = Form.Item;
 
+@inject('global_store')
+@observer
 class InputFormBareConT extends React.Component {
   state = {
     ArrayDisplay: [],
@@ -28,20 +32,6 @@ class InputFormBareConT extends React.Component {
     });
   }
 
-  validateZero = (number) => {
-    if (number === 0) {
-      this.setState({
-        validateForce: 'error',
-        errorForce: 'force cannot be 0',
-      });
-    } else {
-      this.setState({
-        validateForce: 'success',
-        errorForce: '',
-      });
-    }
-  }
-
   // for torque array, the step size is 0.1
   // for force array, the step size is 0.01
   validateArrayLength = (value) => {
@@ -58,7 +48,7 @@ class InputFormBareConT extends React.Component {
         validateStep: 'error',
         errorStep: "step should be number",
       });
-    } else if ( ((end-start)/step +1) >= 100 ) {
+    } else if ( ((end-start)/step +1) > 100 ) {
       this.setState({
         validateStep: 'error',
         errorStep: "please limit the Array to no more than 100 items"

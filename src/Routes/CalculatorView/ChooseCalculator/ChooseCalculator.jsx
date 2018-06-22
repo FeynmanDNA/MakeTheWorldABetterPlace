@@ -107,7 +107,8 @@ class ChooseCalculator extends React.Component {
             type="primary"
             disabled={this.props.global_store.calculator
               ? false
-              : true}>
+              : true}
+          >
             Go forward
             <Icon type="right" />
           </Button>

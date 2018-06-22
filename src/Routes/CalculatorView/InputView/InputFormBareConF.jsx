@@ -67,7 +67,7 @@ class InputFormBareConF extends React.Component {
         validateStep: 'error',
         errorStep: "step should be number",
       });
-    } else if ( ((end-start)/step +1) >= 100 ) {
+    } else if ( ((end-start)/step +1) > 100 ) {
       this.setState({
         validateStep: 'error',
         errorStep: "please limit the Array to no more than 100 items"

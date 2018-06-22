@@ -28,8 +28,9 @@ class InputView extends React.Component {
   }
 
   componentWillUnmount() {
-    // clear the form data in the global_store before leaving
-    this.props.global_store.clearForm();
+    // all inputs in the form has default values, no need to clear when Unmount
+    // re-activate the submit button for the next input view
+    this.props.global_store.SubmitBtnStatus(true);
   }
 
   ProceedBack = () => {
@@ -41,8 +42,19 @@ class InputView extends React.Component {
   }
 
   handleSubmit = () => {
-    console.log("look here!", document.getElementById("DNALength").value);
-    console.log(document.getElementById("MaxMode").value);
+    this.props.history.push(
+      '/calculator/'
+      +this.props.global_store.calType
+      +'/'
+      +this.props.global_store.calMode
+      +'/results');
+    // TODO: 
+    // redirect to outputview route, and 
+    // use the router to better integrate with state management
+    // and send the calculation parameters
+    // and let the outputview route wait for the ajax
+    // sure, while it's loading the data you can show a spinner
+    // make the outputview componentDidMount call the axios request in a service file
   }
 
   render() {
@@ -99,7 +111,7 @@ class InputView extends React.Component {
             type="primary"
             disabled={this.props.global_store.inputStatus === false
               ? true
-              : false}>
+              : false}
           >
             Submit
             <Icon type="upload" />

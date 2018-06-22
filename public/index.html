@@ -12,9 +12,22 @@
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>
+    <script>
+      // from stackoverflow:
+      // https://stackoverflow.com/questions/9847580/how-to-detect-safari-chrome-ie-firefox-and-opera-browser/9851769
+      // Internet Explorer 6-11
+      var isIE = /*@cc_on!@*/false || !!document.documentMode;
+      // for IE11
+      var isIE11 = !!window.MSInputMethodContext && !!document.documentMode;
+      // true on IE11
+      // false on Edge and other IEs/browsers.
+      if (isIE || isIE11) {
+        document.getElementById("ForIE").innerHTML = "Please use a non-IE browser in order to use this calculator";
+      }
+    </script>
     <div id="root"></div>
     <!--
-	  Make the world a better place.
+      Make the world a better place.
     -->
   </body>
 </html>
