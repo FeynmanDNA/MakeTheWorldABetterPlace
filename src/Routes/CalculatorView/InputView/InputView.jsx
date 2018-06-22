@@ -25,6 +25,8 @@ class InputView extends React.Component {
     this.props.global_store.setCalType(calType);
     // set the calMode according to the url
     this.props.global_store.setCalMode(calMode);
+    //clear the form inputs in the mobx state
+    this.props.global_store.clearForm();
   }
 
   componentWillUnmount() {

@@ -9,6 +9,9 @@ import { Menu, Icon, Badge } from 'antd';
 class MenuSider extends React.Component {
   render() {
     const stepForViewer = this.props.global_store.step+1;
+    // detect this.props.global_store's calculator and mode
+    // are empty strings
+    // FormInputs is an object
     const calType = this.props.global_store.calculator
       ? (
         <span>
@@ -16,7 +19,7 @@ class MenuSider extends React.Component {
           <b>{this.props.global_store.calculator}</b>
         </span>
       )
-      : ( 
+      : (
         <span>
           <Badge status="error" />
           &nbsp;&nbsp;&nbsp;&nbsp;...
@@ -29,12 +32,26 @@ class MenuSider extends React.Component {
           <b>{this.props.global_store.mode}</b>
         </span>
       )
-      : ( 
+      : (
         <span>
           <Badge status="error" />
           &nbsp;&nbsp;&nbsp;&nbsp;...
         </span>
       );
+    const inputValue = (Object.keys(this.props.global_store.FormInputs).length === 0)
+      ? (
+        <span>
+          <Badge status="error" />
+          &nbsp;&nbsp;&nbsp;&nbsp;...
+        </span>
+      )
+      : (
+        <span>
+          <Badge status="success" />
+          <b>this.props.global_store.FormInputs</b>
+        </span>
+      );
+
     return (
       <Menu
         mode="inline"
@@ -93,10 +110,7 @@ class MenuSider extends React.Component {
           style={{
             cursor:"default",
           }}>
-          <span>
-            <Badge status="error" />
-            &nbsp;&nbsp;&nbsp;&nbsp;...
-          </span>
+          {inputValue}
         </Menu.Item>
       </Menu>
     );

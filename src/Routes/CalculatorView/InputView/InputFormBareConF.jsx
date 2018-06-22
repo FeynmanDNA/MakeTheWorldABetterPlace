@@ -34,6 +34,12 @@ class InputFormBareConF extends React.Component {
     });
   }
 
+  componentWillUnmount() {
+    // when unmount, push the form value and ArrayDisplay to mobx state
+    this.props.global_store.SubmitBareConF(this.state.ArrayDisplay);
+
+  }
+
   validateZero = (number) => {
     if (number === 0) {
       this.setState({
@@ -62,21 +68,28 @@ class InputFormBareConF extends React.Component {
         validateStep: 'error',
         errorStep: "step should not be zero",
       });
+      // disable submit button if validation fails
+      this.props.global_store.SubmitBtnStatus(false);
     } else if (typeof step === "string") {
       this.setState({
         validateStep: 'error',
         errorStep: "step should be number",
       });
+      // disable submit button if validation fails
+      this.props.global_store.SubmitBtnStatus(false);
     } else if ( ((end-start)/step +1) > 100 ) {
       this.setState({
         validateStep: 'error',
         errorStep: "please limit the Array to no more than 100 items"
       });
+      // disable submit button if validation fails
+      this.props.global_store.SubmitBtnStatus(false);
     } else {
       this.setState({
         validateStep: 'success',
         errorStep: '',
       });
+      this.props.global_store.SubmitBtnStatus(true);
     }
     if (this.state.validateStep === 'success') {
       while (start <= end) {

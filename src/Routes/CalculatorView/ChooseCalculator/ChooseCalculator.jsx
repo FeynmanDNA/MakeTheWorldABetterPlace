@@ -29,6 +29,8 @@ class ChooseCalculator extends React.Component {
   componentDidMount() {
     //stepbar show step1
     this.props.global_store.switchStep(0);
+    //clear the form inputs in the mobx state
+    this.props.global_store.clearForm();
   }
 
   clickBareDNA = () => {

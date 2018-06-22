@@ -43,26 +43,35 @@ class InputFormBareConT extends React.Component {
         validateStep: 'error',
         errorStep: "step should not be zero",
       });
+      // disable submit button if validation fails
+      this.props.global_store.SubmitBtnStatus(false);
     } else if (typeof step === "string") {
       this.setState({
         validateStep: 'error',
         errorStep: "step should be number",
       });
+      // disable submit button if validation fails
+      this.props.global_store.SubmitBtnStatus(false);
     } else if ( ((end-start)/step +1) > 100 ) {
       this.setState({
         validateStep: 'error',
         errorStep: "please limit the Array to no more than 100 items"
       });
+      // disable submit button if validation fails
+      this.props.global_store.SubmitBtnStatus(false);
     } else if (start === 0 || end === 0) {
       this.setState({
         validateStep: "error",
         errorStep: "Force cannot be zero"
       });
+      // disable submit button if validation fails
+      this.props.global_store.SubmitBtnStatus(false);
     } else {
       this.setState({
         validateStep: 'success',
         errorStep: '',
       });
+      this.props.global_store.SubmitBtnStatus(true);
     }
     if (this.state.validateStep === 'success') {
       while (start <= end) {

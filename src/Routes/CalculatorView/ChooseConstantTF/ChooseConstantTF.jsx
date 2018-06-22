@@ -28,6 +28,8 @@ class ChooseConstantTF extends React.Component {
     const { calType } = this.props.match.params;
     // set the calType according to the url
     this.props.global_store.setCalType(calType);
+    //clear the form inputs in the mobx state
+    this.props.global_store.clearForm();
   }
 
   clickTorque = () => {

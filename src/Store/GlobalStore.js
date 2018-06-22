@@ -1,4 +1,4 @@
-import { observable, action } from 'mobx';
+import { observable, action, extendObservable } from 'mobx';
 
 // Shared data store across pages
 class GlobalStore {
@@ -68,7 +68,8 @@ class GlobalStore {
 
   @action.bound clearForm()
   {
-    // when leaving InputView component, clear the fom data
+    // when unmount the inputform, only retain the values for submit
+    // if user proceed back, clear the form inputs stored in mobx
     this.FormInputs={};
   }
 
@@ -77,6 +78,31 @@ class GlobalStore {
     // change the inputStatus depending on the validation of the form
     value ? this.inputStatus = true : this.inputStatus = false;
   }
+
+  // six JSON formats for three calculator types
+  @action.bound SubmitBareConF(inputArray)
+  {
+    this.FormInputs = {
+      "DNALength": parseInt(document.getElementById("DNALength").value, 10),
+      "force": parseFloat(document.getElementById("ConstForce").value),
+      "torque": inputArray,
+      "maxmode": parseInt(document.getElementById("MaxMode").value, 10),
+    };
+  }
+
+  // extend the observable state of FormInputs
+  @action.bound addStateMobx(newState)
+  {
+    const { b_BValue, A_BValue, C_BValue, lambda_B } = newState;
+    // extendObservable can be used to add new observable properties to an object
+    extendObservable(this.FormInputs, {
+      "b_B": b_BValue,
+      "A_B": A_BValue,
+      "C_B": C_BValue,
+      "lambda_B": lambda_B,
+    });
+  }
+
 }
 
 export default GlobalStore;

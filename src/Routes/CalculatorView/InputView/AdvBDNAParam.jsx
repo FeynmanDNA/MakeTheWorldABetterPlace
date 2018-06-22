@@ -1,15 +1,29 @@
 import React from 'react';
 import { InputNumber, Row, Col, Collapse } from 'antd';
+// access the global_store to modify the SubmitBtnStatus
+import { inject, observer } from 'mobx-react';
 
 const Panel = Collapse.Panel;
 
 
+@inject('global_store')
+@observer
 class AdvBDNAParam extends React.Component {
   state = {
     b_BValue: 0.5,
     A_BValue: 50,
     C_BValue: 95,
-    lambdaValue: 4.3,
+    lambda_B: 4.3,
+  }
+
+  /* User controlled range for b_B: [0.1, 5] nm; default value: 0.5 nm.
+   * User controlled range for A_B: [10, 500] nm; default value: 50 nm.
+   * User controlled range for C_B: [10, 500] nm; default value: 95 nm.
+   * User controlled range for lambda_B: [-5, 10]; default value: 4.3.
+   */
+
+  componentWillUnmount() {
+    this.props.global_store.addStateMobx(this.state);
   }
 
   onChangeb_BValue = (value) => {
@@ -40,12 +54,12 @@ class AdvBDNAParam extends React.Component {
       });
     }
   }
-  onChangelambdaValue = (value) => {
+  onChangelambda_B = (value) => {
     // validate inputs are signed and float numbers
     const onlyNum = /^-?\d+\.?\d*$/;
     if (onlyNum.test(value)) {
       this.setState({
-        lambdaValue: value,
+        lambda_B: value,
       });
     }
   }
@@ -132,12 +146,12 @@ class AdvBDNAParam extends React.Component {
                 </Col>
                 <Col span={8}>
                   <InputNumber
-                    id="lambdaValue"
+                    id="lambda_B"
                     min={-5}
                     max={10}
                     step={0.1}
-                    onChange={this.onChangelambdaValue}
-                    value={this.state.lambdaValue}
+                    onChange={this.onChangelambda_B}
+                    value={this.state.lambda_B}
                   />
                 </Col>
               </Row>
