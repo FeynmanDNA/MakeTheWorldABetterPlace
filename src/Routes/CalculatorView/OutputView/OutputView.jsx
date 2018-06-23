@@ -19,6 +19,7 @@ class OutputView extends React.Component {
     superHelixArray: [],
     ResultLoading: false,
     ServiceError: false,
+    NoJSONError: false,
   }
 
   async componentDidMount() {
@@ -31,22 +32,30 @@ class OutputView extends React.Component {
     this.props.global_store.setCalType(calType);
     // set the calMode according to the url
     this.props.global_store.setCalMode(calMode);
-    // activate calculation
-    let params = "";
-    switch(calType) {
-      case "1":
-        params = "BareDNA";
-        break;
-      case "2":
-        params = "WithNul";
-        break;
-      case "3":
-        params = "WithIns";
-        break;
-      default:
-        break;
-    };
-    await this.loadCalculation(params);
+    // if there is no JSON to sent, raise error
+    if (Object.keys(this.props.global_store.FormInputs)
+      .length === 0) {
+      await this.setState({
+        NoJSONError: true,
+      });
+    } else {
+      // activate calculation
+      let params = "";
+      switch(calType) {
+        case "1":
+          params = "BareDNA";
+          break;
+        case "2":
+          params = "WithNul";
+          break;
+        case "3":
+          params = "WithIns";
+          break;
+        default:
+          break;
+      };
+      await this.loadCalculation(params);
+    }
   }
 
   async loadCalculation(params) {
@@ -104,6 +113,9 @@ class OutputView extends React.Component {
           console.log(key, this.props.global_store.FormInputs[key])
         ))
       }
+      {this.state.NoJSONError &&
+        <h1>You need to key in some inputs first!</h1>
+      }
         <h3>
           Inputs for {this.props.global_store.calculator}
           &nbsp;with {this.props.global_store.mode}
@@ -134,7 +146,7 @@ class OutputView extends React.Component {
             onClick={this.HandleReCalculation}
             type="primary"
           >
-            Restart
+            Restart from Step1
             <Icon type="reload" />
           </Button>
         </ButtonGroup>

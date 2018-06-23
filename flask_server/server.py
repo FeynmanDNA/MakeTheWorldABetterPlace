@@ -3,7 +3,7 @@ from flask import Flask, jsonify, render_template, request
 # enable CORS for development
 from flask_cors import CORS
 
-from time import localtime, strftime, time
+from time import localtime, strftime, time, sleep
 import subprocess, sys
 
 # replace sys.stdout with some other stream like wrapper
@@ -51,6 +51,7 @@ def Cal_BareDNA():
     if request.method == 'POST':
         cal_params = request.get_json()
         print(cal_params)
+        sleep(2)
         return "successfull received your POST request"
     # the code below is executed if the request method
     # was GET or the credentials were invalid
