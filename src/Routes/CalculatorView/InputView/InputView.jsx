@@ -94,7 +94,7 @@ class InputView extends React.Component {
     }
 
     return (
-      <div>
+      <React.Fragment>
         <h3>
           Inputs for {this.props.global_store.calculator}
           &nbsp;with {this.props.global_store.mode}
@@ -119,7 +119,7 @@ class InputView extends React.Component {
             <Icon type="upload" />
           </Button>
         </ButtonGroup>
-      </div>
+      </React.Fragment>
     );
   }
 }

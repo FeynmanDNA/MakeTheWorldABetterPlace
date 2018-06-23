@@ -55,7 +55,7 @@ class SliderInput extends React.Component {
 
   render() {
     return (
-      <div>
+      <React.Fragment>
         <Row>
           <Col span={22}>
             <Slider
@@ -114,7 +114,7 @@ class SliderInput extends React.Component {
             />
           </Col>
         </Row>
-      </div>
+      </React.Fragment>
     );
   }
 }

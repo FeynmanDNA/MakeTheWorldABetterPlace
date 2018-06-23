@@ -102,7 +102,7 @@ class ChooseConstantTF extends React.Component {
 
   render() {
     return (
-      <div>
+      <React.Fragment>
         <Row type="flex" justify="space-around">
           <Col span={8}>
             <CardView
@@ -141,7 +141,7 @@ class ChooseConstantTF extends React.Component {
             <Icon type="right" />
           </Button>
         </ButtonGroup>
-      </div>
+      </React.Fragment>
     );
   }
 }

@@ -35,8 +35,6 @@ class InputFormBareConT extends React.Component {
   componentWillUnmount() {
     // when unmount, push the form value and ArrayDisplay to mobx state
     this.props.global_store.SubmitBareConT(this.state.ArrayDisplay);
-    console.log("state.ArrayDisplay is: ", this.state.ArrayDisplay);
-
   }
 
   // for torque array, the step size is 0.1
