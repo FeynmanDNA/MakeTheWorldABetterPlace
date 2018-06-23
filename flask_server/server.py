@@ -1,5 +1,8 @@
 from flask import Flask, jsonify, render_template, request
 
+# enable CORS for development
+from flask_cors import CORS
+
 from time import localtime, strftime, time
 import subprocess, sys
 
@@ -23,14 +26,17 @@ sys.stdout = Unbuffered(sys.stdout)
 app = Flask(__name__, static_folder='../build/static',
         template_folder="../build")
 
+# enable CORS for development
+CORS(app)
+
 # reactrouter and flask 404 fix
 # from https://www.reddit.com/r/reactjs/comments/42pn95/reactrouter_and_flask_404/
 # and
 # https://stackoverflow.com/questions/30620276/flask-and-react-routing
-@app.route('/', defaults={'path':''})
-@app.route('/<path:path>')
-def index(path):
-    return render_template('index.html')
+#@app.route('/', defaults={'path':''}, methods=['GET', 'POST'])
+#@app.route('/<path:path>')
+#def index(path):
+#    return render_template('index.html')
 
 @app.route('/BareDNA', methods=['POST'])
 def Cal_BareDNA():
@@ -40,11 +46,12 @@ def Cal_BareDNA():
     get_json(force=False, silent=False, cache=True)
     Parse and return the data as JSON. If the mimetype does not indicate JSON (application/json, see is_json()), this returns None unless force is true
     '''
+    print(request)
     error = None
     if request.method == 'POST':
         cal_params = request.get_json()
         print(cal_params)
-        return "post method"
+        return "successfull received your POST request"
     # the code below is executed if the request method
     # was GET or the credentials were invalid
     return error

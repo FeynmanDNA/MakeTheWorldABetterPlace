@@ -11,7 +11,6 @@ class MenuSider extends React.Component {
     const stepForViewer = this.props.global_store.step+1;
     // detect this.props.global_store's calculator and mode
     // are empty strings
-    // FormInputs is an object
     const calType = this.props.global_store.calculator
       ? (
         <span>
@@ -38,7 +37,10 @@ class MenuSider extends React.Component {
           &nbsp;&nbsp;&nbsp;&nbsp;...
         </span>
       );
-    const inputValue = (Object.keys(this.props.global_store.FormInputs).length === 0)
+    // FormInputs is an object
+    const { FormInputs } = this.props.global_store;
+    const inputValue = (Object
+      .keys(FormInputs).length === 0)
       ? (
         <span>
           <Badge status="error" />
@@ -48,7 +50,7 @@ class MenuSider extends React.Component {
       : (
         <span>
           <Badge status="success" />
-          <b>this.props.global_store.FormInputs</b>
+          <span><Icon type="lock" />Received</span>
         </span>
       );
 
