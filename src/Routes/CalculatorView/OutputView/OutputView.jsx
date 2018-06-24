@@ -2,9 +2,12 @@ import React from 'react';
 //axios to send ajax request
 import axios from 'axios';
 import HTTPconfig from '../../../HTTPconfig';
+
+import ResultPlot from './ResultPlot';
+
 // get current states from global_store
 import { inject, observer } from 'mobx-react';
-import { Button, Icon, Spin, Alert } from 'antd';
+import { Button, Icon, Alert } from 'antd';
 
 const ButtonGroup = Button.Group;
 
@@ -59,7 +62,6 @@ class OutputView extends React.Component {
   }
 
   async loadCalculation(params) {
-    // TODO: need to catch empty JSON error sent
     await this.setState({
       ResultLoading: true
     });
@@ -73,7 +75,7 @@ class OutputView extends React.Component {
         headers: HTTPconfig.HTTP_HEADER,
         data: this.props.global_store.FormInputs,
       });
-      console.log(Result);
+      console.log("Result from axios: ", Result);
       await this.setState({
         forceArray: Result.data,
         ResultLoading: false,
@@ -84,9 +86,12 @@ class OutputView extends React.Component {
         ServiceError: true,
       });
     }
+    console.log("the states are: ", this.state);
   }
 
   componentWillUnmount() {
+    // clear the global_store's FormInputs when leaving OutputView
+    this.props.global_store.clearForm();
   }
 
   ProceedBack = () => {
@@ -108,32 +113,16 @@ class OutputView extends React.Component {
   render() {
     return (
       <React.Fragment>
-      {
-        Object.keys(this.props.global_store.FormInputs).forEach( key => (
-          console.log(key, this.props.global_store.FormInputs[key])
-        ))
-      }
-      {this.state.NoJSONError &&
-        <h1>You need to key in some inputs first!</h1>
-      }
-        <h3>
-          Inputs for {this.props.global_store.calculator}
-          &nbsp;with {this.props.global_store.mode}
-        </h3>
-        <Alert
-          message="Error Text"
-          description="Error Description Error Description Error Description Error Description Error Description Error Description"
-          type="error"
-          closable
-        />
-        <Spin spinning={this.state.ResultLoading}>
-          <h1>{this.state.forceArray}</h1>
-        </Spin>
-        <Spin spinning={this.state.ResultLoading}>
-          {this.state.ResultLoading
-            ? <p>Loading...</p>
-            : <p>Loaded</p>}
-        </Spin>
+        {this.state.NoJSONError ? (
+          <Alert
+            message="No Input Values"
+            description="Please submit the calculation parameters from Step 3"
+            type="error"
+            banner
+          />
+        ) : (
+          <ResultPlot Loading={this.state.ResultLoading} />
+        )}
         <ButtonGroup>
           <Button
             onClick={this.ProceedBack}
