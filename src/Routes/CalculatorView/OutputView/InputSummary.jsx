@@ -21,7 +21,7 @@ class InputSummary extends React.Component {
         <Panel header="Your Input Values" key="1">
             <List
               style={{
-                overflowX: "scroll",
+                overflowX: "auto",
               }}
               size="small"
               header={<b>Input Values: </b>}

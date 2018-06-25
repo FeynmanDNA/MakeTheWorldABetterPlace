@@ -2,10 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import InputSummary from './InputSummary';
+import VisGraph from './VisGraph';
 
 // get current states from global_store
 import { inject, observer } from 'mobx-react';
-import { Alert, Spin, Divider, Card, Button, Icon } from 'antd';
+import { Alert, Spin, Divider, Card, Button, Icon, Badge } from 'antd';
+
 
 const BannerMsg = {
   "loading":
@@ -42,24 +44,24 @@ class ResultPlot extends React.Component {
 
         <br />
 
-
         <InputSummary />
 
         <Divider />
 
-        <Spin spinning={this.props.Loading}>
-          <h1>this.state.forceArray</h1>
-        </Spin>
-        <Spin spinning={this.props.Loading}>
-          {this.props.Loading
-            ? <p>Loading...</p>
-            : <p>Loaded</p>}
-        </Spin>
+        <VisGraph
+          dataLoading={this.props.Loading}
+        />
 
         <Divider />
 
         <Card
-          title="Export Results"
+          title={this.props.Loading
+            ? (
+              <Badge
+                status="processing"
+                text="Waiting for Results"
+              />)
+            : "Export Results"}
           style={{
             width: "100%",
           }}
