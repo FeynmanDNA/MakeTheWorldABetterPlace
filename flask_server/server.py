@@ -4,7 +4,10 @@ from flask import Flask, jsonify, render_template, request
 from flask_cors import CORS
 
 from time import localtime, strftime, time, sleep
-import subprocess, sys
+
+# for input and output.dat and c++ subprocess
+import numpy as np
+import subprocess, sys, os.path
 
 # replace sys.stdout with some other stream like wrapper
 # which does a flush after every call.
@@ -38,6 +41,32 @@ CORS(app)
 #def index(path):
 #    return render_template('index.html')
 
+# take dictionary input as inputJSON
+def transfer_matrix(inputJSON, get_array=False):
+    # TODO: currently serving the BareDNA version
+    # TODO: can i remove the get_array? and also the np.loadtxt()?
+    if not isinstance(inputJSON['force'], list):
+        inputJSON['force'] = [inputJSON['force']]
+    if not isinstance(inputJSON['torque'], list):
+        inputJSON['torque'] = [inputJSON['torque']]
+    f = open('input_ft.dat', 'w')
+    for i in inputJSON['force']:
+        for j in inputJSON['torque']:
+            f.write('%s %s\n' % (i, j))
+    f.close()
+    f = open('input.dat', 'w')
+    f.write('b_B = %s\n' % inputJSON['b_B'])
+    f.write('A_B = %s\n' % inputJSON['A_B'])
+    f.write('C_B = %s\n' % inputJSON['C_B'])
+    f.write('lambda_B = %s\n' % inputJSON['lambda_B'])
+    # TODO: what is the 1 at the end of the input?
+    to_execute = "./June26th-BareDNA/BareDNA.out %s %s %s 1" % (
+        inputJSON['DNALength'], 'input_ft.dat', inputJSON['maxmode'])
+    p = subprocess.Popen(to_execute, shell=True)
+    p.communicate()
+    if get_array and os.path.isfile('output.dat'):
+        return np.loadtxt('output.dat')
+
 @app.route('/BareDNA', methods=['POST'])
 def Cal_BareDNA():
     # when print the POST JSON, the u- prefix just means
@@ -51,6 +80,7 @@ def Cal_BareDNA():
     if request.method == 'POST':
         cal_params = request.get_json()
         print(cal_params)
+        transfer_matrix(cal_params)
         sleep(2)
         return "successfull received your POST request"
     # the code below is executed if the request method

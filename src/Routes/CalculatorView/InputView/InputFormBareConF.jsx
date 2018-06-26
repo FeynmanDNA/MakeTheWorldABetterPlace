@@ -174,23 +174,23 @@ class InputFormBareConF extends React.Component {
             stepValue={0.1}
             validateRange={(value) => this.validateArrayLength(value)}
           />
-          <Card title={`Torque Array of ${this.state.ArrayDisplay.length}`}>
-            {this.state.ArrayDisplay.map( (value, index) => {
-              return (
-                <Card.Grid
-                  key={index}
-                  style={{
-                    padding:3,
-                    width: "10%",
-                    textAlign:'left'
-                  }}
-                >
-                  <small>{value}</small>
-                </Card.Grid>
-              );
-            })}
-          </Card>
         </FormItem>
+        <Card title={`Torque Array of ${this.state.ArrayDisplay.length}`}>
+          {this.state.ArrayDisplay.map( (value, index) => {
+            return (
+              <Card.Grid
+                key={index}
+                style={{
+                  padding:3,
+                  width: "10%",
+                  textAlign:'left'
+                }}
+              >
+                <small>{value}</small>
+              </Card.Grid>
+            );
+          })}
+        </Card>
         <FormItem
           {...formItemLayout}
           label={(
