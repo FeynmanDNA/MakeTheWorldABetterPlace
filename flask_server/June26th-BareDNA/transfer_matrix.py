@@ -23,7 +23,8 @@ def transfer_matrix(d, get_array=False):
     to_execute = "./BareDNA.out %s %s %s 1" % (d['DNALength'], 'input_ft.dat', d['maxmode'])
     p = sp.Popen(to_execute, shell=True)
     p.communicate()
-    return np.loadtxt('output.dat')
+    if get_array and os.path.isfile('output.dat'):
+        return np.loadtxt('output.dat')
 
 if __name__ == "__main__":
     #print (mp.cpu_count())
