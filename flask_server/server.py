@@ -84,9 +84,16 @@ def transfer_matrix(inputJSON={}, calType=""):
         f.write('A_B = %s\n' % inputJSON['A_B'])
         f.write('C_B = %s\n' % inputJSON['C_B'])
         f.write('lambda_B = %s\n' % inputJSON['lambda_B'])
-        # `1` at the end of the input indicate the number of CPU cores
-        cpp_proc = "./June26th-BareDNA/BareDNA.out %s %s %s 1" % (
-            inputJSON['DNALength'], 'input_ft.dat', inputJSON['maxmode'])
+        # argv[4] input is the number of CPU cores
+        # can also use multiprocessing library to detect CPU number with:
+        # multiprocessing.cpu_cout()
+        # in main.cpp, input.n_threads = std::atoi(argv[4]);
+        n_cpu = "4"
+        cpp_proc = "./June26th-BareDNA/BareDNA_afterParallel.out %s %s %s %s" % (
+            inputJSON['DNALength'],
+            'input_ft.dat',
+            inputJSON['maxmode'],
+            n_cpu)
     else:
        return "need to specify calType"
 

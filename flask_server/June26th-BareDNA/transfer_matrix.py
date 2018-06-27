@@ -20,14 +20,15 @@ def transfer_matrix(d, get_array=False):
     f.write('A_B = %s\n' % d['A_B'])
     f.write('C_B = %s\n' % d['C_B'])
     f.write('lambda_B = %s\n' % d['lambda_B'])
-    to_execute = "./BareDNA.out %s %s %s 1" % (d['DNALength'], 'input_ft.dat', d['maxmode'])
+    n_cpu = mp.cpu_count()
+    print("num of CPU on your PC is: ", n_cpu)
+    to_execute = "./BareDNA_afterParallel.out %s %s %s %s" % (d['DNALength'], 'input_ft.dat', d['maxmode'], n_cpu)
     p = sp.Popen(to_execute, shell=True)
     p.communicate()
     if get_array and os.path.isfile('output.dat'):
         return np.loadtxt('output.dat')
 
 if __name__ == "__main__":
-    #print (mp.cpu_count())
     d = {'force': [0.1+i for i in range(20)],
          'torque': 0.0,
          'maxmode': 14,
