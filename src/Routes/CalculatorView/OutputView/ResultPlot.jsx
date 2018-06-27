@@ -9,27 +9,34 @@ import { inject, observer } from 'mobx-react';
 import { Alert, Spin, Divider, Card, Button, Icon, Badge } from 'antd';
 
 
-const BannerMsg = {
-  "loading":
-  {
-    "type": "info",
-    "msg": "Please be patient, we are processing your calculation request. The calculation may take up to 5 minutes.",
-  },
-  "loaded":
-  {
-    "type": "success",
-    "msg": "The calculation is done!",
-  }
-};
 
 @inject('global_store')
 @observer
 class ResultPlot extends React.Component {
   static propTypes = {
     Loading: PropTypes.bool.isRequired,
+    EstTime: PropTypes.string.isRequired,
+    RelExtArray: PropTypes.array.isRequired,
+    HelixArray: PropTypes.array.isRequired,
+    TimeStart: PropTypes.string.isRequired,
+    TimeEnd: PropTypes.string.isRequired,
+    TimeElap: PropTypes.number.isRequired,
   };
 
   render() {
+    const BannerMsg = {
+      "loading":
+      {
+        "type": "info",
+        "msg": `Please be patient, we are processing your calculation request. The calculation may take up to ${this.props.EstTime}.`,
+      },
+      "loaded":
+      {
+        "type": "success",
+        "msg": "The calculation is done!",
+      }
+    };
+
     return (
       <React.Fragment>
         <Alert
@@ -66,10 +73,11 @@ class ResultPlot extends React.Component {
             width: "100%",
           }}
         >
-          <Spin />
-          <Button>
-            <Icon type="download" /> Download
-          </Button>
+          <Spin spinning={this.props.Loading}>
+            <Button>
+              <Icon type="download" /> Download
+            </Button>
+          </Spin>
         </Card>
         <br />
       </React.Fragment>

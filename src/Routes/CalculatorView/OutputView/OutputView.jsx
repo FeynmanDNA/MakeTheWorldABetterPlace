@@ -16,10 +16,11 @@ const ButtonGroup = Button.Group;
 @observer
 class OutputView extends React.Component {
   state = {
-    forceArray: [],
     extArray: [],
-    torqueArray: [],
     superHelixArray: [],
+    doneTime: "",
+    elapsedTime: 0,
+    startTime: "",
     ResultLoading: false,
     ServiceError: false,
     NoJSONError: false,
@@ -77,7 +78,11 @@ class OutputView extends React.Component {
       });
       console.log("Result from axios: ", Result);
       await this.setState({
-        forceArray: Result.data,
+        extArray: Result.data.ext_array,
+        superHelixArray: Result.data.suphel_array,
+        doneTime: Result.data.done_time,
+        elapsedTime: Result.data.elapsed_time,
+        startTime: Result.data.start_time,
         ResultLoading: false,
       });
     } catch (error) {
@@ -121,7 +126,17 @@ class OutputView extends React.Component {
             banner
           />
         ) : (
-          <ResultPlot Loading={this.state.ResultLoading} />
+          <ResultPlot
+            Loading={this.state.ResultLoading}
+            EstTime={this.props.global_store.calType === "2"
+              ? "5 minutes"
+              : "20-30 seconds"}
+            RelExtArray={this.state.extArray}
+            HelixArray={this.state.superHelixArray}
+            TimeStart={this.state.startTime}
+            TimeEnd={this.state.doneTime}
+            TimeElap={this.state.elapsedTime}
+          />
         )}
         <ButtonGroup>
           <Button
