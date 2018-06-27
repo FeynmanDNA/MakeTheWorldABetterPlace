@@ -11,6 +11,7 @@ module.exports = function override(config, env) {
       "@primary-color": "#01807C",
       "@body-background": "#21242b"
     },
+    javascriptEnabled: true,
   })(config, env);
   config = rewireMobx(config, env);
   return config;
