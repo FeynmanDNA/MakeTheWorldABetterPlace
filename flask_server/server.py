@@ -90,14 +90,25 @@ def transfer_matrix(inputJSON={}, calType=""):
     else:
        return "need to specify calType"
 
+    # without shell=True, the server will not find the BareDNA.out file
     cal_proc = subprocess.Popen(cpp_proc, shell=True)
     cal_proc.communicate()
+
+    # communicate will block the server until the cpp is done
+    print("output.dat ready")
 
     # elapsed time is in sec
     cal_end = int(round(time() * 1000))
     cal_elapsed = (cal_end-cal_start)/1000
 
-    return cal_elapsed
+    # extract the data
+    output = np.loadtxt('output.dat')
+    # numpy slicing arrays, [:, n] all indices along n axis
+    # numpy array around set the precision to 3 dp
+    rel_extension = list(np.around(output[:,3], 3))
+    superhelical = list(np.around(output[:, -1], 3))
+
+    return (cal_elapsed, rel_extension, superhelical)
 
     # display stdout in terminal for debug
     # print(cal_proc.stdout.read())
@@ -115,13 +126,15 @@ def Cal_BareDNA():
         print(cal_params)
 
         # NOTE: call transfer_matrix
-        cal_elapsed = transfer_matrix(cal_params, "BareDNA")
+        (cal_elapsed, rel_extension, superhelical) = transfer_matrix(cal_params, "BareDNA")
 
         finish_time = On_Finish()
         return jsonify(
               start_time = submit_time,
               done_time = finish_time,
-              elapsed_time = cal_elapsed)
+              elapsed_time = cal_elapsed,
+              ext_array = rel_extension,
+              suphel_array = superhelical)
     # the code below is executed if the request method
     # was GET or the credentials were invalid
     return error
