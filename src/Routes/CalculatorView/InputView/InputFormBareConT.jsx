@@ -140,7 +140,10 @@ class InputFormBareConT extends React.Component {
             validateRange={(value) => this.validateArrayLength(value)}
           />
         </FormItem>
-        <Card title={`Force Array of ${this.state.ArrayDisplay.length}`}>
+        <Tooltip title="Adjust the slider range, or key in Range from, to, and Step size above to generate the array you want.">
+          <Icon type="question-circle-o" />
+        </Tooltip>
+        <Card title={`Force Array of ${this.state.ArrayDisplay.length} elements:`}>
           {this.state.ArrayDisplay.map( (value, index) => {
             return (
               <Card.Grid
