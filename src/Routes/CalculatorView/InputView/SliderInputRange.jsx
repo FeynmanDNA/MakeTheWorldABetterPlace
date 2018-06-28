@@ -21,6 +21,11 @@ class SliderInput extends React.Component {
       if (value>this.state.sliderValue[1]) {
         return;
       }
+      // when user is in the middle keying dot
+      // do not set state
+      if (typeof(value) === "string") {
+        return;
+      }
       await this.setState((prevState) => ({
         sliderValue: [value, prevState.sliderValue[1]], 
       }));
@@ -33,6 +38,11 @@ class SliderInput extends React.Component {
     const onlyNum = /^-?\d+\.?\d*$/;
     if (onlyNum.test(value)) {
       if (value<this.state.sliderValue[0]) {
+        return;
+      }
+      // when user is in the middle keying dot
+      // do not set state
+      if (typeof(value) === "string") {
         return;
       }
       await this.setState((prevState) => ({
