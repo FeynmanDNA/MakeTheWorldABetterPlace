@@ -72,23 +72,29 @@ def transfer_matrix(inputJSON={}, calType=""):
         inputJSON['force'] = [inputJSON['force']]
     if not isinstance(inputJSON['torque'], list):
         inputJSON['torque'] = [inputJSON['torque']]
-    f = open('input_ft.dat', 'w')
+    # ft stands for force-torque
+    file_ft = open('input_ft.dat', 'w')
     for i in inputJSON['force']:
         for j in inputJSON['torque']:
-            f.write('%s %s\n' % (i, j))
-    f.close()
-    f = open('input.dat', 'w')
+            file_ft.write('%s %s\n' % (i, j))
+    file_ft.close()
+
+    # file_adv is advanced parameters for 3 calTypes
+    file_adv = open('input.dat', 'w')
+
+    # argv[4] input is the number of CPU cores
+    # can also use multiprocessing library to detect CPU number with:
+    # multiprocessing.cpu_cout()
+    # in main.cpp, input.n_threads = std::atoi(argv[4]);
+    n_cpu = "4"
+
     if calType == "BareDNA":
         # BareDNA advanced parameter has these 4:
-        f.write('b_B = %s\n' % inputJSON['b_B'])
-        f.write('A_B = %s\n' % inputJSON['A_B'])
-        f.write('C_B = %s\n' % inputJSON['C_B'])
-        f.write('lambda_B = %s\n' % inputJSON['lambda_B'])
-        # argv[4] input is the number of CPU cores
-        # can also use multiprocessing library to detect CPU number with:
-        # multiprocessing.cpu_cout()
-        # in main.cpp, input.n_threads = std::atoi(argv[4]);
-        n_cpu = "4"
+        file_adv.write('b_B = %s\n' % inputJSON['b_B'])
+        file_adv.write('A_B = %s\n' % inputJSON['A_B'])
+        file_adv.write('C_B = %s\n' % inputJSON['C_B'])
+        file_adv.write('lambda_B = %s\n' % inputJSON['lambda_B'])
+        file_adv.close()
         cpp_proc = "./June26th-BareDNA/BareDNA_afterParallel.out %s %s %s %s" % (
             inputJSON['DNALength'],
             'input_ft.dat',
@@ -109,7 +115,9 @@ def transfer_matrix(inputJSON={}, calType=""):
     cal_elapsed = (cal_end-cal_start)/1000
 
     # extract the data
-    output = np.loadtxt('output.dat')
+    # The returned array will have at least ndmin dimensions.
+    # Otherwise mono-dimensional axes will be squeezed.
+    output = np.loadtxt('output.dat', ndmin=2)
     # numpy slicing arrays, [:, n] all indices along n axis
     # numpy array around set the precision to 3 dp
     rel_extension = list(np.around(output[:,3], 3))
