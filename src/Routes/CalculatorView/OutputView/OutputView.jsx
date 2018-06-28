@@ -76,7 +76,6 @@ class OutputView extends React.Component {
         headers: HTTPconfig.HTTP_HEADER,
         data: this.props.global_store.FormInputs,
       });
-      console.log("Result from axios: ", Result);
       await this.setState({
         extArray: Result.data.ext_array,
         superHelixArray: Result.data.suphel_array,
@@ -91,7 +90,6 @@ class OutputView extends React.Component {
         ServiceError: true,
       });
     }
-    console.log("the states are: ", this.state);
   }
 
   componentWillUnmount() {

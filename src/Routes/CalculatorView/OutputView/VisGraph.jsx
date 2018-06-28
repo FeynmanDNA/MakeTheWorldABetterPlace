@@ -26,6 +26,11 @@ const RadioGroup = Radio.Group;
 class VisGraph extends React.Component {
   static propTypes = {
     dataLoading: PropTypes.bool.isRequired,
+    dataExtArray: PropTypes.array.isRequired,
+    dataHelArray: PropTypes.array.isRequired,
+    dataTStart: PropTypes.string.isRequired,
+    dataTEnd: PropTypes.string.isRequired,
+    dataTDur: PropTypes.number.isRequired,
   };
 
   state = {
@@ -33,48 +38,139 @@ class VisGraph extends React.Component {
     ConstLegend: "",
     XaxisTitle: "",
     YaxisTitle: "Relative DNA Ext",
+    xmin:0,
+    xmax:10,
+    ymin:0,
+    ymax:1.2,
+    PlotData:[],
+    ExtBackup:[],
+    HelixBackup:[],
+    SelectHelix: false,
   };
 
-  async componentDidMount() {
+  componentDidMount() {
+    if (Object.keys(this.props.global_store.FormInputs)
+      .length === 0) {
+      console.log("please do not refresh the result page");
+      return;
+    }
     // first detect whether the constant is force or torque
+    // recalibrate the xaxis range according to FormInputs
     const { calMode, FormInputs } = this.props.global_store;
+    const minForce = Math.min(...FormInputs.force);
+    const maxForce = Math.max(...FormInputs.force);
+    const minTorque = Math.min(...FormInputs.torque);
+    const maxTorque = Math.max(...FormInputs.torque);
     calMode === "1"
      ? (
-       await this.setState({
+       this.setState({
          ConstLegend: `Torque: ${FormInputs.torque} pN*nm`,
          XaxisTitle: "Force",
+         xmax: (
+           maxForce + 0.1*(Math.abs(maxForce))
+         ),
+         xmin: (
+           minForce - 0.1*(Math.abs(minForce))
+         ),
        })
      )
      : (
-       await this.setState({
+       this.setState({
          ConstLegend: `Force: ${FormInputs.force} pN`,
          XaxisTitle: "Torque",
+         xmax: (
+           maxTorque + 0.1*(Math.abs(maxTorque))
+         ),
+         xmin: (
+           minTorque - 0.1*(Math.abs(minTorque))
+         ),
        })
      );
-    console.log("show me the state", this.state);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // don't forget to compare props, or may cause infinite loop
+    if (this.props.dataLoading !== prevProps.dataLoading) {
+    // generate data for plot in this.state.PlotData
+      const { calMode, FormInputs } = this.props.global_store;
+      // first generate the Extension Array
+      let ExtData = [];
+      for (let i=0; i<this.props.dataExtArray.length; i++) {
+        let XYEntry = {};
+        if (calMode==="1") {
+          // force array
+          XYEntry = {
+            x: FormInputs.force[i],
+            y: this.props.dataExtArray[i]
+          };
+        } else {
+          // torque array
+          XYEntry = {
+            x: FormInputs.torque[i],
+            y: this.props.dataExtArray[i]
+          };
+        }
+        ExtData.push(XYEntry);
+      }
+      // also recalibrate the extension yaxis range
+      const maxExt = Math.max(...this.props.dataExtArray);
+      let ExtRange = 1.1;
+      if (maxExt>1) {
+        ExtRange = 1.8;
+      }
+      // then generate the Superhelical Array
+      let SupHelArray = [];
+      for (let i=0; i<this.props.dataHelArray.length; i++) {
+        let XYEntry = {};
+        if (calMode==="1") {
+          // force array
+          XYEntry = {
+            x: FormInputs.force[i],
+            y: this.props.dataHelArray[i]
+          };
+        } else {
+          // torque array
+          XYEntry = {
+            x: FormInputs.torque[i],
+            y: this.props.dataHelArray[i]
+          };
+        }
+        SupHelArray.push(XYEntry);
+      }
+      // also recalibrate the Superhelical yaxis range
+      const maxSupHel = Math.max(...this.props.dataHelArray);
+      let SupHelRange = 1.1;
+      this.setState({
+        PlotData: ExtData,
+        ymax: ExtRange,
+        ExtBackup: ExtData,
+        HelixBackup: SupHelArray,
+      });
+    }
   }
 
   selectYaxis = (e) => {
-    this.setState({
-      YaxisTitle: e.target.value,
-    });
+    if (e.target.value === "Relative DNA Ext") {
+      this.setState( (currentState) => ({
+        YaxisTitle: e.target.value,
+        SelectHelix: false,
+        PlotData: currentState.ExtBackup,
+      }));
+    } else {
+      this.setState( (currentState) => ({
+        YaxisTitle: e.target.value,
+        SelectHelix: true,
+        PlotData: currentState.HelixBackup,
+      }));
+    }
   }
 
-  getRandomData() {
-    const randomYData = [...new Array(100)].map(() => (
-      Math.round(Math.random())
-    ));
-
-    console.log("you called get random");
-    return randomYData.map((val, idx) => {
-      return {x: idx, y: val};
-    });
-  }
-
+  // for Vis Hint
   _rememberValue = (value) => {
     this.setState({value});
   }
 
+  // for Vis Hint
   _forgetValue = () => {
     this.setState({
       value: null
@@ -84,19 +180,6 @@ class VisGraph extends React.Component {
   render() {
     // for Vis Hint
     const { value } = this.state;
-
-    const data = [
-      {x: 0, y: 8},
-      {x: -1, y: 5},
-      {x: 2, y: 4},
-      {x: 3, y: 9},
-      {x: 4, y: 1},
-      {x: -5, y: 7},
-      {x: 6, y: 6},
-      {x: 7, y: 3},
-      {x: 8, y: 2},
-      {x: 9, y: 0}
-    ];
 
     return (
       <React.Fragment>
@@ -118,17 +201,27 @@ class VisGraph extends React.Component {
         <Spin spinning={this.props.dataLoading}>
           <div style={{overflowX: "auto"}}>
             <XYPlot
+              xDomain={[this.state.xmin, this.state.xmax]}
+              //yDomain={[this.state.ymin, this.state.ymax]}
               height={300}
               width={840}>
               <HorizontalGridLines />
               <VerticalGridLines />
-              <XAxis title={this.state.XaxisTitle} position="middle" />
+              <XAxis
+                title={this.state.XaxisTitle}
+                position="middle"
+                tickTotal={10}
+              />
               <YAxis title={this.state.YaxisTitle} position="middle" />
                 <MarkSeries
-                  color="#FF991F"
+                  color={this.state.SelectHelix
+                    ? "#0b0ebf"
+                    : "#FF991F"
+                  }
+                  size={5}
                   data={this.props.dataLoading
                     ? [{x:0, y:0}]
-                    : data}
+                    : this.state.PlotData}
                   onValueMouseOver={this._rememberValue}
                   onValueMouseOut={this._forgetValue}
                 />
@@ -140,9 +233,10 @@ class VisGraph extends React.Component {
           </div>
         </Spin>
         <DiscreteColorLegend
-          colors={[
-            '#FF991F',
-          ]}
+          colors={this.state.SelectHelix
+            ? ["#0b0ebf"]
+            : ["#FF991F"]
+          }
           items={[
             this.state.ConstLegend
           ]}

@@ -57,6 +57,11 @@ class ResultPlot extends React.Component {
 
         <VisGraph
           dataLoading={this.props.Loading}
+          dataExtArray={this.props.RelExtArray}
+          dataHelArray={this.props.HelixArray}
+          dataTStart={this.props.TimeStart}
+          dataTEnd={this.props.TimeEnd}
+          dataTDur={this.props.TimeElap}
         />
 
         <Divider />
@@ -74,6 +79,13 @@ class ResultPlot extends React.Component {
           }}
         >
           <Spin spinning={this.props.Loading}>
+            Calculation received @: {this.props.TimeStart}
+            <br />
+            Calculation finished @: {this.props.TimeEnd}
+            <br />
+            <b>Time taken: {this.props.TimeElap}s</b>
+            <br />
+            <Divider />
             <Button>
               <Icon type="download" /> Download
             </Button>
