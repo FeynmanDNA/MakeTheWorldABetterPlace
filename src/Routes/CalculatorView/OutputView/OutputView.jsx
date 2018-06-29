@@ -21,6 +21,7 @@ class OutputView extends React.Component {
     doneTime: "",
     elapsedTime: 0,
     startTime: "",
+    outputFileID: "",
     ResultLoading: false,
     ServiceError: false,
     NoJSONError: false,
@@ -82,6 +83,7 @@ class OutputView extends React.Component {
         doneTime: Result.data.done_time,
         elapsedTime: Result.data.elapsed_time,
         startTime: Result.data.start_time,
+        outputFileID: Result.data.download_file,
         ResultLoading: false,
       });
     } catch (error) {
@@ -134,6 +136,7 @@ class OutputView extends React.Component {
             TimeStart={this.state.startTime}
             TimeEnd={this.state.doneTime}
             TimeElap={this.state.elapsedTime}
+            FilePath={this.state.outputFileID}
           />
         )}
         <ButtonGroup>

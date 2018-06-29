@@ -21,6 +21,7 @@ class ResultPlot extends React.Component {
     TimeStart: PropTypes.string.isRequired,
     TimeEnd: PropTypes.string.isRequired,
     TimeElap: PropTypes.number.isRequired,
+    FilePath: PropTypes.string.isRequired,
   };
 
   render() {
@@ -36,6 +37,8 @@ class ResultPlot extends React.Component {
         "msg": "The calculation is done!",
       }
     };
+
+    const FileLink = `http://localhost:7717/${this.props.FilePath}`;
 
     return (
       <React.Fragment>
@@ -59,9 +62,6 @@ class ResultPlot extends React.Component {
           dataLoading={this.props.Loading}
           dataExtArray={this.props.RelExtArray}
           dataHelArray={this.props.HelixArray}
-          dataTStart={this.props.TimeStart}
-          dataTEnd={this.props.TimeEnd}
-          dataTDur={this.props.TimeElap}
         />
 
         <Divider />
@@ -86,9 +86,11 @@ class ResultPlot extends React.Component {
             <b>Time taken: {this.props.TimeElap}s</b>
             <br />
             <Divider />
+            <a href={FileLink}>
             <Button>
               <Icon type="download" /> Download
             </Button>
+            </a>
           </Spin>
         </Card>
         <br />

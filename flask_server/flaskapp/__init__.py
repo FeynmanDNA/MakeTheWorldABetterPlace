@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, send_from_directory
 
 # serving the route functions
 from time_stamp import On_Submit, On_Finish
@@ -16,8 +16,7 @@ from flask_cors import CORS
 sys.stdout = Unbuffered(sys.stdout)
 
 # the build folder from react run build
-app = Flask(__name__, static_folder='../build/static',
-        template_folder="../build")
+app = Flask(__name__)
 
 # enable CORS for development
 CORS(app)
@@ -45,23 +44,31 @@ def Cal_BareDNA():
         print(cal_params)
 
         # NOTE: call transfer_matrix
-        (cal_elapsed, rel_extension, superhelical) = transfer_matrix(
-                                                        cal_params,
-                                                        "BareDNA",
-                                                        submit_time,
-                                                     )
+        (cal_elapsed,
+         rel_extension,
+         superhelical,
+         output_file_id) = transfer_matrix(
+                              cal_params,
+                              "BareDNA",
+                              submit_time)
 
         finish_time = On_Finish()
         return jsonify(
-              start_time = submit_time,
-              done_time = finish_time,
-              elapsed_time = cal_elapsed,
-              ext_array = rel_extension,
-              suphel_array = superhelical)
+                  start_time = submit_time,
+                  done_time = finish_time,
+                  elapsed_time = cal_elapsed,
+                  ext_array = rel_extension,
+                  suphel_array = superhelical,
+                  download_file = output_file_id
+               )
     # the code below is executed if the request method
     # was GET or the credentials were invalid
     return error
 
+# temporary serving the UserRequestDB from static/
+@app.route('/<path:filename>')
+def download_output(filename):
+    return send_from_directory(directory=filename, filename=filename)
 
 if __name__ == "__main__":
     app.run(debug=True, port = 7717)

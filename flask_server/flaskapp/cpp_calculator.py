@@ -20,9 +20,7 @@ def transfer_matrix(input_JSON={}, cal_Type="", timestamp=""):
         input_JSON['torque'] = [input_JSON['torque']]
 
     # create a folder for each calculation
-    # from https://stackoverflow.com/questions/273192/how-can-i-create-a-directory-if-it-does-not-exist
     flask_path = Path.cwd()
-    # TODO: pass the request headers as a folder para
     # timestamp pass here is '2018-06-29 13:49:34'
     timestamp= timestamp.replace("-", "").replace(" ", "").replace(":", "")
     # timestamp is now "20180629134934"
@@ -30,8 +28,9 @@ def transfer_matrix(input_JSON={}, cal_Type="", timestamp=""):
     unique_id = uuid.uuid4()
     # convert a UUID to a string of hex digits in standard form
     id = str(unique_id)
-    new_cal_path = Path('../UserRequestDB').joinpath(timestamp+"-"+cal_Type+"-"+id)
+    new_cal_path = Path('./static/UserRequestDB').joinpath(timestamp+"-"+cal_Type+"-"+id)
     #  new_cal_path is: PosixPath('UserRequestDB/20180629150455-BareDNA-ebbf704a-2bab-45cd-969f-c1a760c1599f')
+    # from https://stackoverflow.com/questions/273192/how-can-i-create-a-directory-if-it-does-not-exist
     new_cal_path.mkdir(parents=True, exist_ok=True)
     # for python 3.5 and below, need to str(Path) for os.chdir()
     new_cal_path = str(new_cal_path)
@@ -53,6 +52,7 @@ def transfer_matrix(input_JSON={}, cal_Type="", timestamp=""):
     # in main.cpp, input.n_threads = std::atoi(argv[4]);
     n_cpu = "4"
 
+    # TODO: consider move this to a separate function
     if cal_Type == "BareDNA":
         # BareDNA advanced parameter has these 4:
         file_adv.write('b_B = %s\n' % input_JSON['b_B'])
@@ -62,7 +62,7 @@ def transfer_matrix(input_JSON={}, cal_Type="", timestamp=""):
         file_adv.close()
         # NOTE: the cwd is new_cal_path, so the CPP folder is two levels above
         # NOTE: the CPP will generate the output.dat here in the cwd
-        cpp_proc = "../../June26th-BareDNA-CPP/BareDNA_afterParallel.out %s %s %s %s" % (
+        cpp_proc = "../../../../June26th-BareDNA-CPP/BareDNA_afterParallel.out %s %s %s %s" % (
             input_JSON['DNALength'],
             'input_ft.dat',
             input_JSON['maxmode'],
@@ -76,14 +76,14 @@ def transfer_matrix(input_JSON={}, cal_Type="", timestamp=""):
 
     # communicate will block the server until the cpp is done
     print("output.dat ready")
-    # TODO: find a way to include the input values in the output.dat,
-    #maybe try the output_advparameters.dat, for eg
 
     # elapsed time is in sec
     cal_end = int(round(time() * 1000))
     cal_elapsed = (cal_end-cal_start)/1000
 
     # extract the data
+    # TODO: output.dat will be changed to output.csv, need to specify delimiter
+    # TODO: if csv has reminder at the bottom, need to skip both 1 and -1
     # The returned array will have at least ndmin dimensions.
     # Otherwise mono-dimensional axes will be squeezed.
     output = np.loadtxt('output.dat', ndmin=2)
@@ -92,7 +92,17 @@ def transfer_matrix(input_JSON={}, cal_Type="", timestamp=""):
     rel_extension = list(np.around(output[:,3], 3))
     superhelical = list(np.around(output[:, -1], 3))
 
-    return (cal_elapsed, rel_extension, superhelical)
+    # change the directory back to server level
+    os.chdir(str(flask_path))
+
+    # new_cal_path is a path string:
+    # static/UserRequestDB/20180629184947-BareDNA-edece2d9-342a-49b0-8108-6d39b524b1a5
+    download_file_path = new_cal_path+"/output.dat"
+
+    # TODO: consider adding the input to the output.dat make it more informative,
+    # also add NUS_YJG in front of the filename
+
+    return (cal_elapsed, rel_extension, superhelical, download_file_path)
 
     # display stdout in terminal for debug
     # print(cal_proc.stdout.read())

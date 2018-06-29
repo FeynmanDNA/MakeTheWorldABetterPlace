@@ -28,9 +28,6 @@ class VisGraph extends React.Component {
     dataLoading: PropTypes.bool.isRequired,
     dataExtArray: PropTypes.array.isRequired,
     dataHelArray: PropTypes.array.isRequired,
-    dataTStart: PropTypes.string.isRequired,
-    dataTEnd: PropTypes.string.isRequired,
-    dataTDur: PropTypes.number.isRequired,
   };
 
   state = {
