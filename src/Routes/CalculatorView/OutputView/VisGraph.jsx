@@ -47,6 +47,9 @@ class VisGraph extends React.Component {
     HelixBackup:[],
     SelectHelix: false,
   };
+  //TODO: need to specify the ydomain too, otherwise the yaxis direction is off!!
+  //TODO: select yaix also toggle the ydomain
+  //TODO: clean up the name of ext and suphel
 
   componentDidMount() {
     if (Object.keys(this.props.global_store.FormInputs)
