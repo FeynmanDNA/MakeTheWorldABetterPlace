@@ -1,11 +1,13 @@
 # for timing the elapsed time
 from time import time
 # for input and output.dat and c++ subprocess
-from pathlib import Path
 import os
-import uuid
 import numpy as np
 import subprocess
+# custom utility functions
+from create_inputdat import create_inputdat
+from generate_path import generate_path
+from generate_zip import generate_zip
 
 # take dictionary input as input_JSON
 # and output a file
@@ -13,38 +15,12 @@ def transfer_matrix(input_JSON={}, cal_Type="", timestamp=""):
     # record the time taken for calculation
     cal_start = int(round(time() * 1000))
 
-    # parse input_JSON
-    if not isinstance(input_JSON['force'], list):
-        input_JSON['force'] = [input_JSON['force']]
-    if not isinstance(input_JSON['torque'], list):
-        input_JSON['torque'] = [input_JSON['torque']]
-
-    # create a folder for each calculation
-    flask_path = Path.cwd()
-    # timestamp pass here is '2018-06-29 13:49:34'
-    timestamp= timestamp.replace("-", "").replace(" ", "").replace(":", "")
-    # timestamp is now "20180629134934"
-    # make a random UUID
-    unique_id = uuid.uuid4()
-    # convert a UUID to a string of hex digits in standard form
-    id = str(unique_id)
-    new_cal_path = Path('./static/UserRequestDB').joinpath(timestamp+"-"+cal_Type+"-"+id)
-    #  new_cal_path is: PosixPath('UserRequestDB/20180629150455-BareDNA-ebbf704a-2bab-45cd-969f-c1a760c1599f')
-    # from https://stackoverflow.com/questions/273192/how-can-i-create-a-directory-if-it-does-not-exist
-    new_cal_path.mkdir(parents=True, exist_ok=True)
-    # for python 3.5 and below, need to str(Path) for os.chdir()
-    new_cal_path = str(new_cal_path)
+    #generate the main server path and new request path
+    (flask_path, new_cal_path) = generate_path(cal_Type, timestamp)
     os.chdir(new_cal_path)
-    """ inside the UserRequestDB/timestamp-id, create the input files """
-    # ft stands for force-torque
-    file_ft = open('input_ft.dat', 'w')
-    for i in input_JSON['force']:
-        for j in input_JSON['torque']:
-            file_ft.write('%s %s\n' % (i, j))
-    file_ft.close()
 
-    # file_adv is advanced parameters for 3 calTypes
-    file_adv = open('input.dat', 'w')
+    """ inside the UserRequestDB/timestamp-id, create the input files """
+    create_inputdat(input_JSON)
 
     # argv[4] input is the number of CPU cores
     # can also use multiprocessing library to detect CPU number with:
@@ -54,6 +30,8 @@ def transfer_matrix(input_JSON={}, cal_Type="", timestamp=""):
 
     # TODO: consider move this to a separate function
     if cal_Type == "BareDNA":
+        # file_adv is advanced parameters for 3 calTypes
+        file_adv = open('input.dat', 'w')
         # BareDNA advanced parameter has these 4:
         file_adv.write('b_B = %s\n' % input_JSON['b_B'])
         file_adv.write('A_B = %s\n' % input_JSON['A_B'])
@@ -92,12 +70,17 @@ def transfer_matrix(input_JSON={}, cal_Type="", timestamp=""):
     rel_extension = list(np.around(output[:,3], 3))
     superhelical = list(np.around(output[:, -1], 3))
 
+    # generate zip for user download, containing input and output
+    # for WithNul version, there is no input.dat
+    only_fileID = new_cal_path.replace("static/UserRequestDB/", "")
+    generate_zip(cal_Type, filename=only_fileID)
+
     # change the directory back to server level
-    os.chdir(str(flask_path))
+    os.chdir(flask_path)
 
     # new_cal_path is a path string:
     # static/UserRequestDB/20180629184947-BareDNA-edece2d9-342a-49b0-8108-6d39b524b1a5
-    download_file_path = new_cal_path+"/output.dat"
+    download_file_path = "{0}/{1}.zip".format(new_cal_path, only_fileID)
 
     # TODO: consider adding the input to the output.dat make it more informative,
     # also add NUS_YJG in front of the filename
