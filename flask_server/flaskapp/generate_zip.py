@@ -7,5 +7,5 @@ def generate_zip(filename=""):
     compression = zipfile.ZIP_DEFLATED
     zipf = zipfile.ZipFile(zip_name, mode='w')
     zipf.write('input_list.txt', compress_type=compression)
-    zipf.write('output.dat', compress_type=compression)
+    zipf.write('output.csv', compress_type=compression)
     zipf.close()
