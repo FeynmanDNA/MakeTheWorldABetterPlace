@@ -11,3 +11,9 @@ def create_inputdat(input_JSON={}):
         for j in input_JSON['torque']:
             file_ft.write('%s %s\n' % (i, j))
     file_ft.close()
+
+def create_inputJSON(input_JSON={}):
+    # generate a input_JSON based txt summary for zip
+    file_JSON = open('input_list.txt', 'w')
+    file_JSON.write(str(input_JSON))
+    file_JSON.close()

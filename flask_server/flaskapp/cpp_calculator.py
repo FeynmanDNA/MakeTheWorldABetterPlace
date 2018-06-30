@@ -5,7 +5,7 @@ import os
 import numpy as np
 import subprocess
 # custom utility functions
-from create_inputdat import create_inputdat
+from create_input import create_inputdat, create_inputJSON
 from generate_path import generate_path
 from generate_zip import generate_zip
 
@@ -21,6 +21,7 @@ def transfer_matrix(input_JSON={}, cal_Type="", timestamp=""):
 
     """ inside the UserRequestDB/timestamp-id, create the input files """
     create_inputdat(input_JSON)
+    create_inputJSON(input_JSON)
 
     # argv[4] input is the number of CPU cores
     # can also use multiprocessing library to detect CPU number with:
@@ -71,9 +72,8 @@ def transfer_matrix(input_JSON={}, cal_Type="", timestamp=""):
     superhelical = list(np.around(output[:, -1], 3))
 
     # generate zip for user download, containing input and output
-    # for WithNul version, there is no input.dat
     only_fileID = new_cal_path.replace("static/UserRequestDB/", "")
-    generate_zip(cal_Type, filename=only_fileID)
+    generate_zip(filename=only_fileID)
 
     # change the directory back to server level
     os.chdir(flask_path)
