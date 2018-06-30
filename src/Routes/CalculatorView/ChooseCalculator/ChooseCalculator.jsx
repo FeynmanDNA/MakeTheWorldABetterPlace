@@ -20,7 +20,7 @@ const WithNulInfo = (
 );
 
 const WithInsInfo = (
-  <p>lalala</p>
+  <p>Evaluate changes in the conformation of heterogeneous DNA, which contains an insert in the center of the molecule. This insert is characterized by its own base-paring energies of alternative DNA structures (mu_L, mu_P, mu_S) as well as relaxed linking numbers (lk_0_L, lk_0_P, lk_0_S).</p>
 );
 
 @inject('global_store')

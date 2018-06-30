@@ -26,6 +26,8 @@ class SliderInput extends React.Component {
       if (typeof(value) === "string") {
         return;
       }
+      // toFixedNum is 1 for ConF, 2 for ConT
+      value = +(value).toFixed(this.props.toFixedNum);
       await this.setState((prevState) => ({
         sliderValue: [value, prevState.sliderValue[1]], 
       }));
@@ -45,6 +47,7 @@ class SliderInput extends React.Component {
       if (typeof(value) === "string") {
         return;
       }
+      value = +(value).toFixed(this.props.toFixedNum);
       await this.setState((prevState) => ({
         sliderValue: [prevState.sliderValue[0], value],
       }));
@@ -56,6 +59,12 @@ class SliderInput extends React.Component {
     // validate inputs are signed and float numbers
     const onlyNum = /^-?\d+\.?\d*$/;
     if (onlyNum.test(value)) {
+      // when user is in the middle keying dot
+      // do not set state
+      if (typeof(value) === "string") {
+        return;
+      }
+      value = +(value).toFixed(this.props.toFixedNum);
       await this.setState({
         StepSize: value,
       });

@@ -17,6 +17,12 @@ class SliderInputConstForce extends React.Component {
     // validate inputs are signed and float numbers
     const onlyNum = /^-?\d+\.?\d*$/;
     if (onlyNum.test(value)) {
+      // when user is in the middle keying dot
+      // do not set state
+      if (typeof(value) === "string") {
+        return;
+      }
+      value = +(value).toFixed(2);
       this.setState({
         sliderLength: value,
       });

@@ -172,6 +172,7 @@ class InputFormBareConF extends React.Component {
             maxValue={50}
             marksValue={{0:'0'}}
             stepValue={0.1}
+            toFixedNum={1}
             validateRange={(value) => this.validateArrayLength(value)}
           />
         </FormItem>

@@ -30,6 +30,12 @@ class AdvBDNAParam extends React.Component {
     // validate inputs are signed and float numbers
     const onlyNum = /^-?\d+\.?\d*$/;
     if (onlyNum.test(value)) {
+      // when user is in the middle keying dot
+      // do not set state
+      if (typeof(value) === "string") {
+        return;
+      }
+      value = +(value).toFixed(1);
       this.setState({
         b_BValue: value,
       });
@@ -40,6 +46,12 @@ class AdvBDNAParam extends React.Component {
     // validate inputs are signed and float numbers
     const onlyNum = /^-?\d+\.?\d*$/;
     if (onlyNum.test(value)) {
+      // when user is in the middle keying dot
+      // do not set state
+      if (typeof(value) === "string") {
+        return;
+      }
+      value = +(value).toFixed(1);
       this.setState({
         A_BValue: value,
       });
@@ -49,6 +61,12 @@ class AdvBDNAParam extends React.Component {
     // validate inputs are signed and float numbers
     const onlyNum = /^-?\d+\.?\d*$/;
     if (onlyNum.test(value)) {
+      // when user is in the middle keying dot
+      // do not set state
+      if (typeof(value) === "string") {
+        return;
+      }
+      value = +(value).toFixed(1);
       this.setState({
         C_BValue: value,
       });
@@ -58,6 +76,12 @@ class AdvBDNAParam extends React.Component {
     // validate inputs are signed and float numbers
     const onlyNum = /^-?\d+\.?\d*$/;
     if (onlyNum.test(value)) {
+      // when user is in the middle keying dot
+      // do not set state
+      if (typeof(value) === "string") {
+        return;
+      }
+      value = +(value).toFixed(1);
       this.setState({
         lambda_B: value,
       });
