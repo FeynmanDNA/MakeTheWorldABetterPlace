@@ -68,6 +68,13 @@ class InputFormBareConT extends React.Component {
       });
       // disable submit button if validation fails
       this.props.global_store.SubmitBtnStatus(false);
+    } else if (start === 0 || end === 0) {
+      this.setState({
+        validateStep: "error",
+        errorStep: "Force cannot be zero"
+      });
+      // disable submit button if validation fails
+      this.props.global_store.SubmitBtnStatus(false);
     } else {
       this.setState({
         validateStep: 'success',
