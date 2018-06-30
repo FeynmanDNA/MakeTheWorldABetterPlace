@@ -1,10 +1,22 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Slider, InputNumber, Row, Col } from 'antd';
 
 class SliderInput extends React.Component {
+  static propTypes = {
+    idValue: PropTypes.string.isRequired,
+    onlyCheckIntNum: PropTypes.bool.isRequired,
+    inputValue: PropTypes.number.isRequired,
+    minValue: PropTypes.number.isRequired,
+    maxValue: PropTypes.number.isRequired,
+    stepValue: PropTypes.number.isRequired,
+    marksValue: PropTypes.object,
+    toFixedNum: PropTypes.number,
+  };
+
   state = {
     sliderLength: this.props.inputValue,
-  }
+  };
 
   onChangeSliderValue = (value) => {
     this.setState({
@@ -12,13 +24,31 @@ class SliderInput extends React.Component {
     });
   }
 
+  // DNALength and MaxMode only check for integers
+  // Single Force, Torque, ProteinE, insertLength check for float
   onChangeInputValue = (value) => {
-    // validate inputs are only integers
-    const onlyInt = /^[0-9]+$/;
-    if (onlyInt.test(value)) {
-      this.setState({
-        sliderLength: value,
-      });
+    if (this.props.onlyCheckIntNum) {
+      // validate inputs are only integers
+      const onlyInt = /^[0-9]+$/;
+      if (onlyInt.test(value)) {
+        this.setState({
+          sliderLength: value,
+        });
+      }
+    } else {
+      // validate inputs are signed and float numbers
+      const onlyNum = /^-?\d+\.?\d*$/;
+      if (onlyNum.test(value)) {
+        // when user is in the middle keying dot
+        // do not set state
+        if (typeof(value) === "string") {
+          return;
+        }
+        value = +(value).toFixed(this.props.toFixedNum);
+        this.setState({
+          sliderLength: value,
+        });
+      }
     }
   }
 

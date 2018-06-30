@@ -1,10 +1,6 @@
 import React from 'react';
 import InputFormBareConF from './InputFormBareConF';
 import InputFormBareConT from './InputFormBareConT';
-import InputFormWithNulConF from './InputFormWithNulConF';
-import InputFormWithNulConT from './InputFormWithNulConT';
-import InputFormWithInsConF from './InputFormWithInsConF';
-import InputFormWithInsConT from './InputFormWithInsConT';
 // get current states from global_store
 import { inject, observer } from 'mobx-react';
 import { Button, Icon } from 'antd';
@@ -70,26 +66,6 @@ class InputView extends React.Component {
           &&
           this.props.global_store.mode === "Constant Torque") {
         return (<InputFormBareConT />);
-      }
-      if (this.props.global_store.calculator === "With Nucleosome"
-          &&
-          this.props.global_store.mode === "Constant Force") {
-        return (<InputFormWithNulConF />);
-      }
-      if (this.props.global_store.calculator === "With Nucleosome"
-          &&
-          this.props.global_store.mode === "Constant Torque") {
-        return (<InputFormWithNulConT />);
-      }
-      if (this.props.global_store.calculator === "With DNA-insert"
-          &&
-          this.props.global_store.mode === "Constant Force") {
-        return (<InputFormWithInsConF />);
-      }
-      if (this.props.global_store.calculator === "With DNA-insert"
-          &&
-          this.props.global_store.mode === "Constant Torque") {
-        return (<InputFormWithInsConT />);
       }
     }
 

@@ -79,6 +79,7 @@ class GlobalStore {
     value ? this.inputStatus = true : this.inputStatus = false;
   }
 
+  //TODO: need to make a function that detect which forms to submit!
   // six JSON formats for three calculator types
   // Format 1 BareDNA Constant Force, Torque Array
   @action.bound SubmitBareConF(inputArray)

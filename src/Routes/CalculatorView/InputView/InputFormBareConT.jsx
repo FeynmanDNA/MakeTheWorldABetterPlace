@@ -1,7 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Form, Tooltip, Icon, Card } from 'antd';
 import SliderInput from './SliderInput';
-import SliderInputConstTorque from './SliderInputConstTorque';
 import SliderInputRange from './SliderInputRange';
 import AdvBDNAParam from './AdvBDNAParam';
 // access the global_store to modify the SubmitBtnStatus
@@ -12,6 +12,9 @@ const FormItem = Form.Item;
 @inject('global_store')
 @observer
 class InputFormBareConT extends React.Component {
+  static propTypes = {
+  };
+
   state = {
     ArrayDisplay: [],
     validateStep: 'success',
@@ -30,11 +33,12 @@ class InputFormBareConT extends React.Component {
     this.setState({
       ArrayDisplay: ArrayRange,
     });
-  }
+  };
 
   componentWillUnmount() {
     // when unmount, push the form value and ArrayDisplay to mobx state
     this.props.global_store.SubmitBareConT(this.state.ArrayDisplay);
+
   }
 
   // for torque array, the step size is 0.1
@@ -61,13 +65,6 @@ class InputFormBareConT extends React.Component {
       this.setState({
         validateStep: 'error',
         errorStep: "please limit the Array to no more than 100 items"
-      });
-      // disable submit button if validation fails
-      this.props.global_store.SubmitBtnStatus(false);
-    } else if (start === 0 || end === 0) {
-      this.setState({
-        validateStep: "error",
-        errorStep: "Force cannot be zero"
       });
       // disable submit button if validation fails
       this.props.global_store.SubmitBtnStatus(false);
@@ -112,6 +109,7 @@ class InputFormBareConT extends React.Component {
         >
           <SliderInput
             idValue="DNALength"
+            onlyCheckIntNum={true}
             inputValue={1000}
             minValue={1}
             maxValue={9999}
@@ -171,8 +169,9 @@ class InputFormBareConT extends React.Component {
             </span>
           )}
         >
-          <SliderInputConstTorque
+          <SliderInput
             idValue="ConstTorque"
+            onlyCheckIntNum={false}
             marksValue={{
               0:"0",
             }}
@@ -180,6 +179,7 @@ class InputFormBareConT extends React.Component {
             minValue={-30}
             maxValue={50}
             stepValue={0.1}
+            toFixedNum={1}
           />
         </FormItem>
         <FormItem
@@ -195,6 +195,7 @@ class InputFormBareConT extends React.Component {
         >
           <SliderInput
             idValue="MaxMode"
+            onlyCheckIntNum={true}
             marksValue={{
               10:"", 11:"", 12:"", 13:"", 14:"default",
               15:"", 16:"", 17:"", 18:"", 19:"", 20:""
