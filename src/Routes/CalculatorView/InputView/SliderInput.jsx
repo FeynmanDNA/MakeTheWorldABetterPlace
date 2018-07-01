@@ -12,6 +12,7 @@ class SliderInput extends React.Component {
     stepValue: PropTypes.number.isRequired,
     marksValue: PropTypes.object,
     toFixedNum: PropTypes.number,
+    SliderStep: PropTypes.number,
   };
 
   state = {
@@ -62,6 +63,7 @@ class SliderInput extends React.Component {
             marks={this.props.marksValue}
             onChange={this.onChangeSliderValue}
             value={this.state.sliderLength}
+            step={this.props.SliderStep}
           />
         </Col>
         <Col span={4}>

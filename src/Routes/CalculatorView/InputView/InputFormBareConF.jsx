@@ -133,6 +133,7 @@ class InputFormBareConF extends React.Component {
             maxValue={200}
             stepValue={0.01}
             toFixedNum={2}
+            SliderStep={0.01}
           />
         </FormItem>
         <FormItem
@@ -156,6 +157,7 @@ class InputFormBareConF extends React.Component {
             stepValue={0.1}
             toFixedNum={1}
             validateRange={(value) => this.validateArrayLength(value)}
+            SliderStep={0.1}
           />
         </FormItem>
         <Tooltip title="Adjust the slider range, or key in Range from, to, and Step size above to generate the array you want.">

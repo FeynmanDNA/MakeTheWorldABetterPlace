@@ -84,6 +84,7 @@ class SliderInput extends React.Component {
               marks={this.props.marksValue}
               onChange={this.onChangeSliderValue}
               value={this.state.sliderValue}
+              step={this.props.SliderStep}
             />
           </Col>
         </Row>

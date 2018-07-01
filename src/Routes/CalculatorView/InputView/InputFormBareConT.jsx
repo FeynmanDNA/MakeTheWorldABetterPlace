@@ -68,13 +68,6 @@ class InputFormBareConT extends React.Component {
       });
       // disable submit button if validation fails
       this.props.global_store.SubmitBtnStatus(false);
-    } else if (start === 0 || end === 0) {
-      this.setState({
-        validateStep: "error",
-        errorStep: "Force cannot be zero"
-      });
-      // disable submit button if validation fails
-      this.props.global_store.SubmitBtnStatus(false);
     } else {
       this.setState({
         validateStep: 'success',
@@ -138,12 +131,13 @@ class InputFormBareConT extends React.Component {
         >
           <SliderInputRange
             inputValue={[0.03, 1.02]}
-            minValue={0}
+            minValue={0.01}
             maxValue={200}
             marksValue={{31:'31'}}
             stepValue={0.01}
             toFixedNum={2}
             validateRange={(value) => this.validateArrayLength(value)}
+            SliderStep={0.01}
           />
         </FormItem>
         <Tooltip title="Adjust the slider range, or key in Range from, to, and Step size above to generate the array you want.">
@@ -187,6 +181,7 @@ class InputFormBareConT extends React.Component {
             maxValue={50}
             stepValue={0.1}
             toFixedNum={1}
+            SliderStep={0.1}
           />
         </FormItem>
         <FormItem
