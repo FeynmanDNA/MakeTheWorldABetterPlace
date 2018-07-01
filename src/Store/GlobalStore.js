@@ -79,43 +79,109 @@ class GlobalStore {
     value ? this.inputStatus = true : this.inputStatus = false;
   }
 
-  //TODO: need to make a function that detect which forms to submit!
   // six JSON formats for three calculator types
-  // Format 1 BareDNA Constant Force, Torque Array
-  @action.bound SubmitBareConF(inputArray)
+  @action.bound SubmitInputForm(calType, calMode, inputArray)
   {
-    this.FormInputs = {
-      "DNALength": parseInt(document.getElementById("DNALength").value, 10),
-      "force": parseFloat(document.getElementById("ConstForce").value),
-      "torque": inputArray,
-      "maxmode": parseInt(document.getElementById("MaxMode").value, 10),
-    };
+    // Format 1 BareDNA Constant Force, Torque Array
+    if (calType === "Bare DNA") {
+      if (calMode === "Constant Torque") {
+        this.FormInputs = {
+          "DNALength": parseInt(document.getElementById("DNALength").value, 10),
+          "force": inputArray,
+          "torque": parseFloat(document.getElementById("ConstTorque").value),
+          "maxmode": parseInt(document.getElementById("MaxMode").value, 10),
+        };
+      // Format 2 BareDNA Constant Torque, Force Array
+      } else if (calMode === "Constant Force") {
+        this.FormInputs = {
+          "DNALength": parseInt(document.getElementById("DNALength").value, 10),
+          "force": parseFloat(document.getElementById("ConstForce").value),
+          "torque": inputArray,
+          "maxmode": parseInt(document.getElementById("MaxMode").value, 10),
+        };
+      }
+    // Format 3 WithNul Constant Force, Torque Array
+    } else if (calType === "With Nucleosome") {
+      if (calMode === "Constant Torque") {
+        this.FormInputs = {
+          "DNALength": parseInt(document.getElementById("DNALength").value, 10),
+          "force": inputArray,
+          "torque": parseFloat(document.getElementById("ConstTorque").value),
+          "mu_protein": parseFloat(document.getElementById("ProteinE").value),
+          "maxmode": parseInt(document.getElementById("MaxMode").value, 10),
+        };
+      // Format 4 WithNul Constant Torque, Force Array
+      } else if (calMode === "Constant Force") {
+        this.FormInputs = {
+          "DNALength": parseInt(document.getElementById("DNALength").value, 10),
+          "force": parseFloat(document.getElementById("ConstForce").value),
+          "torque": inputArray,
+          "mu_protein": parseFloat(document.getElementById("ProteinE").value),
+          "maxmode": parseInt(document.getElementById("MaxMode").value, 10),
+        };
+      }
+    // Format 5 WithIns Constant Force, Torque Array
+    } else if (calType === "With DNA-insert") {
+      if (calMode === "Constant Torque") {
+        this.FormInputs = {
+          "DNALength": parseInt(document.getElementById("DNALength").value, 10),
+          "insert_length": parseFloat(document.getElementById("InsertLength").value),
+          "force": inputArray,
+          "torque": parseFloat(document.getElementById("ConstTorque").value),
+          "maxmode": parseInt(document.getElementById("MaxMode").value, 10),
+        };
+      // Format 6 WithIns Constant Torque, Force Array
+      } else if (calMode === "Constant Force") {
+        this.FormInputs = {
+          "DNALength": parseInt(document.getElementById("DNALength").value, 10),
+          "insert_length": parseFloat(document.getElementById("InsertLength").value),
+          "force": parseFloat(document.getElementById("ConstForce").value),
+          "torque": inputArray,
+          "maxmode": parseInt(document.getElementById("MaxMode").value, 10),
+        };
+      }
+    }
   }
 
-  // Format 2 BareDNA Force Array, Constant Torque
-  @action.bound SubmitBareConT(inputArray)
+  // extend the observable state of FormInputs
+  @action.bound addStateMobx(calType, newState)
   {
-    this.FormInputs = {
-      "DNALength": parseInt(document.getElementById("DNALength").value, 10),
-      "force": inputArray,
-      "torque": parseFloat(document.getElementById("ConstTorque").value),
-      "maxmode": parseInt(document.getElementById("MaxMode").value, 10),
-    };
-  }
+    // BareDNA's AdvBDNAParam
+    if (calType === "forBDNA") {
+      const { b_BValue, A_BValue, C_BValue, lambda_B } = newState;
+      // extendObservable can be used to add new observable properties to an object
+      extendObservable(this.FormInputs, {
+        "b_B": b_BValue,
+        "A_B": A_BValue,
+        "C_B": C_BValue,
+        "lambda_B": lambda_B,
+      });
+    // WithIns' AdvInsertParam
+    } else if (calType === "forInsert") {
+      const {
+        A_B_insert,
+        C_B_insert,
+        lambda_B_insert,
+        mu_L_insert,
+        lk_L_0_insert,
+        mu_P_insert,
+        lk_P_0_insert,
+        mu_S_insert,
+        lk_S_0_insert} = newState;
 
-  // extend the observable state of FormInputs for BareDNA's AdvBDNAParam
-  @action.bound addStateMobx(newState)
-  {
-    const { b_BValue, A_BValue, C_BValue, lambda_B } = newState;
-    // extendObservable can be used to add new observable properties to an object
-    extendObservable(this.FormInputs, {
-      "b_B": b_BValue,
-      "A_B": A_BValue,
-      "C_B": C_BValue,
-      "lambda_B": lambda_B,
-    });
+      extendObservable(this.FormInputs, {
+        "A_B_insert": A_B_insert,
+        "C_B_insert": C_B_insert,
+        "lambda_B_insert": lambda_B_insert,
+        "mu_L_insert": mu_L_insert,
+        "lk_L_0_insert": lk_L_0_insert,
+        "mu_P_insert": mu_P_insert,
+        "lk_P_0_insert": lk_P_0_insert,
+        "mu_S_insert": mu_S_insert,
+        "lk_S_0_insert": lk_S_0_insert,
+      });
+    }
   }
-
 }
 
 export default GlobalStore;

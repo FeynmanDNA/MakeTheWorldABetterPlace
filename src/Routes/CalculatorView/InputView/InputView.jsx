@@ -1,6 +1,5 @@
 import React from 'react';
-import InputFormBareConF from './InputFormBareConF';
-import InputFormBareConT from './InputFormBareConT';
+import InputForm from './InputForm';
 // get current states from global_store
 import { inject, observer } from 'mobx-react';
 import { Button, Icon } from 'antd';
@@ -45,37 +44,25 @@ class InputView extends React.Component {
       +this.props.global_store.calType
       +'/'
       +this.props.global_store.calMode
-      +'/results');
-    // TODO: 
-    // redirect to outputview route, and 
-    // use the router to better integrate with state management
-    // and send the calculation parameters
-    // and let the outputview route wait for the ajax
-    // sure, while it's loading the data you can show a spinner
-    // make the outputview componentDidMount call the axios request in a service file
+      +'/results'
+    );
   }
 
   render() {
-    const ConditionalRenderForm = () => {
-      if (this.props.global_store.calculator === "Bare DNA"
-          &&
-          this.props.global_store.mode === "Constant Force") {
-        return (<InputFormBareConF />);
-      }
-      if (this.props.global_store.calculator === "Bare DNA"
-          &&
-          this.props.global_store.mode === "Constant Torque") {
-        return (<InputFormBareConT />);
-      }
-    }
+    // for eg:
+    // calculator: "Bare DNA", mode: "Constant Torque"
+    const { calculator, mode, inputStatus } = this.props.global_store;
 
     return (
       <React.Fragment>
         <h3>
-          Inputs for {this.props.global_store.calculator}
-          &nbsp;with {this.props.global_store.mode}
+          Inputs for {calculator}
+          &nbsp;with {mode}
         </h3>
-        {ConditionalRenderForm()}
+        <InputForm
+          calType={calculator}
+          calMode={mode}
+        />
         <ButtonGroup>
           <Button
             onClick={this.ProceedBack}
@@ -87,7 +74,7 @@ class InputView extends React.Component {
           <Button
             onClick={this.handleSubmit}
             type="primary"
-            disabled={this.props.global_store.inputStatus === false
+            disabled={inputStatus === false
               ? true
               : false}
           >

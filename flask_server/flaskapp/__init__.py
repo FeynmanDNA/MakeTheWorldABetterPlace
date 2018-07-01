@@ -65,6 +65,40 @@ def Cal_BareDNA():
     # was GET or the credentials were invalid
     return error
 
+@app.route('/WithIns', methods=['POST'])
+def Cal_WithIns():
+    submit_time = On_Submit("WithIns calculator", request.headers)
+    # submit_time = '2018-06-29 13:49:34'
+    error = None
+
+    if request.method == 'POST':
+        print(">>>>>>>>> request.get_json() is:")
+        cal_params = request.get_json()
+        print(cal_params)
+
+        # NOTE: call transfer_matrix
+        (cal_elapsed,
+         rel_extension,
+         superhelical,
+         output_file_id) = transfer_matrix(
+                              cal_params,
+                              "WithIns",
+                              submit_time)
+
+        finish_time = On_Finish()
+        return jsonify(
+                  start_time = submit_time,
+                  done_time = finish_time,
+                  elapsed_time = cal_elapsed,
+                  ext_array = rel_extension,
+                  suphel_array = superhelical,
+                  download_file = output_file_id
+               )
+    # the code below is executed if the request method
+    # was GET or the credentials were invalid
+    return error
+
+
 # temporary serving the UserRequestDB from static/
 @app.route('/<path:filename>')
 def download_output(filename):

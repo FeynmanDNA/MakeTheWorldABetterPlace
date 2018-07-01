@@ -1,11 +1,23 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Slider, InputNumber, Row, Col } from 'antd';
 
 class SliderInput extends React.Component {
+  static propTypes = {
+    inputValue: PropTypes.array.isRequired,
+    minValue: PropTypes.number.isRequired,
+    maxValue: PropTypes.number.isRequired,
+    stepValue: PropTypes.number.isRequired,
+    marksValue: PropTypes.object,
+    toFixedNum: PropTypes.number.isRequired,
+    SliderStep: PropTypes.number.isRequired,
+    validateRange: PropTypes.func.isRequired,
+  };
+
   state = {
     sliderValue: this.props.inputValue,
     StepSize: this.props.stepValue,
-  }
+  };
 
   onChangeSliderValue = async (value) => {
     await this.setState({

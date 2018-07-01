@@ -1,6 +1,6 @@
 import React from 'react';
 import { InputNumber, Row, Col, Collapse } from 'antd';
-// access the global_store to modify the SubmitBtnStatus
+// access the global_store to addStateMobx
 import { inject, observer } from 'mobx-react';
 
 const Panel = Collapse.Panel;
@@ -23,7 +23,7 @@ class AdvBDNAParam extends React.Component {
    */
 
   componentWillUnmount() {
-    this.props.global_store.addStateMobx(this.state);
+    this.props.global_store.addStateMobx("forBDNA", this.state);
   }
 
   onChangeb_BValue = (value) => {
