@@ -56,38 +56,70 @@ class VisGraph extends React.Component {
       console.log("please do not refresh the result page");
       return;
     }
-    // first detect whether the constant is force or torque
+    // first detect whether the calType and calMode
+    const { calType, calMode, FormInputs } = this.props.global_store;
     // recalibrate the xaxis range according to FormInputs
-    const { calMode, FormInputs } = this.props.global_store;
-    const minForce = Math.min(...FormInputs.force);
-    const maxForce = Math.max(...FormInputs.force);
-    const minTorque = Math.min(...FormInputs.torque);
-    const maxTorque = Math.max(...FormInputs.torque);
-    calMode === "1"
-     ? (
-       this.setState({
-         ConstLegend: `Torque: ${FormInputs.torque} pN*nm`,
-         XaxisTitle: "Force",
-         xmax: (
-           maxForce + 0.05*(Math.abs(maxForce))
-         ),
-         xmin: (
-           minForce - 0.05*(Math.abs(minForce))
-         ),
-       })
-     )
-     : (
-       this.setState({
-         ConstLegend: `Force: ${FormInputs.force} pN`,
-         XaxisTitle: "Torque",
-         xmax: (
-           maxTorque + 0.05*(Math.abs(maxTorque))
-         ),
-         xmin: (
-           minTorque - 0.05*(Math.abs(minTorque))
-         ),
-       })
-     );
+    let minForce = Math.min(...FormInputs.force);
+    minForce = minForce - 0.05*(Math.abs(minForce));
+    let maxForce = Math.max(...FormInputs.force);
+    maxForce = maxForce + 0.05*(Math.abs(maxForce));
+    let minTorque = Math.min(...FormInputs.torque);
+    minTorque = minTorque - 0.05*(Math.abs(minTorque));
+    let maxTorque = Math.max(...FormInputs.torque);
+    maxTorque = maxTorque + 0.05*(Math.abs(maxTorque));
+    // calType 1,2,3; calMode 1,2;
+    // BareDNA Version
+    if (calType === "1") {
+      if (calMode === "1") {
+        this.setState({
+          ConstLegend: `Torque: ${FormInputs.torque} pN*nm`,
+          XaxisTitle: "Force",
+          xmax: maxForce,
+          xmin: minForce,
+        });
+      } else if (calMode === "2") {
+        this.setState({
+          ConstLegend: `Force: ${FormInputs.force} pN`,
+          XaxisTitle: "Torque",
+          xmax: maxTorque,
+          xmin: minTorque,
+        });
+      }
+    // With Nucleosome Version
+    } else if (calType === "2") {
+      if (calMode === "1") {
+        this.setState({
+          ConstLegend: `Torque: ${FormInputs.torque} pN*nm, with Protein Energy: ${FormInputs.mu_protein} kB*T`,
+          XaxisTitle: "Force",
+          xmax: maxForce,
+          xmin: minForce,
+        });
+      } else if (calMode === "2") {
+        this.setState({
+          ConstLegend: `Force: ${FormInputs.force} pN, with Protein Energy: ${FormInputs.mu_protein} kB*T`,
+          XaxisTitle: "Torque",
+          xmax: maxTorque,
+          xmin: minTorque,
+        });
+      }
+    // With DNA-insert Version
+    } else if (calType === "3") {
+      if (calMode === "1") {
+        this.setState({
+          ConstLegend: `Torque: ${FormInputs.torque} pN*nm, with DNA-insert length: ${FormInputs.insert_length} %`,
+          XaxisTitle: "Force",
+          xmax: maxForce,
+          xmin: minForce,
+        });
+      } else if (calMode === "2") {
+        this.setState({
+          ConstLegend: `Force: ${FormInputs.force} pN, with DNA-insert length: ${FormInputs.insert_length} %`,
+          XaxisTitle: "Torque",
+          xmax: maxTorque,
+          xmin: minTorque,
+        });
+      }
+    }
   }
 
   generateExtXY = () => {
