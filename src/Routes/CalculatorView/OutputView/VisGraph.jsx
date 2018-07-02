@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Spin, Icon, Radio, Row, Col } from 'antd';
+import { Spin, Icon, Radio, Row, Col, Alert } from 'antd';
 // uber/react-vis library
 import {
   XYPlot,
@@ -48,6 +48,7 @@ class VisGraph extends React.Component {
     ymaxExt:1,
     yminHelix:0,
     ymaxHelix:1,
+    SuperCoilDetected: false,
   };
 
   componentDidMount() {
@@ -127,6 +128,15 @@ class VisGraph extends React.Component {
     // dataExtArray is the extension length array
     let ExtData = [];
     for (let i=0; i<this.props.dataExtArray.length; i++) {
+      // if Rel Ext is negative, then convert to Zero,
+      // and show notification msg
+      if (this.props.dataExtArray[i]<0) {
+        this.props.dataExtArray[i] = 0;
+        this.setState({
+          SuperCoilDetected: true,
+        });
+      }
+      // then construct the array from XYEntry
       let XYEntry = {};
       if (calMode==="1") {
         // force array
@@ -284,18 +294,18 @@ class VisGraph extends React.Component {
                 title={this.state.YaxisTitle}
                 position="middle"
               />
-                <MarkSeries
-                  color={this.state.SelectHelix
-                    ? "#0b0ebf"
-                    : "#FF991F"
-                  }
-                  size={5}
-                  data={this.props.dataLoading
-                    ? [{x:0, y:0}]
-                    : this.state.PlotData}
-                  onValueMouseOver={this._rememberValue}
-                  onValueMouseOut={this._forgetValue}
-                />
+              <MarkSeries
+                color={this.state.SelectHelix
+                  ? "#0b0ebf"
+                  : "#FF991F"
+                }
+                size={5}
+                data={this.props.dataLoading
+                  ? [{x:0, y:0}]
+                  : this.state.PlotData}
+                onValueMouseOver={this._rememberValue}
+                onValueMouseOut={this._forgetValue}
+              />
               {value
                 ? <Hint value={value} />
                 : null
@@ -312,6 +322,14 @@ class VisGraph extends React.Component {
             this.state.ConstLegend
           ]}
         />
+        {this.state.SuperCoilDetected &&
+          <Alert
+            message="Warning"
+            description="We have detected supercoiled DNA conformation in the output, which is represented as negative DNA extension values. In the plot above, we consider their effective DNA extensions to be zero. For detailed information, please refer to the output.csv in the zip download. If an input's calculation produces supercoiled conformation state, that input's DNA extension and the DNA superhelical density linking number change can be ignored."
+            type="warning"
+            showIcon
+          />
+        }
       </React.Fragment>
     );
   }
