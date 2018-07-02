@@ -41,9 +41,14 @@ def run_cpp(input_JSON={}, cal_Type="", n_cpu=""):
         file_adv.close()
 
         # DNA length, insert length, file_ft, number of modes and number of threads
+        # NOTE: the insert length from JSON is the percentage of main DNA,
+        # occupied by the insert. So the REAL insert length for the cpp is:
+        input_DNAL = float(input_JSON['DNALength'])
+        input_insertPer = float(input_JSON['insert_length'])
+        input_insert_length_nm =  str(input_DNAL*input_insertPer/100.0)
         cpp_proc = "../../../../CppCalculator-WithIns/WithIns_2018Jun30.out %s %s %s %s %s" % (
             input_JSON['DNALength'],
-            input_JSON['insert_length'],
+            input_insert_length_nm,
             'input_ft.dat',
             input_JSON['maxmode'],
             n_cpu)

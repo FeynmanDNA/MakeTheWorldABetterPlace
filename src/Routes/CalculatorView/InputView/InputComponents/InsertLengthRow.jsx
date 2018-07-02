@@ -18,7 +18,7 @@ class InsertLengthRow extends React.Component {
         label={(
           <span>
             Insert Length&nbsp;(%)&nbsp;
-            <Tooltip title="Insert Length in % of the DNA Length">
+            <Tooltip title="Percentage % of the DNA length occupied by the insert">
               <Icon type="question-circle-o" />
             </Tooltip>
           </span>
