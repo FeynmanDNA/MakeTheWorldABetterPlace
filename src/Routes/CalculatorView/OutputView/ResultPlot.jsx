@@ -8,6 +8,7 @@ import VisGraph from './VisGraph';
 import { inject, observer } from 'mobx-react';
 import { Alert, Spin, Divider, Card, Button, Icon, Badge } from 'antd';
 
+const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
 
 @inject('global_store')
@@ -78,7 +79,7 @@ class ResultPlot extends React.Component {
             width: "100%",
           }}
         >
-          <Spin spinning={this.props.Loading}>
+          <Spin indicator={antIcon} spinning={this.props.Loading}>
             Calculation received @: {this.props.TimeStart}
             <br />
             Calculation finished @: {this.props.TimeEnd}

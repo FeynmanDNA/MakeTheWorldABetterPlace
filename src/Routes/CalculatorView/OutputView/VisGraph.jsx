@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Spin, Radio, Row, Col } from 'antd';
+import { Spin, Icon, Radio, Row, Col } from 'antd';
 // uber/react-vis library
 import {
   XYPlot,
@@ -19,6 +19,7 @@ import { inject, observer } from 'mobx-react';
 
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
+const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
 
 @inject('global_store')
@@ -225,7 +226,7 @@ class VisGraph extends React.Component {
             </RadioGroup>
           </Col>
         </Row>
-        <Spin spinning={this.props.dataLoading}>
+        <Spin indicator={antIcon} spinning={this.props.dataLoading}>
           <div style={{overflowX: "auto"}}>
             <XYPlot
               margin={
