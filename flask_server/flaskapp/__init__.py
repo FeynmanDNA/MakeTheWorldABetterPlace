@@ -39,6 +39,11 @@ def Cal_BareDNA():
     error = None
 
     if request.method == 'POST':
+        # if .get_json() is {}, the filesystem will run into dead loop
+        if request.get_json == {}:
+            error = "Empty get_json Error"
+            return error
+
         print(">>>>>>>>> request.get_json() is:")
         cal_params = request.get_json()
         print(cal_params)
@@ -72,6 +77,11 @@ def Cal_WithIns():
     error = None
 
     if request.method == 'POST':
+        # if .get_json() is {}, the filesystem will run into dead loop
+        if request.get_json == {}:
+            error = "Empty get_json Error"
+            return error
+
         print(">>>>>>>>> request.get_json() is:")
         cal_params = request.get_json()
         print(cal_params)
