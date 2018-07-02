@@ -32,9 +32,13 @@ CORS(app)
 #def index(path):
 #    return render_template('index.html')
 
-@app.route('/BareDNA', methods=['POST'])
-def Cal_BareDNA():
-    submit_time = On_Submit("BareDNA calculator", request.headers)
+@app.route('/cpp_cal/<string:calculator_type>', methods=['POST'])
+def Invoke_Calculator(calculator_type):
+    # calculator_type passed from react: BareDNA/WithNul/WithIns
+
+    # cal_Type for On_Submit
+    cal_TypeTxt = "{} calculator".format(calculator_type)
+    submit_time = On_Submit(cal_TypeTxt, request.headers)
     # submit_time = '2018-06-29 13:49:34'
     error = None
 
@@ -54,7 +58,7 @@ def Cal_BareDNA():
          superhelical,
          output_file_id) = transfer_matrix(
                               cal_params,
-                              "BareDNA",
+                              calculator_type,
                               submit_time)
 
         finish_time = On_Finish()
@@ -69,45 +73,6 @@ def Cal_BareDNA():
     # the code below is executed if the request method
     # was GET or the credentials were invalid
     return error
-
-@app.route('/WithIns', methods=['POST'])
-def Cal_WithIns():
-    submit_time = On_Submit("WithIns calculator", request.headers)
-    # submit_time = '2018-06-29 13:49:34'
-    error = None
-
-    if request.method == 'POST':
-        # if .get_json() is {}, the filesystem will run into dead loop
-        if request.get_json == {}:
-            error = "Empty get_json Error"
-            return error
-
-        print(">>>>>>>>> request.get_json() is:")
-        cal_params = request.get_json()
-        print(cal_params)
-
-        # NOTE: call transfer_matrix
-        (cal_elapsed,
-         rel_extension,
-         superhelical,
-         output_file_id) = transfer_matrix(
-                              cal_params,
-                              "WithIns",
-                              submit_time)
-
-        finish_time = On_Finish()
-        return jsonify(
-                  start_time = submit_time,
-                  done_time = finish_time,
-                  elapsed_time = cal_elapsed,
-                  ext_array = rel_extension,
-                  suphel_array = superhelical,
-                  download_file = output_file_id
-               )
-    # the code below is executed if the request method
-    # was GET or the credentials were invalid
-    return error
-
 
 # temporary serving the UserRequestDB from static/
 @app.route('/<path:filename>')

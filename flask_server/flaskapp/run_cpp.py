@@ -19,7 +19,7 @@ def run_cpp(input_JSON={}, cal_Type="", n_cpu=""):
             n_cpu)
 
     elif cal_Type == "WithNul":
-        cpp_proc = "../../../../CppCalculator-WithNul/a.out %s %s %s %s %s" % (
+        cpp_proc = "../../../../CppCalculator-WithNul/WithNul_2018Jul02.out %s %s %s %s %s" % (
             input_JSON['DNALength'],
             'input_ft.dat',
             input_JSON['mu_protein'],

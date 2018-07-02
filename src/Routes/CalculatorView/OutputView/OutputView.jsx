@@ -73,7 +73,7 @@ class OutputView extends React.Component {
         // set the request content type to application/json for the .json property to work
         // `headers` are custom headers to be sent
         method: 'post',
-        url: `${HTTPconfig.gateway}${params}`,
+        url: `${HTTPconfig.gateway}cpp_cal/${params}`,
         headers: HTTPconfig.HTTP_HEADER,
         data: this.props.global_store.FormInputs,
       });

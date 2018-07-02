@@ -1,6 +1,6 @@
 from time import localtime, strftime
 
-def On_Submit(calType, http_headers):
+def On_Submit(cal_Type, http_headers):
     # record the request submit time
     submit_time = strftime("%Y-%m-%d %H:%M:%S", localtime())
 
@@ -8,7 +8,7 @@ def On_Submit(calType, http_headers):
     print("@", submit_time)
 
     # print out the request headers like user-agent etc
-    print("==request.headers %s :==" % (calType))
+    print("==request.headers %s :==" % (cal_Type))
     print(http_headers)
     return submit_time
 
