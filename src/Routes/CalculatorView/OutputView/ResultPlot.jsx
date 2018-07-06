@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import HTTPconfig from '../../../HTTPconfig';
 
 import InputSummary from './InputSummary';
 import VisGraph from './VisGraph';
@@ -39,7 +40,7 @@ class ResultPlot extends React.Component {
       }
     };
 
-    const FileLink = `http://localhost:7717/${this.props.FilePath}`;
+    const FileLink = `${HTTPconfig.gateway}${this.props.FilePath}`;
 
     return (
       <React.Fragment>
