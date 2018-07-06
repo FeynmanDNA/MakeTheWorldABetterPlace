@@ -2,7 +2,7 @@ import { observable, action, extendObservable } from 'mobx';
 
 // Shared data store across pages
 class GlobalStore {
-  @observable topmenu = "1";
+  @observable topmenu = "";
   @observable step = 0;
   @observable calculator= "";
   @observable mode= "";

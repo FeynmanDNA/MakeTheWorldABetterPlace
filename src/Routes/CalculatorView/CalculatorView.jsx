@@ -1,4 +1,5 @@
 import React from 'react';
+import {Switch,Route} from 'react-router-dom';
 import RouteWithSubRoutes from '../../RouteWithSubRoutes';
 import StepsBar from './StepsBar';
 import MenuSider from './MenuSider';
@@ -29,9 +30,12 @@ class CalculatorView extends React.Component {
               padding: '0 24px',
               minHeight: 420,
             }}>
-            {this.props.routes.map((route, i) => (
-              <RouteWithSubRoutes key={i} {...route} />
-            ))}
+            <Switch>
+              {this.props.routes.map((route, i) => (
+                <RouteWithSubRoutes key={i} {...route} />
+              ))}
+              <Route render={() => <p>There is something wrong with your URL. Try going back to Step 1 by clicking the "Calculator" button on top.</p>} />
+            </Switch>
           </Content>
         </Layout>
       </Content>

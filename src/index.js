@@ -6,6 +6,7 @@ import { Provider } from 'mobx-react';
 import * as stores from './Store';
 //Router
 import { BrowserRouter } from 'react-router-dom';
+import {Switch,Route} from 'react-router-dom';
 import RouteWithSubRoutes from './RouteWithSubRoutes';
 //Layout components
 import Layout from './Layout/Main';
@@ -18,7 +19,10 @@ ReactDOM.render(
     <Provider {...stores}>
       <BrowserRouter>
         <Layout>
+        <Switch>
           {routes.map((route, i) => <RouteWithSubRoutes key={i} {...route} />)}
+          <Route render={() => <p>The URL you are looking for does not exist.</p>} />
+        </Switch>
         </Layout>
       </BrowserRouter>
     </Provider>
