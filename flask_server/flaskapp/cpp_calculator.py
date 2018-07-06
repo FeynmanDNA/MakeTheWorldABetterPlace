@@ -22,9 +22,10 @@ def transfer_matrix(input_JSON={}, cal_Type="", timestamp=""):
     create_inputJSON(input_JSON)
 
     # can also use multiprocessing library to detect CPU number with:
-    # multiprocessing.cpu_cout()
+    # multiprocessing.cpu_count()
+    # local development use 4 CPUs, linode VPS use 1 CPU
     # in main.cpp, input.n_threads
-    n_cpu = "4"
+    n_cpu = "1"
 
     # call the cpp CppCalculator and retrieve the Y-Data
     (rel_extension, superhelical) = run_cpp(input_JSON, cal_Type, n_cpu)
