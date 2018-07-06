@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, render_template, request, send_from_directory
 
 # serving the route functions
 from time_stamp import On_Submit, On_Finish
@@ -8,6 +8,8 @@ from cpp_calculator import transfer_matrix
 from flush_flask_print import Unbuffered
 import sys
 
+# enable CORS for development
+from flask_cors import CORS
 
 # create instance of Unbuffered
 sys.stdout = Unbuffered(sys.stdout)
@@ -15,6 +17,8 @@ sys.stdout = Unbuffered(sys.stdout)
 # the build folder from react run build
 app = Flask(__name__)
 
+# enable CORS for development
+CORS(app)
 
 ########################## Main Functions ############################
 
@@ -61,9 +65,9 @@ def Invoke_Calculator(calculator_type):
     return error
 
 # temporary serving the UserRequestDB from static/
-# @app.route('/<path:filename>')
-# def download_output(filename):
-#     return send_from_directory(directory=filename, filename=filename)
+@app.route('/<path:filename>')
+def download_output(filename):
+    return send_from_directory(directory=filename, filename=filename)
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True, port=7717)
