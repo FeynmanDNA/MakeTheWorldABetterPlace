@@ -1,7 +1,8 @@
 import numpy as np
 import subprocess
 
-def run_cpp(input_JSON={}, cal_Type="", n_cpu=""):
+
+def init_cpp(input_JSON={}, cal_Type="", n_cpu=""):
     if cal_Type == "BareDNA":
         # file_adv is advanced parameters for BareDNA and WithIns
         file_adv = open('input.dat', 'w')
@@ -52,14 +53,37 @@ def run_cpp(input_JSON={}, cal_Type="", n_cpu=""):
             'input_ft.dat',
             input_JSON['maxmode'],
             n_cpu)
-        
+
     else:
         return "need to specify cal_Type"
 
     # without shell=True, the server will not find the BareDNA.out file
-    cal_proc = subprocess.Popen(cpp_proc, shell=True)
-    cal_proc.communicate()
+    cal_proc = subprocess.Popen(cpp_proc, stdout=subprocess.PIPE, shell=True)
 
+    # subprocess.PIPE is NON-blocking, so you can see this print during the cpp
+    print("(((subprocess.Popen's PIPE initiated)))")
+
+    print(cal_proc)
+    print("cal_proc.poll() status: ", cal_proc.poll())
+
+    # cal_proc is a memory object
+    # track this cal_proc object in cpp_calculator.py and __init__.py
+    return cal_proc
+
+# __init__ and cpp_calculator pass down the same cal_proc object for checking
+def check_computation_status(cal_proc):
+    # process pollServer from webpage
+    # if cal_proc is not finished
+    if cal_proc is None or cal_proc.poll() is None:
+        return False
+    else:
+        # NOTE: .stdout.read() actually block...
+        outs = cal_proc.stdout.read().decode('ascii')
+        print(outs)
+        return True
+
+# if cal_proc is finished, process the output.csv
+def finish_cpp():
     # communicate will block the server until the cpp is done
     print("output.csv ready")
 

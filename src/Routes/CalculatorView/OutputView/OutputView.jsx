@@ -15,16 +15,24 @@ const ButtonGroup = Button.Group;
 @inject('global_store')
 @observer
 class OutputView extends React.Component {
-  state = {
-    extArray: [],
-    superHelixArray: [],
-    doneTime: "",
-    elapsedTime: 0,
-    startTime: "",
-    outputFileID: "",
-    ResultLoading: false,
-    ServiceError: false,
-    NoJSONError: false,
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      extArray: [],
+      superHelixArray: [],
+      doneTime: "",
+      elapsedTime: 0,
+      startTime: "",
+      outputFileID: "",
+      ResultLoading: false,
+      ServiceErrorServer: false,
+      ServiceErrorCpp: false,
+      NoJSONError: false,
+    };
+
+    this.loadCalculation = this.loadCalculation.bind(this);
+    this.checkCalStatus = this.checkCalStatus.bind(this);
   }
 
   async componentDidMount() {
@@ -69,7 +77,7 @@ class OutputView extends React.Component {
     });
     // send a POST request
     try {
-      const Result = await axios({
+      const initiateCal = await axios({
         // set the request content type to application/json for the .json property to work
         // `headers` are custom headers to be sent
         method: 'post',
@@ -77,19 +85,52 @@ class OutputView extends React.Component {
         headers: HTTPconfig.HTTP_HEADER,
         data: this.props.global_store.FormInputs,
       });
+      console.log("initial axios response: ", initiateCal);
       await this.setState({
-        extArray: Result.data.ext_array,
-        superHelixArray: Result.data.suphel_array,
-        doneTime: Result.data.done_time,
-        elapsedTime: Result.data.elapsed_time,
-        startTime: Result.data.start_time,
-        outputFileID: Result.data.download_file,
-        ResultLoading: false,
+        startTime: initiateCal.data.start_time,
       });
+      console.log("start polling");
+      this.pollServer();
     } catch (error) {
       console.error(error);
       await this.setState({
-        ServiceError: true,
+        ServiceErrorServer: true,
+      });
+    }
+  }
+
+  pollServer = () => {
+    this.intervalID = setInterval(this.checkCalStatus, 5000);
+    console.log("this.intervalID", this.intervalID);
+  }
+
+  async checkCalStatus() {
+    // check calculation status
+    try {
+      const Result = await axios({
+        method: 'get',
+        url: `${HTTPconfig.gateway}cpp_cal/check_computation_status`,
+      });
+      console.log("subsequent axios response: ", Result);
+      if (Result.data.CppStatus === "calculating") {
+        // still calculating, no update on the UI
+        return;
+      } else {
+        await this.setState({
+          extArray: Result.data.ext_array,
+          superHelixArray: Result.data.suphel_array,
+          doneTime: Result.data.done_time,
+          elapsedTime: Result.data.elapsed_time,
+          outputFileID: Result.data.download_file,
+          ResultLoading: false,
+        });
+        clearInterval(this.intervalID);
+        console.log("polling stopped");
+      }
+    } catch (error) {
+      console.error(error);
+      this.setState({
+        ServiceErrorCpp: true,
       });
     }
   }

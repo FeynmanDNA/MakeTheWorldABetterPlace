@@ -6,9 +6,9 @@ import os
 from create_input import create_inputdat, create_inputJSON
 from generate_path import generate_path
 from generate_zip import generate_zip
-from run_cpp import run_cpp
+from run_cpp import init_cpp, finish_cpp
 
-def transfer_matrix(input_JSON={}, cal_Type="", timestamp=""):
+def init_transfer_matrix(input_JSON={}, cal_Type="", timestamp=""):
     # record the time taken for calculation
     cal_start = int(round(time() * 1000))
 
@@ -28,14 +28,27 @@ def transfer_matrix(input_JSON={}, cal_Type="", timestamp=""):
     n_cpu = "4"
 
     # call the cpp CppCalculator and retrieve the Y-Data
-    (rel_extension, superhelical) = run_cpp(input_JSON, cal_Type, n_cpu)
+    # first initiate the calculation
+    # cal_proc: <subprocess.Popen at 0x7fc9084d4b00>
+    cal_proc = init_cpp(input_JSON, cal_Type, n_cpu)
+
+    """ change the directory back to server level """
+    os.chdir(flask_path)
+
+    return (cal_start, flask_path, new_cal_path, cal_proc)
+
+def finish_transfer_matrix(cal_start, flask_path, new_cal_path):
+    """ return to UserRequestDB/timestamp-id """
+    os.chdir(new_cal_path)
+
+    (rel_extension, superhelical) = finish_cpp()
 
     # generate zip for user download, containing input and output
     only_fileID = new_cal_path.replace("static/UserRequestDB/", "")
     download_file_path = "{0}/{1}.zip".format(new_cal_path, only_fileID)
     generate_zip(filename=only_fileID)
 
-    # change the directory back to server level
+    """ change the directory back to server level """
     os.chdir(flask_path)
 
     # elapsed time is in sec
@@ -43,9 +56,3 @@ def transfer_matrix(input_JSON={}, cal_Type="", timestamp=""):
     cal_elapsed = (cal_end-cal_start)/1000
 
     return (cal_elapsed, rel_extension, superhelical, download_file_path)
-
-    # display stdout in terminal for debug
-    # print(cal_proc.stdout.read())
-    # NOTE: this PIPE is non-blocking, as opposed to communicate()
-    # NOTE: need to implement a polling for the 50 seconds to 5 mins version
-
