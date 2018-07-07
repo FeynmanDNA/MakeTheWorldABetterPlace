@@ -2,7 +2,7 @@ from flask import Flask, jsonify, render_template, request, send_from_directory
 
 # serving the route functions
 from pathlib import Path
-from time_stamp import On_Submit
+from time_stamp import On_Submit, On_Finish
 from cpp_calculator import init_transfer_matrix, finish_transfer_matrix
 from run_cpp import check_computation_status
 
@@ -80,6 +80,8 @@ def Poll_Calculator():
                               flask_path,
                               new_cal_path)
 
+        finish_time = On_Finish()
+
         # now Cpp is finished, reset the global variables
         global cal_proc
         global new_cal_path
@@ -87,7 +89,7 @@ def Poll_Calculator():
         new_cal_path = ""
 
         return jsonify(
-                  elapsed_time = cal_elapsed,
+                  done_time = finish_time,
                   ext_array = rel_extension,
                   suphel_array = superhelical,
                   download_file = output_file_id

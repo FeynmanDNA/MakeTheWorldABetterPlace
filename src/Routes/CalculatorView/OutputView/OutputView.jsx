@@ -91,6 +91,7 @@ class OutputView extends React.Component {
       });
       console.log("start polling");
       this.pollServer();
+      this.countDoneTime();
     } catch (error) {
       console.error(error);
       await this.setState({
@@ -116,10 +117,12 @@ class OutputView extends React.Component {
         // still calculating, no update on the UI
         return;
       } else {
+        clearInterval(this.DoneTimeInterval);
+        console.log("elapsedTime counter stopped");
         await this.setState({
           extArray: Result.data.ext_array,
           superHelixArray: Result.data.suphel_array,
-          elapsedTime: Result.data.elapsed_time,
+          doneTime: Result.data.done_time,
           outputFileID: Result.data.download_file,
           ResultLoading: false,
         });
@@ -132,6 +135,17 @@ class OutputView extends React.Component {
         ServiceErrorCpp: true,
       });
     }
+  }
+
+  countDoneTime = () => {
+    this.DoneTimeInterval = setInterval(this.addSecDoneTime, 1000);
+    console.log("this.DoneTimeInterval", this.DoneTimeInterval);
+  }
+
+  addSecDoneTime = () => {
+    this.setState( (prevState) => ({
+      elapsedTime: prevState.elapsedTime + 1,
+    }))
   }
 
   componentWillUnmount() {
