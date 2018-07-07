@@ -1,5 +1,3 @@
-# for timing the elapsed time
-from time import time
 # for input and output.csv and c++ subprocess
 import os
 # custom utility functions
@@ -8,12 +6,9 @@ from generate_path import generate_path
 from generate_zip import generate_zip
 from run_cpp import init_cpp, finish_cpp
 
-def init_transfer_matrix(input_JSON={}, cal_Type="", timestamp=""):
-    # record the time taken for calculation
-    cal_start = int(round(time() * 1000))
-
+def init_transfer_matrix(input_JSON={}, cal_Type="", timestamp="", flask_path=""):
     #generate the main server path and new request path
-    (flask_path, new_cal_path) = generate_path(cal_Type, timestamp)
+    new_cal_path = generate_path(cal_Type, timestamp)
 
     """ inside the UserRequestDB/timestamp-id, create the input files """
     os.chdir(new_cal_path)
@@ -35,9 +30,9 @@ def init_transfer_matrix(input_JSON={}, cal_Type="", timestamp=""):
     """ change the directory back to server level """
     os.chdir(flask_path)
 
-    return (cal_start, flask_path, new_cal_path, cal_proc)
+    return (new_cal_path, cal_proc)
 
-def finish_transfer_matrix(cal_start, flask_path, new_cal_path):
+def finish_transfer_matrix(flask_path, new_cal_path):
     """ return to UserRequestDB/timestamp-id """
     os.chdir(new_cal_path)
 
@@ -51,8 +46,4 @@ def finish_transfer_matrix(cal_start, flask_path, new_cal_path):
     """ change the directory back to server level """
     os.chdir(flask_path)
 
-    # elapsed time is in sec
-    cal_end = int(round(time() * 1000))
-    cal_elapsed = (cal_end-cal_start)/1000
-
-    return (cal_elapsed, rel_extension, superhelical, download_file_path)
+    return (rel_extension, superhelical, download_file_path)

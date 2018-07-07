@@ -1,7 +1,8 @@
 from flask import Flask, jsonify, render_template, request, send_from_directory
 
 # serving the route functions
-from time_stamp import On_Submit, On_Finish
+from pathlib import Path
+from time_stamp import On_Submit
 from cpp_calculator import init_transfer_matrix, finish_transfer_matrix
 from run_cpp import check_computation_status
 
@@ -25,8 +26,7 @@ CORS(app)
 
 # global variables to be accessed across functions
 # No need for global declaration to read value of globvar
-cal_start = 0
-flask_path = ""
+flask_path = str(Path.cwd())
 new_cal_path = ""
 cal_proc = None
 
@@ -51,17 +51,14 @@ def Invoke_Calculator(calculator_type):
         print(cal_params)
 
         # NOTE: call transfer_matrix
-        global cal_start
-        global flask_path
         global new_cal_path
         global cal_proc
-        (cal_start,
-         flask_path,
-         new_cal_path,
+        (new_cal_path,
          cal_proc) = init_transfer_matrix(
                               cal_params,
                               calculator_type,
-                              submit_time)
+                              submit_time,
+                              flask_path)
 
         # first return the start_time, and wait for polling
         return jsonify(start_time = submit_time)
@@ -77,17 +74,19 @@ def Poll_Calculator():
     print("calculation finished? ", cal_finished)
     if cal_finished:
         # cpp finished, proceed to collect the results
-        (cal_elapsed,
-         rel_extension,
+        (rel_extension,
          superhelical,
          output_file_id) = finish_transfer_matrix(
-                              cal_start,
                               flask_path,
                               new_cal_path)
 
-        finish_time = On_Finish()
+        # now Cpp is finished, reset the global variables
+        global cal_proc
+        global new_cal_path
+        cal_proc = None
+        new_cal_path = ""
+
         return jsonify(
-                  done_time = finish_time,
                   elapsed_time = cal_elapsed,
                   ext_array = rel_extension,
                   suphel_array = superhelical,

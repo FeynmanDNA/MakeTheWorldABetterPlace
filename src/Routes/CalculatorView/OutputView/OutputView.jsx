@@ -119,7 +119,6 @@ class OutputView extends React.Component {
         await this.setState({
           extArray: Result.data.ext_array,
           superHelixArray: Result.data.suphel_array,
-          doneTime: Result.data.done_time,
           elapsedTime: Result.data.elapsed_time,
           outputFileID: Result.data.download_file,
           ResultLoading: false,

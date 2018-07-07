@@ -3,7 +3,6 @@ import uuid
 
 def generate_path(cal_Type="", timestamp=""):
     # create a folder for each calculation
-    flask_path = Path.cwd()
     # timestamp pass here is '2018-06-29 13:49:34'
     timestamp= timestamp.replace("-", "").replace(" ", "").replace(":", "")
     # timestamp is now "20180629134934"
@@ -18,6 +17,5 @@ def generate_path(cal_Type="", timestamp=""):
     new_cal_path.mkdir(parents=True, exist_ok=True)
     # for python 3.5 and below, need to str(Path) for os.chdir()
     new_cal_path = str(new_cal_path)
-    flask_path = str(flask_path)
 
-    return (flask_path, new_cal_path)
+    return new_cal_path

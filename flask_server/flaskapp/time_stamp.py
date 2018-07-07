@@ -11,8 +11,3 @@ def On_Submit(cal_Type, http_headers):
     print("==request.headers %s :==" % (cal_Type))
     print(http_headers)
     return submit_time
-
-def On_Finish():
-    finish_time = strftime("%Y-%m-%d %H:%M:%S", localtime())
-    print("calculation finished @: ", finish_time)
-    return finish_time
