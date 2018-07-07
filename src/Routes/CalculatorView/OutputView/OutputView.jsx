@@ -24,6 +24,7 @@ class OutputView extends React.Component {
       doneTime: "",
       elapsedTime: 0,
       startTime: "",
+      queueID: "",
       outputFileID: "",
       ResultLoading: false,
       ServiceErrorServer: false,
@@ -88,6 +89,7 @@ class OutputView extends React.Component {
       console.log("initial axios response: ", initiateCal);
       await this.setState({
         startTime: initiateCal.data.start_time,
+        queueID: initiateCal.data.tracking_ID,
       });
       console.log("start polling");
       this.pollServer();
@@ -110,7 +112,7 @@ class OutputView extends React.Component {
     try {
       const Result = await axios({
         method: 'get',
-        url: `${HTTPconfig.gateway}cpp_cal/check_computation_status`,
+        url: `${HTTPconfig.gateway}cpp_cal/check_computation_status/${this.state.queueID}`,
       });
       console.log("subsequent axios response: ", Result);
       if (Result.data.CppStatus === "calculating") {
@@ -151,6 +153,10 @@ class OutputView extends React.Component {
   componentWillUnmount() {
     // clear the global_store's FormInputs when leaving OutputView
     this.props.global_store.clearForm();
+    // clear all intervalFunctions
+    clearInterval(this.DoneTimeInterval);
+    clearInterval(this.intervalID);
+    console.log("OutputView unmount, clear Axios call and formData");
   }
 
   ProceedBack = () => {

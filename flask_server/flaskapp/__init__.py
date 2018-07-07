@@ -27,8 +27,7 @@ CORS(app)
 # global variables to be accessed across functions
 # No need for global declaration to read value of globvar
 flask_path = str(Path.cwd())
-new_cal_path = ""
-cal_proc = None
+cal_procs_dict = {}
 
 @app.route('/cpp_cal/<string:calculator_type>', methods=['POST'])
 def Invoke_Calculator(calculator_type):
@@ -51,26 +50,38 @@ def Invoke_Calculator(calculator_type):
         print(cal_params)
 
         # NOTE: call transfer_matrix
-        global new_cal_path
-        global cal_proc
+        global flask_path
+        global cal_procs_dict
         (new_cal_path,
-         cal_proc) = init_transfer_matrix(
+         cal_proc,
+         queue_ID) = init_transfer_matrix(
                               cal_params,
                               calculator_type,
                               submit_time,
                               flask_path)
 
+        cal_procs_dict[queue_ID] = {}
+        cal_procs_dict[queue_ID]["new_cal_path"] = new_cal_path
+        cal_procs_dict[queue_ID]["cal_proc"] = cal_proc
+
+        print("global variable cal_procs_dict is: ", cal_procs_dict)
+
         # first return the start_time, and wait for polling
-        return jsonify(start_time = submit_time)
+        return jsonify(start_time=submit_time, tracking_ID=queue_ID)
     # the code below is executed if the request method
     # was GET or the credentials were invalid
     return error
 
-@app.route('/cpp_cal/check_computation_status')
-def Poll_Calculator():
+@app.route('/cpp_cal/check_computation_status/<string:tracking_ID>')
+def Poll_Calculator(tracking_ID):
+    # cal_proc and new_cal_path are global
+    global flask_path
+    global cal_procs_dict
+
     print("check_computation_status()")
-    # cal_proc is global
-    cal_finished = check_computation_status(cal_proc)
+    cal_finished = check_computation_status(
+                       cal_procs_dict[tracking_ID]["cal_proc"])
+
     print("calculation finished? ", cal_finished)
     if cal_finished:
         # cpp finished, proceed to collect the results
@@ -78,15 +89,12 @@ def Poll_Calculator():
          superhelical,
          output_file_id) = finish_transfer_matrix(
                               flask_path,
-                              new_cal_path)
+                              cal_procs_dict[tracking_ID]["new_cal_path"])
 
         finish_time = On_Finish()
 
         # now Cpp is finished, reset the global variables
-        global cal_proc
-        global new_cal_path
-        cal_proc = None
-        new_cal_path = ""
+        cal_procs_dict.pop(tracking_ID)
 
         return jsonify(
                   done_time = finish_time,

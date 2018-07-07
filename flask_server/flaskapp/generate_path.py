@@ -18,4 +18,7 @@ def generate_path(cal_Type="", timestamp=""):
     # for python 3.5 and below, need to str(Path) for os.chdir()
     new_cal_path = str(new_cal_path)
 
-    return new_cal_path
+    # generate a session ID for global variable in __init__ to be tracked
+    queue_ID = new_cal_path.replace("static/UserRequestDB/", "")
+
+    return (new_cal_path, queue_ID)

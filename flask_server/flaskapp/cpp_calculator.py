@@ -8,7 +8,7 @@ from run_cpp import init_cpp, finish_cpp
 
 def init_transfer_matrix(input_JSON={}, cal_Type="", timestamp="", flask_path=""):
     #generate the main server path and new request path
-    new_cal_path = generate_path(cal_Type, timestamp)
+    (new_cal_path, queue_ID) = generate_path(cal_Type, timestamp)
 
     """ inside the UserRequestDB/timestamp-id, create the input files """
     os.chdir(new_cal_path)
@@ -30,7 +30,7 @@ def init_transfer_matrix(input_JSON={}, cal_Type="", timestamp="", flask_path=""
     """ change the directory back to server level """
     os.chdir(flask_path)
 
-    return (new_cal_path, cal_proc)
+    return (new_cal_path, cal_proc, queue_ID)
 
 def finish_transfer_matrix(flask_path, new_cal_path):
     """ return to UserRequestDB/timestamp-id """
