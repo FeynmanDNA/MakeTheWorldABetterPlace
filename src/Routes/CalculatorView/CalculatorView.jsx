@@ -3,6 +3,7 @@ import {Switch,Route} from 'react-router-dom';
 import RouteWithSubRoutes from '../../RouteWithSubRoutes';
 import StepsBar from './StepsBar';
 import MenuSider from './MenuSider';
+import DetectBrowser from './DetectBrowser';
 // antd components
 import { Layout } from 'antd';
 // for current step and menu from global_store
@@ -20,6 +21,7 @@ class CalculatorView extends React.Component {
   render() {
     return (
       <Content style={{ padding: '0 50px' }}>
+        <DetectBrowser />
         <StepsBar />
         <Layout style={{ padding: '24px 0', background: '#fff' }}>
           <Sider width={220} style={{ background: '#fff' }}>
