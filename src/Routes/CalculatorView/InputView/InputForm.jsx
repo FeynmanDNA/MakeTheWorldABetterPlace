@@ -30,7 +30,9 @@ class InputForm extends React.Component {
     errorStep: '',
   };
 
-  componentDidMount() {
+  async componentDidMount() {
+    // clear the global_store's FormInputs so the browser has no confusion
+    await this.props.global_store.clearForm();
     let ArrayRange = [];
     const step = parseFloat(document.getElementById("StepSize").value);
     let start = parseFloat(document.getElementById("RangeStart").value);
@@ -39,7 +41,7 @@ class InputForm extends React.Component {
       ArrayRange.push(start);
       start = +(start+step).toFixed(2);
     }
-    this.setState({
+    await this.setState({
       ArrayDisplay: ArrayRange,
     });
   }

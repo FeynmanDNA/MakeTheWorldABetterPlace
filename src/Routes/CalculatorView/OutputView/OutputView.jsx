@@ -34,6 +34,7 @@ class OutputView extends React.Component {
 
     this.loadCalculation = this.loadCalculation.bind(this);
     this.checkCalStatus = this.checkCalStatus.bind(this);
+    this.terminateCal = this.terminateCal.bind(this);
   }
 
   async componentDidMount() {
@@ -150,14 +151,29 @@ class OutputView extends React.Component {
     }))
   }
 
-  componentWillUnmount() {
+  async componentWillUnmount() {
     // clear the global_store's FormInputs when leaving OutputView
-    this.props.global_store.clearForm();
+    await this.props.global_store.clearForm();
     // clear all intervalFunctions
-    clearInterval(this.DoneTimeInterval);
-    clearInterval(this.intervalID);
+    await clearInterval(this.DoneTimeInterval);
+    await clearInterval(this.intervalID);
+    // terminate the calculation
+    await this.terminateCal();
     console.log("OutputView unmount, clear Axios call and formData");
   }
+
+  async terminateCal() {
+    try {
+      const TerminatedSig = await axios({
+        method: 'get',
+        url: `${HTTPconfig.gateway}cpp_cal/kill_cal/${this.state.queueID}`,
+      });
+      console.log("terminate the calculation", TerminatedSig);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
 
   ProceedBack = () => {
     this.props.history.push(

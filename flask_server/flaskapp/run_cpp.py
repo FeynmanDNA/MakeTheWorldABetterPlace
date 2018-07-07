@@ -1,5 +1,6 @@
 import numpy as np
 import subprocess
+import os
 
 
 def init_cpp(input_JSON={}, cal_Type="", n_cpu=""):
@@ -58,7 +59,11 @@ def init_cpp(input_JSON={}, cal_Type="", n_cpu=""):
         return "need to specify cal_Type"
 
     # without shell=True, the server will not find the BareDNA.out file
-    cal_proc = subprocess.Popen(cpp_proc, stdout=subprocess.PIPE, shell=True)
+    # from https://stackoverflow.com/questions/4789837/how-to-terminate-a-python-subprocess-launched-with-shell-true
+    # The os.setsid() is passed in the argument preexec_fn so
+    # it's run after the fork() and before  exec() to run the shell.
+    cal_proc = subprocess.Popen(cpp_proc, stdout=subprocess.PIPE,
+                                shell=True, preexec_fn=os.setsid)
 
     # subprocess.PIPE is NON-blocking, so you can see this print during the cpp
     print("(((subprocess.Popen's PIPE initiated)))")
