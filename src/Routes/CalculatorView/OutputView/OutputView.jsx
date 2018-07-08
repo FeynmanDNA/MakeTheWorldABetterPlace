@@ -7,7 +7,7 @@ import ResultPlot from './ResultPlot';
 
 // get current states from global_store
 import { inject, observer } from 'mobx-react';
-import { Button, Icon, Alert } from 'antd';
+import { Button, Icon, Alert, Popconfirm, message } from 'antd';
 
 const ButtonGroup = Button.Group;
 
@@ -22,14 +22,17 @@ class OutputView extends React.Component {
       extArray: [],
       superHelixArray: [],
       doneTime: "",
-      elapsedTime: 0,
+      elapsedTime: 0, // self-counter, not from Axios anymore
       startTime: "",
-      queueID: "",
+      queueID: "", // for Popen obj tracking
       outputFileID: "",
       ResultLoading: false,
-      ServiceErrorServer: false,
-      ServiceErrorCpp: false,
-      NoJSONError: false,
+      ServiceErrorServer: false, // if server is running
+      ServiceErrorCpp: false, // if the underlying cpp is running
+      NoJSONError: false, // if the inputForm is empty
+      PopconfirmGoBackVisible: false,
+      PopconfirmReCalVisible: false,
+      NeedPopconfirm: false,
     };
 
     this.loadCalculation = this.loadCalculation.bind(this);
@@ -75,7 +78,8 @@ class OutputView extends React.Component {
 
   async loadCalculation(params) {
     await this.setState({
-      ResultLoading: true
+      ResultLoading: true,
+      NeedPopconfirm: true,
     });
     // send a POST request
     try {
@@ -128,6 +132,7 @@ class OutputView extends React.Component {
           doneTime: Result.data.done_time,
           outputFileID: Result.data.download_file,
           ResultLoading: false,
+          NeedPopconfirm: false,
         });
         clearInterval(this.intervalID);
         console.log("polling stopped");
@@ -157,8 +162,12 @@ class OutputView extends React.Component {
     // clear all intervalFunctions
     await clearInterval(this.DoneTimeInterval);
     await clearInterval(this.intervalID);
-    // terminate the calculation
-    await this.terminateCal();
+    if (this.state.ResultLoading) {
+      // terminate the calculation
+      await this.terminateCal();
+      console.log("terminate the ongoing calculation");
+      message.warning("calculation terminated", 6);
+    }
     console.log("OutputView unmount, clear Axios call and formData");
   }
 
@@ -168,12 +177,11 @@ class OutputView extends React.Component {
         method: 'get',
         url: `${HTTPconfig.gateway}cpp_cal/kill_cal/${this.state.queueID}`,
       });
-      console.log("terminate the calculation", TerminatedSig);
+      console.log("TerminatedSig returned is: ", TerminatedSig);
     } catch (error) {
       console.error(error);
     }
   }
-
 
   ProceedBack = () => {
     this.props.history.push(
@@ -189,6 +197,34 @@ class OutputView extends React.Component {
     this.props.history.push(
       '/calculator/choosecalculator'
     );
+  }
+
+  handlePopconfirmGoBackVisibleChange = () => {
+    if (!this.state.NeedPopconfirm) {
+      this.ProceedBack(); // if none loading, go back history
+    } else {
+      this.setState({
+        PopconfirmGoBackVisible: true,
+      });
+    }
+  }
+
+  handlePopconfirmReCalVisibleChange = () => {
+    if (!this.state.NeedPopconfirm) {
+      this.HandleReCalculation(); // if none loading, restart step 1
+    } else {
+      this.setState({
+        PopconfirmReCalVisible: true,
+      });
+    }
+  }
+
+  cancelPopconfirm = (e) => {
+    this.setState({
+      PopconfirmGoBackVisible: false,
+      PopconfirmReCalVisible: false,
+    });
+    message.success("想象力可以改变一切");
   }
 
   render() {
@@ -216,20 +252,38 @@ class OutputView extends React.Component {
           />
         )}
         <ButtonGroup>
-          <Button
-            onClick={this.ProceedBack}
-            type="primary"
+          <Popconfirm
+            title="Your calculation is still being processed. Do you want to leave this page?"
+            visible={this.state.PopconfirmGoBackVisible}
+            onVisibleChange={this.handlePopconfirmGoBackVisibleChange}
+            onConfirm={this.ProceedBack}
+            onCancel={this.cancelPopconfirm}
+            okText="Yes"
+            cancelText="No"
           >
-            <Icon type="left" />
-            Go back
-          </Button>
-          <Button
-            onClick={this.HandleReCalculation}
-            type="primary"
+            <Button
+              type="primary"
+            >
+              <Icon type="left" />
+              Go back
+            </Button>
+          </Popconfirm>
+          <Popconfirm
+            title="Your calculation is still being processed. Do you want to leave this page?"
+            visible={this.state.PopconfirmReCalVisible}
+            onVisibleChange={this.handlePopconfirmReCalVisibleChange}
+            onConfirm={this.HandleReCalculation}
+            onCancel={this.cancelPopconfirm}
+            okText="Yes"
+            cancelText="No"
           >
-            Restart from Step1
-            <Icon type="reload" />
-          </Button>
+            <Button
+              type="primary"
+            >
+              Restart from Step1
+              <Icon type="reload" />
+            </Button>
+          </Popconfirm>
         </ButtonGroup>
       </React.Fragment>
     );

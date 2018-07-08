@@ -148,6 +148,7 @@ def Kill_Calculator(tracking_ID):
         print("Encountered ProcessLookupError")
         return jsonify(error = "no such process to terminate")
     except KeyError:
+        # os.getpgid(KeyError) is due to dict.pop after FileNotFoundError above
         print("Encountered KeyError")
         return jsonify(error = "KeyError with uuid")
 
