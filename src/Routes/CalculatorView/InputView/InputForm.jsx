@@ -28,6 +28,7 @@ class InputForm extends React.Component {
     ArrayDisplay: [],
     validateStep: 'success',
     errorStep: '',
+    AutoStepSize: 1,
   };
 
   async componentDidMount() {
@@ -149,6 +150,7 @@ class InputForm extends React.Component {
                 stepValue={0.01}
                 toFixedNum={2}
                 validateRange={(value) => this.validateArrayLength(value)}
+                AutoAdjustStep={this.state.AutoStepSize}
                 SliderStep={0.01}
               />
             </FormItem>
@@ -204,6 +206,7 @@ class InputForm extends React.Component {
                 stepValue={0.1}
                 toFixedNum={1}
                 validateRange={(value) => this.validateArrayLength(value)}
+                AutoAdjustStep={this.state.AutoStepSize}
                 SliderStep={0.1}
               />
             </FormItem>
