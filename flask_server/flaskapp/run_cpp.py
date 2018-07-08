@@ -65,7 +65,7 @@ def init_cpp(input_JSON={}, cal_Type="", n_cpu=""):
     cal_proc = subprocess.Popen(cpp_proc, stdout=subprocess.PIPE,
                                 shell=True, preexec_fn=os.setsid)
 
-    # subprocess.PIPE is NON-blocking, so you can see this print during the cpp
+    # subprocess.Popen is NON-blocking, so you can see this print during the cpp
     print("(((subprocess.Popen's PIPE initiated)))")
 
     print(cal_proc)
@@ -82,9 +82,17 @@ def check_computation_status(cal_proc):
     if cal_proc is None or cal_proc.poll() is None:
         return False
     else:
-        # NOTE: .stdout.read() actually block...
-        outs = cal_proc.stdout.read().decode('ascii')
-        print(outs)
+        # instead of using Popen.stdout.read/Popen.stderr.read, use .communicate()
+        print("Cpp calculation finished!")
+        # from https://docs.python.org/3/library/subprocess.html
+        # if the process does not terminate after timeout seconds, TimeoutExpired exception will be raise
+        try:
+            outs, errs = cal_proc.communicate(timeout=30)
+        except TimeoutExpired:
+            cal_proc.kill()
+            outs, errs = cal_proc.communicate()
+        # Warning Use communicate() rather than .stdin.write, .stdout.read or .stderr.read to avoid deadlocks due to any of the other OS pipe buffers filling up and blocking the child process.
+        print("cal_proc Popen.communicate()'s outs:\n", outs.decode('ascii'))
         return True
 
 # if cal_proc is finished, process the output.csv
