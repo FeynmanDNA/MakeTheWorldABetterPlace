@@ -7,9 +7,8 @@ import WithInsImg from '../../../Assets/WithInsert.jpg';
 // get current step from global_store
 // and to manage global states
 import { inject, observer } from 'mobx-react';
-import { Button, Icon, Col, Row } from 'antd';
+import { Col, Row } from 'antd';
 
-const ButtonGroup = Button.Group;
 
 const BareDNAInfo =  (
   <p>Bare DNA version of the program calculates the conformation of bare DNA under force and torque constraints.<br /> In the calculations, DNA is allowed to transit between 4 DNA structural states: B-, L-, P- and S-DNA.</p>
@@ -35,36 +34,23 @@ class ChooseCalculator extends React.Component {
 
   clickBareDNA = () => {
     this.props.global_store.chooseCalculator("Bare DNA");
+    this.props.history.push(
+      '/calculator/1/choosemode'
+    );
   }
 
   clickWithNul = () => {
     this.props.global_store.chooseCalculator("With Nucleosome");
+    this.props.history.push(
+      '/calculator/2/choosemode'
+    );
   }
 
   clickWithIns = () => {
     this.props.global_store.chooseCalculator("With DNA-insert");
-  }
-
-  ProceedtoMode = () => {
-    switch(this.props.global_store.calculator) {
-      case "Bare DNA":
-        this.props.history.push(
-          '/calculator/1/choosemode'
-        );
-        break;
-      case "With Nucleosome":
-        this.props.history.push(
-          '/calculator/2/choosemode'
-        );
-        break;
-      case "With DNA-insert":
-        this.props.history.push(
-          '/calculator/3/choosemode'
-        );
-        break;
-      default:
-        break;
-    }
+    this.props.history.push(
+      '/calculator/3/choosemode'
+    );
   }
 
   render() {
@@ -97,24 +83,6 @@ class ChooseCalculator extends React.Component {
           </Col>
         </Row>
       <br />
-        <ButtonGroup>
-          <Button
-            type="primary"
-            disabled>
-            <Icon type="left" />
-            Go back
-          </Button>
-          <Button
-            onClick={this.ProceedtoMode}
-            type="primary"
-            disabled={this.props.global_store.calculator
-              ? false
-              : true}
-          >
-            Go forward
-            <Icon type="right" />
-          </Button>
-        </ButtonGroup>
       </React.Fragment>
     );
   }
