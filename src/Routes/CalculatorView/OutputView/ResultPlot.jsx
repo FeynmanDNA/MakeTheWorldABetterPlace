@@ -24,6 +24,7 @@ class ResultPlot extends React.Component {
     TimeEnd: PropTypes.string.isRequired,
     TimeElap: PropTypes.number.isRequired,
     FilePath: PropTypes.string.isRequired,
+    ServerError: PropTypes.bool.isRequired,
   };
 
   render() {
@@ -44,58 +45,70 @@ class ResultPlot extends React.Component {
 
     return (
       <React.Fragment>
+      {this.props.ServerError ? (
         <Alert
-          type={this.props.Loading
-            ? BannerMsg["loading"].type
-            : BannerMsg["loaded"].type}
+          message="We are having some problems with the server"
+          description="Please try again later"
+          type="warning"
           banner
-          message={this.props.Loading
-            ? BannerMsg["loading"].msg
-            : BannerMsg["loaded"].msg}
         />
+      )
+      : (
+        <React.Fragment>
+          <Alert
+            type={this.props.Loading
+              ? BannerMsg["loading"].type
+              : BannerMsg["loaded"].type}
+            banner
+            message={this.props.Loading
+              ? BannerMsg["loading"].msg
+              : BannerMsg["loaded"].msg}
+          />
 
-        <br />
+          <br />
 
-        <InputSummary />
+          <InputSummary />
 
-        <Divider />
+          <Divider />
 
-        <VisGraph
-          dataLoading={this.props.Loading}
-          dataExtArray={this.props.RelExtArray}
-          dataHelArray={this.props.HelixArray}
-        />
+          <VisGraph
+            dataLoading={this.props.Loading}
+            dataExtArray={this.props.RelExtArray}
+            dataHelArray={this.props.HelixArray}
+          />
 
-        <Divider />
+          <Divider />
 
-        <Card
-          title={this.props.Loading
-            ? (
-              <Badge
-                status="processing"
-                text="Waiting for Results"
-              />)
-            : "Export Results"}
-          style={{
-            width: "100%",
-          }}
-        >
-          <Spin indicator={antIcon} spinning={this.props.Loading}>
-            Calculation received @: {this.props.TimeStart}
-            <br />
-            Calculation finished @: {this.props.TimeEnd}
-            <br />
-            <b>Time taken: {this.props.TimeElap}s</b>
-            <br />
-            <Divider />
-            <a href={FileLink}>
-            <Button>
-              <Icon type="download" /> Download
-            </Button>
-            </a>
-          </Spin>
-        </Card>
-        <br />
+          <Card
+            title={this.props.Loading
+              ? (
+                <Badge
+                  status="processing"
+                  text="Waiting for Results"
+                />)
+              : "Export Results"}
+            style={{
+              width: "100%",
+            }}
+          >
+            <Spin indicator={antIcon} spinning={this.props.Loading}>
+              Calculation received @: {this.props.TimeStart}
+              <br />
+              Calculation finished @: {this.props.TimeEnd}
+              <br />
+              <b>Time taken: {this.props.TimeElap}s</b>
+              <br />
+              <Divider />
+              <a href={FileLink}>
+              <Button>
+                <Icon type="download" /> Download
+              </Button>
+              </a>
+            </Spin>
+          </Card>
+          <br />
+        </React.Fragment>
+      )}
       </React.Fragment>
     );
   }

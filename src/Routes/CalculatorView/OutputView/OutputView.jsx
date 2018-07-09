@@ -28,7 +28,6 @@ class OutputView extends React.Component {
       outputFileID: "",
       ResultLoading: false,
       ServiceErrorServer: false, // if server is running
-      ServiceErrorCpp: false, // if the underlying cpp is running
       NoJSONError: false, // if the inputForm is empty
       PopconfirmGoBackVisible: false,
       PopconfirmReCalVisible: false,
@@ -92,6 +91,17 @@ class OutputView extends React.Component {
         data: this.props.global_store.FormInputs,
       });
       console.log("initial axios response: ", initiateCal);
+      if (initiateCal.data.error) {
+        // if request method or credential or empty json
+        console.error(initiateCal.data.error);
+        // change state for UI
+        await this.setState({
+          ServiceErrorServer: true,
+          NeedPopconfirm: false,
+          ResultLoading: false,
+        });
+      }
+      // if calculator started properly
       await this.setState({
         startTime: initiateCal.data.start_time,
         queueID: initiateCal.data.tracking_ID,
@@ -100,9 +110,17 @@ class OutputView extends React.Component {
       this.pollServer();
       this.countDoneTime();
     } catch (error) {
+      // if server service error
       console.error(error);
+      // clear all intervalFunctions
+      await clearInterval(this.DoneTimeInterval);
+      await clearInterval(this.intervalID);
+      console.log("all intervals cleared")
+      // change state for UI
       await this.setState({
         ServiceErrorServer: true,
+        NeedPopconfirm: false,
+        ResultLoading: false,
       });
     }
   }
@@ -120,6 +138,21 @@ class OutputView extends React.Component {
         url: `${HTTPconfig.gateway}cpp_cal/check_computation_status/${this.state.queueID}`,
       });
       console.log("subsequent axios response: ", Result);
+      // if cpp breaks down halfway or fail to start
+      if (Result.data.error) {
+        console.error(Result.data.error);
+        // clear all intervalFunctions
+        await clearInterval(this.DoneTimeInterval);
+        await clearInterval(this.intervalID);
+        console.log("all intervals cleared")
+        // change state for UI
+        await this.setState({
+          ServiceErrorServer: true,
+          NeedPopconfirm: false,
+          ResultLoading: false,
+        });
+        return;
+      }
       if (Result.data.CppStatus === "calculating") {
         // still calculating, no update on the UI
         return;
@@ -139,8 +172,15 @@ class OutputView extends React.Component {
       }
     } catch (error) {
       console.error(error);
-      this.setState({
-        ServiceErrorCpp: true,
+      // clear all intervalFunctions
+      await clearInterval(this.DoneTimeInterval);
+      await clearInterval(this.intervalID);
+      console.log("all intervals cleared")
+      // change state for UI
+      await this.setState({
+        ServiceErrorServer: true,
+        ResultLoading: false,
+        NeedPopconfirm: false,
       });
     }
   }
@@ -162,6 +202,7 @@ class OutputView extends React.Component {
     // clear all intervalFunctions
     await clearInterval(this.DoneTimeInterval);
     await clearInterval(this.intervalID);
+    console.log("all intervals cleared")
     if (this.state.ResultLoading) {
       // terminate the calculation
       await this.terminateCal();
@@ -180,6 +221,11 @@ class OutputView extends React.Component {
       console.log("TerminatedSig returned is: ", TerminatedSig);
     } catch (error) {
       console.error(error);
+      await this.setState({
+        ServiceErrorServer: true,
+        ResultLoading: false,
+        NeedPopconfirm: false,
+      });
     }
   }
 
@@ -249,8 +295,10 @@ class OutputView extends React.Component {
             TimeEnd={this.state.doneTime}
             TimeElap={this.state.elapsedTime}
             FilePath={this.state.outputFileID}
+            ServerError={this.state.ServiceErrorServer}
           />
         )}
+        <br />
         <ButtonGroup>
           <Popconfirm
             title="Your calculation is still being processed. Do you want to leave this page?"

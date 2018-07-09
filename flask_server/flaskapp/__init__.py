@@ -88,8 +88,12 @@ def Poll_Calculator(tracking_ID):
     os.chdir(flask_path)
 
     print("check_computation_status()")
-    cal_finished = check_computation_status(
-                       cal_procs_dict[tracking_ID]["cal_proc"])
+    try:
+        cal_finished = check_computation_status(
+                           cal_procs_dict[tracking_ID]["cal_proc"])
+    except Exception as e:
+        print("Encountered error: " + str(e))
+        return jsonify(error = "Cpp broken down")
 
     print("calculation finished? ", cal_finished)
     if cal_finished:
@@ -106,6 +110,12 @@ def Poll_Calculator(tracking_ID):
             # reset the global variables
             cal_procs_dict.pop(tracking_ID)
             return jsonify(error = "no file or directory output.csv found")
+        except IndexError:
+            # due to output.csv being empty (when cpp does not run properly)
+            print("Encountered IndexError due to output.csv")
+            # reset the global variables
+            cal_procs_dict.pop(tracking_ID)
+            return jsonify(error = "output.csv empty due to cpp not working")
 
         finish_time = On_Finish()
 
@@ -148,7 +158,7 @@ def Kill_Calculator(tracking_ID):
         print("Encountered ProcessLookupError")
         return jsonify(error = "no such process to terminate")
     except KeyError:
-        # os.getpgid(KeyError) is due to dict.pop after FileNotFoundError above
+        # os.getpgid(KeyError) is due to dict.pop after Error in finish_transfer_matrix above
         print("Encountered KeyError")
         return jsonify(error = "KeyError with uuid")
 

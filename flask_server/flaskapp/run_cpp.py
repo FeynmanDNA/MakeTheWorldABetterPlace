@@ -88,16 +88,22 @@ def check_computation_status(cal_proc):
         # if the process does not terminate after timeout seconds, TimeoutExpired exception will be raise
         try:
             outs, errs = cal_proc.communicate(timeout=30)
-        except TimeoutExpired:
+        # TimeoutExpired is not globally defined; use subprocess.TimeoutExpired instead.
+        except (subprocess.TimeoutExpired, ValueError) as e:
+            print("the Cpp calculator might not be working...")
             cal_proc.kill()
             outs, errs = cal_proc.communicate()
         # Warning Use communicate() rather than .stdin.write, .stdout.read or .stderr.read to avoid deadlocks due to any of the other OS pipe buffers filling up and blocking the child process.
+        # if cpp terminated sigTerm, the outs will be empty, although with no Error
         print("cal_proc Popen.communicate()'s outs:\n", outs.decode('ascii'))
         return True
 
 # if cal_proc is finished, process the output.csv
 def finish_cpp():
-    # communicate will block the server until the cpp is done
+    # first check if output.csv is empty (when cpp breaks down halfway)
+    if os.stat("output.csv").st_size == 0:
+        print("output.csv is empty")
+
     print("output.csv ready")
 
     # extract the data
