@@ -39,6 +39,7 @@ The underlying DNA transfer matrix calculator is based on the series of theoreti
 # Contributors for this webapp
 - Fullstack: Yang Kaiyuan and Olafs Vandans
 - Backend: Ladislav Hovan
+- Frontpage artwork: Artem Efremov
 - C++ calculator: Artem Efremov and Ladislav Hovan
 - Theoretical and UX: Yan Jie
 - Tester and misc: Lu Chen, Tang Qingnan ...
