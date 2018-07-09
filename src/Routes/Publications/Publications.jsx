@@ -1,6 +1,11 @@
 import React from 'react';
-// get current step from global_store
+import PdfView from './PdfView';
+// antd components
+import { Layout } from 'antd';
+// for current step and menu from global_store
 import { inject, observer } from 'mobx-react';
+
+const { Content } = Layout;
 
 @inject('global_store')
 @observer
@@ -11,7 +16,18 @@ class Publications extends React.Component {
   
   render() {
     return (
-      <p>pdfs here</p>
+      <Content style={{ padding: '0 50px' }}>
+        <Layout style={{ padding: '24px 0', background: '#fff' }}>
+          <Content
+            style={{
+              padding: '0 24px',
+              minHeight: 420,
+            }}
+          >
+            <PdfView />
+          </Content>
+        </Layout>
+      </Content>
     );
   }
 }
