@@ -1,5 +1,6 @@
 > Make the world a better place.
 > -- [Silicon Valley S01E03](https://en.wikipedia.org/wiki/List_of_Silicon_Valley_episodes#Season_1_(2014))
+---
 
 [![YJG-Calculator-Webapp](/Screenshots/Screenshot_2018-07-09_14-27-48.png)](TBD)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/FeynmanDNA/MakeTheWorldABetterPlace/blob/master/LICENSE)
@@ -8,17 +9,20 @@
 This is an online calculator that calculates the DNA extension, linking number change, and structural state of DNA under given force and torque constraints, with DNA interactions with protein complexes and other DNA-inserts.
 
 ## Usage
-[![screenshot1](/Screenshots/Screenshot_2018-07-09_14-27-01.png)]
-[![screenshot2](/Screenshots/Screenshot_2018-07-09_14-44-16.png)]
-[![screenshot3](/Screenshots/Screenshot_2018-07-09_14-37-41.png)]
-[![screenshot4](/Screenshots/Screenshot_2018-07-09_14-39-05.png)]
+![screenshot1](/Screenshots/Screenshot_2018-07-09_14-27-01.png)
+
+![screenshot2](/Screenshots/Screenshot_2018-07-09_14-44-16.png)
+
+![screenshot3](/Screenshots/Screenshot_2018-07-09_14-37-41.png)
+
+![screenshot4](/Screenshots/Screenshot_2018-07-09_14-39-05.png)
 
 ## Frontend
-React/Mobx/React-router, bootstrapped with Create-react-app + react-app-rewire-less, react-app-rewired, react-app-rewire-mobx
-UI-library: Ant-design
-Data visualization: React-vis
-Pdf viewer: React-pdf
-Ajax requests: Axios
+* React/Mobx/React-router, bootstrapped with Create-react-app + react-app-rewire-less, react-app-rewired, react-app-rewire-mobx
+* UI-library: Ant-design
+* Data visualization: React-vis
+* Pdf viewer: React-pdf
+* Ajax requests: Axios
 
 ## Backend
 Flask and the [DNA transfer matrix calculator](https://bitbucket.org/FeynmanDNA/yjg-cpp-calculator/src/master/) (hosted in Bitbucket)
