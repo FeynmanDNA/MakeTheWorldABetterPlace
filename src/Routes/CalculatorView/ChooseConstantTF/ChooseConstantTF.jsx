@@ -10,11 +10,11 @@ import { Button, Icon, Col, Row } from 'antd';
 
 
 const ConstTorqueInfo =  (
-  <p>Constant torque, various force</p>
+  <p>Plot the DNA force-extension/force-superhelical-density curve at a fixed value of the torque and predict the structural state of the DNA at given force values.</p>
 );
 
 const ConstForceInfo = (
-  <p>Constant force, various torque</p>
+  <p>Plot the DNA torque-extension/torque-superhelical-density curve at a fixed value of the force and predict the structural state of DNA at given torque values.</p>
 );
 
 @inject('global_store')

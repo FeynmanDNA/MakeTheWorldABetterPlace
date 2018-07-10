@@ -11,15 +11,15 @@ import { Col, Row } from 'antd';
 
 
 const BareDNAInfo =  (
-  <p>Bare DNA version of the program calculates the conformation of bare DNA under force and torque constraints.<br /> In the calculations, DNA is allowed to transit between 4 DNA structural states: B-, L-, P- and S-DNA.</p>
+  <p>Bare DNA version of the program calculates the conformation of bare DNA under force and torque constraints.<br /><br />In the calculations, DNA is allowed to transit between 4 DNA structural states: B-, L-, P- and S-DNA.</p>
 );
 
 const WithNulInfo = (
-  <p>This version calculates the conformation of DNA in the presence of nucleosome formation by histone octamers under force and torque constraints applied to the DNA.<br /> In the calculations, DNA is allowed to transit between 3 structural states: B-, L- and P-DNA. Nucleosomes are assumed to form only on B-DNA parts of the polymer.</p>
+  <p>This version calculates the conformation of DNA in the presence of nucleosome formation by histone octamers under force and torque constraints applied to the DNA.<br /><br />In the calculations, DNA is allowed to transit between 3 structural states: B-, L- and P-DNA. Nucleosomes are assumed to form only on B-DNA parts of the polymer.</p>
 );
 
 const WithInsInfo = (
-  <p>Evaluate changes in the conformation of heterogeneous DNA, which contains an insert in the center of the molecule. This insert is characterized by its own base-paring energies of alternative DNA structures (mu_L, mu_P, mu_S) as well as relaxed linking numbers (lk_0_L, lk_0_P, lk_0_S).</p>
+  <p>This version of the program evaluates changes in the conformation of heterogeneous DNA, which contains an insert in the center of the molecule. The DNA insert is characterized by its own base-paring energies and relaxed linking numbers (i.e., helical repeats) of alternative DNA structures, such as L-, P- and S-DNA.</p>
 );
 
 @inject('global_store')

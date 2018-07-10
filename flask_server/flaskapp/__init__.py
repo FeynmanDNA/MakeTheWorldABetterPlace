@@ -4,6 +4,7 @@ from flask import Flask, jsonify, render_template, request, send_from_directory
 from pathlib import Path
 import os
 import signal
+import subprocess
 from time_stamp import On_Submit, On_Finish
 from cpp_calculator import init_transfer_matrix, finish_transfer_matrix
 from run_cpp import check_computation_status
@@ -161,6 +162,14 @@ def Kill_Calculator(tracking_ID):
         # os.getpgid(KeyError) is due to dict.pop after Error in finish_transfer_matrix above
         print("Encountered KeyError")
         return jsonify(error = "KeyError with uuid")
+
+# return uptime info for About page
+@app.route('/cpp_cal/monitor_server')
+def server_uptime():
+    call_uptime = subprocess.Popen("uptime", stdout=subprocess.PIPE, shell=True)
+    outs, errs = call_uptime.communicate()
+    server_info = outs.decode('ascii')
+    return jsonify(server_info = server_info)
 
 # temporary serving the UserRequestDB from static/
 @app.route('/<path:filename>')

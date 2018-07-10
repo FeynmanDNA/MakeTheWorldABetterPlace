@@ -19,6 +19,7 @@ class UsageCard extends React.Component {
     setTimeout(() => {
       window.dispatchEvent(new Event('resize'));
     }, 0);
+    this.setState(this.state);
   }
 
   render() {
@@ -28,8 +29,9 @@ class UsageCard extends React.Component {
         bordered={false}
         style={{
           width: 900,
-          margin: "0 auto",
+          marginLeft: 170,
         }}
+        extra={<a id="Usage">.</a>}
       >
         <p>Sample screenshots:</p>
       <Carousel
@@ -57,7 +59,7 @@ class UsageCard extends React.Component {
           </Button>
         )}
       >
-        <img alt="image2" src={Img2} />
+        <img onLoad={this._handleImageLoaded} style={{height:"100%"}} alt="image2" src={Img2} />
         <img alt="image3" src={Img3} />
         <img alt="image4" src={Img4} />
         <img alt="image5" src={Img5} />

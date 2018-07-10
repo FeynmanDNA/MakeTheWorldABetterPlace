@@ -1,16 +1,68 @@
 import React from 'react';
-import { Layout, Card, Tooltip } from 'antd';
+import { Spin, Layout, Anchor, Alert } from 'antd';
+import TitleCard from './TitleCard';
 import UsageCard from './UsageCard';
+import BrowserSupportCard from './BrowserSupportCard';
+import ChangeLogCard from './ChangeLogCard';
+import TheoryPaper from './TheoryPaper';
+import Contributing from './Contributing';
+import Contributors from './Contributors';
+
+//axios to send ajax request
+import axios from 'axios';
+import HTTPconfig from '../../HTTPconfig';
+
 // get current step from global_store
 import { inject, observer } from 'mobx-react';
 
 const { Content } = Layout;
+const { Link } = Anchor;
 
 @inject('global_store')
 @observer
 class About extends React.Component {
-  componentDidMount() {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      ResultLoading: false,
+      ServiceErrorServer: false, // if server is running
+      ServerInfo: "",
+    }
+
+    this.loadServerInfo = this.loadServerInfo.bind(this);
+  }
+
+  async componentDidMount() {
     this.props.global_store.switchMenu("3");
+    await this.loadServerInfo();
+  }
+
+  async loadServerInfo() {
+    await this.setState({
+      ResultLoading: true,
+    });
+    // send a GET request
+    try {
+      const MonitorServer = await axios({
+        method: 'get',
+        url: `${HTTPconfig.gateway}cpp_cal/monitor_server`,
+      });
+      console.log("Server Monitor Msg", MonitorServer);
+      // if calculator started properly
+      await this.setState({
+        ResultLoading: false,
+        ServerInfo: MonitorServer.data.server_info,
+      });
+    } catch (error) {
+      // if server service error
+      console.error(error);
+      // change state for UI
+      await this.setState({
+        ServiceErrorServer: true,
+        ResultLoading: false,
+      });
+    }
   }
 
   render() {
@@ -23,18 +75,50 @@ class About extends React.Component {
               minHeight: 420,
             }}
           >
-            <Card
-              title="Yan Jie Group's Calculator Web-app"
-              bordered={false}
+            <Spin spinning={this.state.ResultLoading}>
+              {this.state.ServiceErrorServer ? (
+                <Alert
+                  message="We are having some problems with the server"
+                  description="Please try again later"
+                  type="warning"
+                  banner
+                />
+              )
+              : (
+                <Alert
+                  message="Server up and running"
+                  description={this.state.ServerInfo}
+                  type="success"
+                  banner
+                />
+              )}
+            </Spin>
+            <div
               style={{
-                width: 900,
-                margin: "0 auto",
+                width: 160,
+                position: "fixed",
               }}
             >
-              <p>An online calculator that calculates the DNA extension, linking number change, and structural state of DNA under given force and torque constraints, with DNA interactions with protein complexes and other DNA-inserts.</p>
-              <p>Brought to you by <Tooltip title="YJG website"><a href="https://www.physics.nus.edu.sg/~biosmm/" target="_blank" rel="noopener noreferrer">Yan Jie's research group</a></Tooltip> @ National University of Singapore</p>
-            </Card>
+              <Anchor>
+                <Link href="#Title" title="Title" />
+                <Link href="#Usage" title="Usage" />
+                <Link href="#Browser-Support" title="Browser-Support" />
+                <Link href="#Changelog" title="Changelog" />
+                <Link href="#TheoreticalPapers" title="Theoretical papers" />
+                <Link href="#Contributing" title="Contributing">
+                  <Link href="#Contributing" title="Web application" />
+                  <Link href="#Contributing" title="Calculator" />
+                </Link>
+                <Link href="#Contributors" title="Contributors" />
+              </Anchor>
+            </div>
+            <TitleCard />
             <UsageCard />
+            <BrowserSupportCard />
+            <ChangeLogCard />
+            <TheoryPaper />
+            <Contributing />
+            <Contributors />
           </Content>
         </Layout>
       </Content>
