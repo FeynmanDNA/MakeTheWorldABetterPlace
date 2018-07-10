@@ -22,10 +22,11 @@ This is an online calculator that calculates the DNA extension, linking number c
 * UI-library: Ant-design
 * Data visualization: React-vis
 * Pdf viewer: React-pdf
+* Carousel: Nuka-Carousel
 * Ajax requests: Axios
 
 ## Backend
-Flask and the [DNA transfer matrix calculator](https://bitbucket.org/FeynmanDNA/yjg-cpp-calculator/src/master/) (hosted in Bitbucket)
+Flask and the [DNA transfer matrix calculator](https://bitbucket.org/FeynmanDNA/yjg-cpp-calculator/src/master/) (hosted on Bitbucket)
 
 ## Deployment
 Nginx with Gunicorn+ufw+supervisor
