@@ -112,7 +112,10 @@ class PdfView extends React.Component {
 
         <Card
           title={this.state.Cardtitle}
-          style={{width:1000}}
+          style={{
+            width:1000,
+            margin: '0 auto',
+          }}
           extra={
             <a
               href={FileLink}
