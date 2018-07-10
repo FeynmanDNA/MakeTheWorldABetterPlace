@@ -1,0 +1,9 @@
+# YJG-Calculator-Webapp python dependencies
+# Pass this to pip3 to install required python packages
+# $ python3 --version: 3.5
+
+
+Flask==1.0.2
+# Flask-Cors==3.0.6 # only for local development with react-webpack
+gunicorn==19.9.0
+numpy==1.13.1

@@ -12,6 +12,7 @@ class SliderInput extends React.Component {
     toFixedNum: PropTypes.number.isRequired,
     SliderStep: PropTypes.number.isRequired,
     validateRange: PropTypes.func.isRequired,
+    AutoAdjustStep: PropTypes.number,
   };
 
   state = {
@@ -22,6 +23,7 @@ class SliderInput extends React.Component {
   onChangeSliderValue = async (value) => {
     await this.setState({
       sliderValue: value,
+      StepSize: this.props.AutoAdjustStep,
     });
     this.props.validateRange({...this.state});
   }
@@ -42,6 +44,7 @@ class SliderInput extends React.Component {
       value = +(value).toFixed(this.props.toFixedNum);
       await this.setState((prevState) => ({
         sliderValue: [value, prevState.sliderValue[1]], 
+        StepSize: this.props.AutoAdjustStep,
       }));
       this.props.validateRange({...this.state});
     }
@@ -62,6 +65,7 @@ class SliderInput extends React.Component {
       value = +(value).toFixed(this.props.toFixedNum);
       await this.setState((prevState) => ({
         sliderValue: [prevState.sliderValue[0], value],
+        StepSize: this.props.AutoAdjustStep,
       }));
       this.props.validateRange({...this.state});
     }

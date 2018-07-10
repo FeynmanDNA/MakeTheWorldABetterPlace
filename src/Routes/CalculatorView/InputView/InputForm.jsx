@@ -28,9 +28,12 @@ class InputForm extends React.Component {
     ArrayDisplay: [],
     validateStep: 'success',
     errorStep: '',
+    AutoStepSize: 1,
   };
 
-  componentDidMount() {
+  async componentDidMount() {
+    // clear the global_store's FormInputs so the browser has no confusion
+    await this.props.global_store.clearForm();
     let ArrayRange = [];
     const step = parseFloat(document.getElementById("StepSize").value);
     let start = parseFloat(document.getElementById("RangeStart").value);
@@ -39,7 +42,7 @@ class InputForm extends React.Component {
       ArrayRange.push(start);
       start = +(start+step).toFixed(2);
     }
-    this.setState({
+    await this.setState({
       ArrayDisplay: ArrayRange,
     });
   }
@@ -147,6 +150,7 @@ class InputForm extends React.Component {
                 stepValue={0.01}
                 toFixedNum={2}
                 validateRange={(value) => this.validateArrayLength(value)}
+                AutoAdjustStep={this.state.AutoStepSize}
                 SliderStep={0.01}
               />
             </FormItem>
@@ -202,6 +206,7 @@ class InputForm extends React.Component {
                 stepValue={0.1}
                 toFixedNum={1}
                 validateRange={(value) => this.validateArrayLength(value)}
+                AutoAdjustStep={this.state.AutoStepSize}
                 SliderStep={0.1}
               />
             </FormItem>

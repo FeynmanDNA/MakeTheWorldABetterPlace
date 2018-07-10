@@ -10,6 +10,7 @@
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-pdf": "^3.0.5",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.4",
     "react-vis": "^1.9.4"

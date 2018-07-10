@@ -8,7 +8,6 @@ import ConstForce from '../../../Assets/ConstForce.png';
 import { inject, observer } from 'mobx-react';
 import { Button, Icon, Col, Row } from 'antd';
 
-const ButtonGroup = Button.Group;
 
 const ConstTorqueInfo =  (
   <p>Constant torque, various force</p>
@@ -34,63 +33,47 @@ class ChooseConstantTF extends React.Component {
 
   clickTorque = () => {
     this.props.global_store.chooseMode("Constant Torque");
+    switch (this.props.global_store.calculator) {
+      case "Bare DNA":
+        this.props.history.push(
+          '/calculator/1/1/inputview'
+        );
+        break;
+      case "With Nucleosome":
+        this.props.history.push(
+          '/calculator/2/1/inputview'
+        );
+        break;
+      case "With DNA-insert":
+        this.props.history.push(
+          '/calculator/3/1/inputview'
+        );
+        break;
+      default:
+        break;
+    }
   }
 
   clickForce = () => {
     this.props.global_store.chooseMode("Constant Force");
-  }
-
-  ProceedtoInput = () => {
-    if (
-      this.props.global_store.calculator === "Bare DNA"
-      &&
-      this.props.global_store.mode === "Constant Torque"
-    ) {
-      return this.props.history.push(
-        '/calculator/1/1/inputview'
-      );
-    } else if (
-      this.props.global_store.calculator === "Bare DNA"
-      &&
-      this.props.global_store.mode === "Constant Force"
-    ) {
-      return this.props.history.push(
-        '/calculator/1/2/inputview'
-      );
-    }
-    if (
-      this.props.global_store.calculator === "With Nucleosome"
-      &&
-      this.props.global_store.mode === "Constant Torque"
-    ) {
-      return this.props.history.push(
-        '/calculator/2/1/inputview'
-      );
-    } else if (
-      this.props.global_store.calculator === "With Nucleosome"
-      &&
-      this.props.global_store.mode === "Constant Force"
-    ) {
-      return this.props.history.push(
-        '/calculator/2/2/inputview'
-      );
-    }
-    if (
-      this.props.global_store.calculator === "With DNA-insert"
-      &&
-      this.props.global_store.mode === "Constant Torque"
-    ) {
-      return this.props.history.push(
-        '/calculator/3/1/inputview'
-      );
-    } else if (
-      this.props.global_store.calculator === "With DNA-insert"
-      &&
-      this.props.global_store.mode === "Constant Force"
-    ) {
-      return this.props.history.push(
-        '/calculator/3/2/inputview'
-      );
+    switch (this.props.global_store.calculator) {
+      case "Bare DNA":
+        this.props.history.push(
+          '/calculator/1/2/inputview'
+        );
+        break;
+      case "With Nucleosome":
+        this.props.history.push(
+          '/calculator/2/2/inputview'
+        );
+        break;
+      case "With DNA-insert":
+        this.props.history.push(
+          '/calculator/3/2/inputview'
+        );
+        break;
+      default:
+        break;
     }
   }
 
@@ -121,26 +104,14 @@ class ChooseConstantTF extends React.Component {
             />
           </Col>
         </Row>
-      <br />
-        <ButtonGroup>
-          <Button
-            onClick={this.ProceedBack}
-            type="primary"
-          >
-            <Icon type="left" />
-            Go back
-          </Button>
-          <Button
-            onClick={this.ProceedtoInput}
-            type="primary"
-            disabled={this.props.global_store.mode
-              ? false
-              : true}
-          >
-            Go forward
-            <Icon type="right" />
-          </Button>
-        </ButtonGroup>
+        <br />
+        <Button
+          onClick={this.ProceedBack}
+          type="primary"
+        >
+          <Icon type="left" />
+          Go back
+        </Button>
       </React.Fragment>
     );
   }
