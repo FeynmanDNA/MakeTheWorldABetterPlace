@@ -13,15 +13,6 @@ import Carousel from 'nuka-carousel';
 
 
 class UsageCard extends React.Component {
-  // from https://github.com/FormidableLabs/nuka-carousel/issues/103
-  // to hold Carousel image height
-  componentDidMount() {
-    setTimeout(() => {
-      window.dispatchEvent(new Event('resize'));
-    }, 0);
-    this.setState(this.state);
-  }
-
   render() {
     return (
       <Card
@@ -36,6 +27,7 @@ class UsageCard extends React.Component {
         <p>Sample screenshots:</p>
       <Carousel
         slidesToShow={1}
+        initialSlideHeight={675}
         renderCenterLeftControls={({ previousSlide, currentSlide }) => (
           <Button
             style={(currentSlide !== 0)
@@ -59,7 +51,7 @@ class UsageCard extends React.Component {
           </Button>
         )}
       >
-        <img onLoad={this._handleImageLoaded} style={{height:"100%"}} alt="image2" src={Img2} />
+        <img alt="image2" src={Img2} />
         <img alt="image3" src={Img3} />
         <img alt="image4" src={Img4} />
         <img alt="image5" src={Img5} />
