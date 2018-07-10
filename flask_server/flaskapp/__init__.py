@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, request, send_from_directory
+from flask import Flask, jsonify, request
 
 # serving the route functions
 from pathlib import Path
@@ -13,7 +13,7 @@ from flush_flask_print import Unbuffered
 import sys
 
 # enable CORS for development
-from flask_cors import CORS
+# from flask_cors import CORS
 
 # create instance of Unbuffered
 sys.stdout = Unbuffered(sys.stdout)
@@ -22,7 +22,7 @@ sys.stdout = Unbuffered(sys.stdout)
 app = Flask(__name__)
 
 # enable CORS for development
-CORS(app)
+# CORS(app)
 
 ########################## Main Functions ############################
 
@@ -163,9 +163,9 @@ def Kill_Calculator(tracking_ID):
         return jsonify(error = "KeyError with uuid")
 
 # temporary serving the UserRequestDB from static/
-@app.route('/<path:filename>')
-def download_output(filename):
-    return send_from_directory(directory=filename, filename=filename)
+# @app.route('/<path:filename>')
+# def download_output(filename):
+#     return send_from_directory(directory=filename, filename=filename)
 
 if __name__ == "__main__":
-    app.run(debug=True, port=7717)
+    app.run()
