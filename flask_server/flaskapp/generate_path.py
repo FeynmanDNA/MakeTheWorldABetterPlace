@@ -19,6 +19,6 @@ def generate_path(cal_Type="", timestamp=""):
     new_cal_path = str(new_cal_path)
 
     # generate a session ID for global variable in __init__ to be tracked
-    queue_ID = new_cal_path.replace("static/UserRequestDB/", "")
+    queue_ID = new_cal_path.replace("../static/UserRequestDB/", "")
 
     return (new_cal_path, queue_ID)
