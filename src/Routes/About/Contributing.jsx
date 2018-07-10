@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Tooltip } from 'antd';
+import { Card } from 'antd';
 
 class Contributing extends React.Component {
   render() {
