@@ -168,7 +168,7 @@ def Kill_Calculator(tracking_ID):
 def server_uptime():
     call_uptime = subprocess.Popen("uptime", stdout=subprocess.PIPE, shell=True)
     outs, errs = call_uptime.communicate()
-    server_info = outs.decode('ascii')
+    server_info = outs.decode('ascii').replace(" user", "")
     return jsonify(server_info = server_info)
 
 # temporary serving the UserRequestDB from static/
