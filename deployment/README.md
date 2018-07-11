@@ -1,5 +1,11 @@
 # FeynmanDNA Linode VPS for Nginx/ufw/Gunicorn/Flask Guide
 
+## 0. Deployment Note
+
+Workflow: make the change in master branch, then switch to deployment branch and do the merge. **UPLOAD THE DEPLOYMENT BRANCH!** since deployment branch has the configs set up in `__init__`, `run_cpp`, and `generate_path`. 
+
+Also remember to copy the PublicationPdfs folder to the build/static/ after `npm run build`
+
 ## 1. Useful commands
 
 `hostnamectl`
@@ -252,9 +258,12 @@ After flask/gunicorn is changed, do:
 to see the changes implemented
 OR for the gunicorn/flask app specifically:
 ```
-sudo supervisorctl stop yjg_calculator_app     # stop the current server
-sudo supervisorctl start yjg_calculator_webapp    # start a new server
+sudo supervisorctl stop yjg_calculator_webapp_React     # stop the current server
+sudo supervisorctl start yjg_calculator_webapp_React    # start a new server
 ```
+
+OR! just do this:
+`sudo supervisorctl reload` :D
 
 ## 5. Supervisor
 
