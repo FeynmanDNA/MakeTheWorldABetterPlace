@@ -10,8 +10,9 @@ const HTTPconfig = {
   gateway: "http://localhost:7717/",
 }
 
+// for deployment to AFS-box in S16
 if (process.env.NODE_ENV === "production") {
-  HTTPconfig.gateway = "http://feynmanDNA.com:7717/";
+  HTTPconfig.gateway = "http://137.132.69.48:7717/";
 }
 
 export default HTTPconfig;
