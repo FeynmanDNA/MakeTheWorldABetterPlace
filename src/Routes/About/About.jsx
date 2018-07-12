@@ -99,7 +99,9 @@ class About extends React.Component {
                 position: "fixed",
               }}
             >
-              <Anchor>
+              <Anchor
+                offsetTop={230}
+              >
                 <Link href="#Title" title="Title" />
                 <Link href="#Usage" title="Usage" />
                 <Link href="#Browser-Support" title="Browser-Support" />
