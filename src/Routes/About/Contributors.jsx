@@ -4,12 +4,12 @@ import { Card, List, Avatar } from 'antd';
 
 const data = [
   {
-    title: 'Full Stack',
+    title: 'Front-end',
     names: 'Yang Kaiyuan, Olafs Vandans',
   },
   {
-    title: 'Backend',
-    names: "Ladislav Hovan",
+    title: 'Back-end',
+    names: "Yang Kaiyuan, Olafs Vandans, Ladislav Hovan",
   },
   {
     title: "C++ calculator",
@@ -21,7 +21,7 @@ const data = [
   },
   {
     title: 'Theory',
-    names: "Yan Jie",
+    names: "Yan Jie, Artem Efremov",
   },
 ];
 

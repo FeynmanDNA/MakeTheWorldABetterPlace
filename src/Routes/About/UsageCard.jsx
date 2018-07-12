@@ -28,12 +28,15 @@ class UsageCard extends React.Component {
       <Carousel
         slidesToShow={1}
         initialSlideHeight={675}
+        swiping={false}
+        dragging={false}
+        wrapAround={true}
         renderCenterLeftControls={({ previousSlide, currentSlide }) => (
           <Button
-            style={(currentSlide !== 0)
-              ? {visibility: "visible", left: "-30px"}
-              : {visibility: "hidden"}
-            }
+            size="large"
+            shape="circle"
+            type="primary"
+            style={{left: "-60px"}}
             onClick={previousSlide}
           >
             <Icon type="left" />
@@ -41,10 +44,10 @@ class UsageCard extends React.Component {
         )}
         renderCenterRightControls={({ nextSlide, currentSlide }) => (
           <Button
-            style={(currentSlide === 3)
-              ? {visibility: "hidden"}
-              : {visibility: "visible", right: "-30px"}
-            }
+            size="large"
+            shape="circle"
+            type="primary"
+            style={{right: "-60px"}}
             onClick={nextSlide}
           >
             <Icon type="right" />
