@@ -22,7 +22,7 @@ class CardView extends React.Component {
   render() {
     const tabList = [{
       key: 'pin',
-      tab: <Icon type="pushpin-o" />,
+      tab: <Icon type="picture" />,
     }, {
       key: 'info',
       tab: <Icon type="question-circle-o" />,
