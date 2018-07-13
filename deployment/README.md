@@ -135,6 +135,20 @@ Multiple site configuration files should be stored in `/etc/nginx/conf.d/` as `e
 
 NGINX **site-specific** configuration files are kept in `/etc/nginx/conf.d/`. Generally you will want a separate file in this directory for each domain or subdomain you will be hosting.
 
+**Note on conf.d vs sites-available**: ubuntu/debian tend to have `/etc/nginx/sites-available/` and `../sites-enabled/`. The default nginx package for debian 9 is 1.10, which has those configurations. But we want to use Nginx configurations not Apache configurations. So try to get Nginx 1.15 to see `/nginx/conf.d/.
+
+Open `/etc/apt/sources.list` in a text editor and add the following line to the bottom:
+
+`deb http://nginx.org/packages/mainline/debian/ stretch nginx`
+
+Import the repository’s package signing key and add it to apt:
+
+```
+sudo wget http://nginx.org/keys/nginx_signing.key
+sudo apt-key add nginx_signing.key
+```
+Then install Nginx with apt update and apt install nginx. This will make the debian get at least 1.15 (mainline) nginx.
+
 **Gunicorn+Flask**
 
 Nginx pass web requests to Gunicorn.

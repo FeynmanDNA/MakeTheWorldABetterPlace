@@ -31,7 +31,7 @@ class BrowserSupportCard extends React.Component {
             <TreeNode selectable={false} icon={<Icon type='check' />} title="Edge (14 and above)" key="0-0-6" />
           </TreeNode>
           <TreeNode selectable={false} icon={<Icon type="warning" />} title="Not supported browsers" key="0-1">
-            <TreeNode selectable={false} icon={<Icon type='exclamation-circle-o' />} title="IE (11 and below)" key="0-1-0" />
+            <TreeNode selectable={false} icon={<Icon type='exclamation-circle-o' />} title="Internet Explorer" key="0-1-0" />
             <TreeNode selectable={false} icon={<Icon type='exclamation-circle-o' />} title="Midori" key="0-1-1" />
           </TreeNode>
         </Tree>
