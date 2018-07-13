@@ -14,14 +14,14 @@ def init_cpp(input_JSON={}, cal_Type="", n_cpu=""):
         file_adv.write('lambda_B = %s\n' % input_JSON['lambda_B'])
         file_adv.close()
 
-        cpp_proc = "../../../../CppCalculator-BareDNA/BareDNA_2018Jun30.out %s %s %s %s" % (
+        cpp_proc = "../../../CppCalculator-BareDNA/BareDNA_2018Jun30.out %s %s %s %s" % (
             input_JSON['DNALength'],
             'input_ft.dat',
             input_JSON['maxmode'],
             n_cpu)
 
     elif cal_Type == "WithNul":
-        cpp_proc = "../../../../CppCalculator-WithNul/WithNul_2018Jul02.out %s %s %s %s %s" % (
+        cpp_proc = "../../../CppCalculator-WithNul/WithNul_2018Jul02.out %s %s %s %s %s" % (
             input_JSON['DNALength'],
             'input_ft.dat',
             input_JSON['mu_protein'],
@@ -48,7 +48,7 @@ def init_cpp(input_JSON={}, cal_Type="", n_cpu=""):
         input_DNAL = float(input_JSON['DNALength'])
         input_insertPer = float(input_JSON['insert_length'])
         input_insert_length_nm =  str(input_DNAL*input_insertPer/100.0)
-        cpp_proc = "../../../../CppCalculator-WithIns/WithIns_2018Jun30.out %s %s %s %s %s" % (
+        cpp_proc = "../../../CppCalculator-WithIns/WithIns_2018Jun30.out %s %s %s %s %s" % (
             input_JSON['DNALength'],
             input_insert_length_nm,
             'input_ft.dat',
