@@ -5,7 +5,7 @@ class TitleCard extends React.Component {
   render() {
     return (
       <Card
-        title="Yan Jie Group's Calculator Web-app"
+        title={<h2>Yan Jie Group's Calculator Web-app</h2>}
         bordered={false}
         style={{
           width: 900,

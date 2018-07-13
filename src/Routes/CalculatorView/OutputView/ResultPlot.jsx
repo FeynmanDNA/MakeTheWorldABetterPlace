@@ -67,18 +67,6 @@ class ResultPlot extends React.Component {
 
           <br />
 
-          <InputSummary />
-
-          <Divider />
-
-          <VisGraph
-            dataLoading={this.props.Loading}
-            dataExtArray={this.props.RelExtArray}
-            dataHelArray={this.props.HelixArray}
-          />
-
-          <Divider />
-
           <Card
             title={this.props.Loading
               ? (
@@ -106,7 +94,21 @@ class ResultPlot extends React.Component {
               </a>
             </Spin>
           </Card>
+
           <br />
+
+          <InputSummary />
+
+          <Divider />
+
+          <VisGraph
+            dataLoading={this.props.Loading}
+            dataExtArray={this.props.RelExtArray}
+            dataHelArray={this.props.HelixArray}
+          />
+
+          <Divider />
+
         </React.Fragment>
       )}
       </React.Fragment>

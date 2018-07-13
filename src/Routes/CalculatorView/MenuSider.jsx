@@ -50,7 +50,7 @@ class MenuSider extends React.Component {
       : (
         <span>
           <Badge status="success" />
-          <span><Icon type="lock" />Received</span>
+          <span><Icon type="coffee" /><b>Received</b></span>
         </span>
       );
 

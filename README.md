@@ -43,7 +43,7 @@ The underlying DNA transfer matrix calculator is based on the series of theoreti
 - Frontpage artwork: Artem Efremov
 - C++ calculator: Artem Efremov and Ladislav Hovan
 - Theoretical and UX: Yan Jie
-- Tester and misc: Lu Chen, Tang Qingnan ...
+- Tester and misc: Lu Chen, Zhao Xiaodan, Tang Qingnan ...
 
 and countless Stackoverflow and tech forums (credits are given in the code),
 
