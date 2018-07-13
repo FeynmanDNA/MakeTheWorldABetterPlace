@@ -256,15 +256,19 @@ See Server Logs
 Gunicorn is a pure python production-level server. Flask is for fast development.
 
 To start the flask under Gunicorn:
-`gunicorn -b localhost:7717 -w 4 <module that contains the application>:<name of this gunicorn app>`
-`-b` option gunicorn listen for requests at port N
+`gunicorn -b localhost:7717 -w 1 <module that contains the application>:<name of this gunicorn app>`
+`-b` option gunicorn listen for requests at port N, By default Gunicorn runs on port 8000. We can change the port by adding the `-b` bind option.
 `-w` option configures how many workers gunicorn will run. Having four workers allows the application to handle up to four clients concurrently.
 
-Number of workers in Gunicorn, usually 4 is enough.
+**NOTE on -w in this app**: the global cal_procs_dict in the flask app cannot be processed correctly when the worker is more than 1. So we just have to use 1 worker in gunicorn.
+
+Number of workers in Gunicorn, usually 4 is enough. Gunicorn should only need 4-12 worker processes to handle hundreds or thousands of requests per second.
 ```
 def number_of_workers():
     return (multiprocessing.cpu_count() * 2) + 1
 ```
+The above formula is based on the assumption that for a given core, one worker will be reading or writing from the socket while the other worker is processing a request.
+
 We will not run Gunicorn/Flask from the command-line. We will have it under constant monitoring, and launch with `Supervisor`.
 
 After flask/gunicorn is changed, do:
