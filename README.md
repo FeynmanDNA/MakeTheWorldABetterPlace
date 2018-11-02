@@ -8,6 +8,12 @@
 # YJG-Calculator-Webapp
 This is an online calculator that calculates the DNA extension, linking number change, and structural state of DNA under given force and torque constraints, with DNA interactions with protein complexes and other DNA-inserts.
 
+## Deployment Note
+
+Workflow: make the change in master branch, then switch to deployment branch and do the merge. **UPLOAD THE DEPLOYMENT-AFSBOX BRANCH!** since deployment branch has the configs set up in `__init__`, `cpp_calculator.py`, `run_cpp`, `generate_path` and `src/HTTPconfig.js`.
+
+Also remember to copy the PublicationPdfs folder to the build/static/ after `npm run build`
+
 ## Usage
 ![screenshot1](/Screenshots/Screenshot_2018-07-09_14-27-01.png)
 
