@@ -10,9 +10,9 @@ This is an online calculator that calculates the DNA extension, linking number c
 
 ## Deployment Note
 
-Workflow: make the change in master branch, then switch to deployment branch and do the merge. **UPLOAD THE DEPLOYMENT-AFSBOX BRANCH!** since deployment branch has the configs set up in `__init__`, `cpp_calculator.py`, `run_cpp`, `generate_path` and `src/HTTPconfig.js`.
+Workflow: make the change in master branch, then switch to deployment branch and do the merge. **Use the Deployment-AFSBOX branch,** since deployment branch has the configs set up in `__init__`, `cpp_calculator`, `run_cpp`, `generate_path` and `src/HTTPconfig.js`.
 
-Also remember to copy the PublicationPdfs folder to the build/static/ after `npm run build`
+After `npm run build`, `python3 after_deploy.py` to prep for deployment.
 
 ## Usage
 ![screenshot1](/Screenshots/Screenshot_2018-07-09_14-27-01.png)
