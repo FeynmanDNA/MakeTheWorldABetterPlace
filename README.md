@@ -12,7 +12,7 @@ This is an online calculator that calculates the DNA extension, linking number c
 
 Workflow: make the change in master branch, then switch to deployment branch and do the merge. **Use the Deployment-AFSBOX branch,** since deployment branch has the configs set up in `__init__`, `cpp_calculator`, `run_cpp`, `generate_path` and `src/HTTPconfig.js`.
 
-After `npm run build`, `python3 after_deploy.py` to prep for deployment.
+After `npm run build`, `python3 after_build.py` to prep for deployment.
 
 ## Usage
 ![screenshot1](/Screenshots/Screenshot_2018-07-09_14-27-01.png)
