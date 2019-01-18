@@ -30,7 +30,7 @@ class CalculatorView extends React.Component {
           <Content
             style={{
               padding: '0 24px',
-              minHeight: 420,
+              minHeight: 500
             }}>
             <Switch>
               {this.props.routes.map((route, i) => (
