@@ -21,6 +21,12 @@ class GlobalStore {
     this.step = step;
   }
 
+  @action.bound clearSideBar()
+  {
+    this.calculator = ""
+    this.mode = ""
+  }
+
   @action.bound chooseCalculator(calculator)
   {
     this.calculator = calculator;
