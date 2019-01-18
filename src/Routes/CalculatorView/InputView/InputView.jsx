@@ -2,7 +2,7 @@ import React from 'react';
 import InputForm from './InputForm';
 // get current states from global_store
 import { inject, observer } from 'mobx-react';
-import { Button, Icon } from 'antd';
+import { Button, Icon, Divider } from 'antd';
 
 const ButtonGroup = Button.Group;
 
@@ -55,14 +55,6 @@ class InputView extends React.Component {
 
     return (
       <React.Fragment>
-        <h3>
-          Inputs for {calculator}
-          &nbsp;with {mode}
-        </h3>
-        <InputForm
-          calType={calculator}
-          calMode={mode}
-        />
         <ButtonGroup>
           <Button
             onClick={this.ProceedBack}
@@ -82,6 +74,15 @@ class InputView extends React.Component {
             <Icon type="upload" />
           </Button>
         </ButtonGroup>
+        <Divider />
+        <h3>
+          Inputs for {calculator}
+          &nbsp;with {mode}
+        </h3>
+        <InputForm
+          calType={calculator}
+          calMode={mode}
+        />
       </React.Fragment>
     );
   }

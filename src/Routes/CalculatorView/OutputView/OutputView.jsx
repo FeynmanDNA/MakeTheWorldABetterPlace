@@ -7,7 +7,7 @@ import ResultPlot from './ResultPlot';
 
 // get current states from global_store
 import { inject, observer } from 'mobx-react';
-import { Button, Icon, Alert, Popconfirm, message } from 'antd';
+import { Button, Icon, Alert, Popconfirm, message, Divider } from 'antd';
 
 const ButtonGroup = Button.Group;
 
@@ -276,29 +276,6 @@ class OutputView extends React.Component {
   render() {
     return (
       <React.Fragment>
-        {this.state.NoJSONError ? (
-          <Alert
-            message="No Input Values"
-            description="Please submit the calculation parameters from Step 3"
-            type="error"
-            banner
-          />
-        ) : (
-          <ResultPlot
-            Loading={this.state.ResultLoading}
-            EstTime={this.props.global_store.calType === "2"
-              ? "5 minutes"
-              : "20-30 seconds"}
-            RelExtArray={this.state.extArray}
-            HelixArray={this.state.superHelixArray}
-            TimeStart={this.state.startTime}
-            TimeEnd={this.state.doneTime}
-            TimeElap={this.state.elapsedTime}
-            FilePath={this.state.outputFileID}
-            ServerError={this.state.ServiceErrorServer}
-          />
-        )}
-        <br />
         <ButtonGroup>
           <Popconfirm
             title="Your calculation is still being processed. Do you want to leave this page?"
@@ -333,6 +310,29 @@ class OutputView extends React.Component {
             </Button>
           </Popconfirm>
         </ButtonGroup>
+        <Divider />
+        {this.state.NoJSONError ? (
+          <Alert
+            message="No Input Values"
+            description="Please submit the calculation parameters from Step 3"
+            type="error"
+            banner
+          />
+        ) : (
+          <ResultPlot
+            Loading={this.state.ResultLoading}
+            EstTime={this.props.global_store.calType === "2"
+              ? "5 minutes"
+              : "20-30 seconds"}
+            RelExtArray={this.state.extArray}
+            HelixArray={this.state.superHelixArray}
+            TimeStart={this.state.startTime}
+            TimeEnd={this.state.doneTime}
+            TimeElap={this.state.elapsedTime}
+            FilePath={this.state.outputFileID}
+            ServerError={this.state.ServiceErrorServer}
+          />
+        )}
       </React.Fragment>
     );
   }

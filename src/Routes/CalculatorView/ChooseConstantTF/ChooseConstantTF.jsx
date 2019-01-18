@@ -6,7 +6,7 @@ import ConstForce from '../../../Assets/ConstForce.png';
 // get current step from global_store
 // and to manage global states
 import { inject, observer } from 'mobx-react';
-import { Button, Icon, Col, Row } from 'antd';
+import { Button, Icon, Col, Row, Divider } from 'antd';
 
 
 const ConstTorqueInfo =  (
@@ -86,6 +86,14 @@ class ChooseConstantTF extends React.Component {
   render() {
     return (
       <React.Fragment>
+        <Button
+          onClick={this.ProceedBack}
+          type="primary"
+        >
+          <Icon type="left" />
+          Go back
+        </Button>
+        <Divider />
         <Row type="flex" justify="space-around">
           <Col span={8}>
             <CardView
@@ -104,14 +112,6 @@ class ChooseConstantTF extends React.Component {
             />
           </Col>
         </Row>
-        <br />
-        <Button
-          onClick={this.ProceedBack}
-          type="primary"
-        >
-          <Icon type="left" />
-          Go back
-        </Button>
       </React.Fragment>
     );
   }
