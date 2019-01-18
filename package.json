@@ -3,18 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "antd": "^3.6.4",
+    "antd": "^3.12.3",
     "axios": "^0.18.0",
-    "mobx": "^4.3.1",
-    "mobx-react": "^5.2.3",
-    "nuka-carousel": "^4.2.5",
+    "mobx": "^4.8.0",
+    "mobx-react": "^5.4.3",
+    "nuka-carousel": "^4.4.6",
     "prop-types": "^15.6.2",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
-    "react-pdf": "^3.0.5",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "react-pdf": "^3.0.6",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.4",
-    "react-vis": "^1.9.4"
+    "react-vis": "^1.11.6"
   },
   "scripts": {
     "start": "react-app-rewired start",
@@ -26,6 +26,6 @@
     "babel-plugin-import": "^1.8.0",
     "react-app-rewire-less": "^2.1.2",
     "react-app-rewire-mobx": "^1.0.8",
-    "react-app-rewired": "^1.5.2"
+    "react-app-rewired": "^1.6.2"
   }
 }
