@@ -17,7 +17,11 @@ class HeaderView extends React.Component {
             justifyContent: "space-between",
           }}>
           <div className="header_content">
-            Calculator@YJG
+            <Link
+              to="/calculator/choosecalculator"
+            >
+              <b>Calculator@YJG</b>
+            </Link>
           </div>
           <Menu
             theme="light"
