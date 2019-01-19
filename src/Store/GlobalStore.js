@@ -165,7 +165,16 @@ class GlobalStore {
   {
     // BareDNA's AdvBDNAParam
     // Polymer's AdvPolymerParam, same to AdvBDNAParam
-    if (AdvParamType === ("forBDNA" || "forPolymer")) {
+    if (AdvParamType === "forBDNA") {
+      const { b_BValue, A_BValue, C_BValue, lambda_B } = newState;
+      // extendObservable can be used to add new observable properties to an object
+      extendObservable(this.FormInputs, {
+        "b_B": b_BValue,
+        "A_B": A_BValue,
+        "C_B": C_BValue,
+        "lambda_B": lambda_B,
+      });
+    } else if (AdvParamType === "forPolymer") {
       const { b_BValue, A_BValue, C_BValue, lambda_B } = newState;
       // extendObservable can be used to add new observable properties to an object
       extendObservable(this.FormInputs, {
