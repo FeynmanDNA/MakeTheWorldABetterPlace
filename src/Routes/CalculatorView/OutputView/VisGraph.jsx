@@ -269,7 +269,10 @@ class VisGraph extends React.Component {
               <RadioButton value="Relative DNA Ext">
                 Relative DNA extension
               </RadioButton>
-              <RadioButton value="Superhelical density">
+              <RadioButton
+                value="Superhelical density"
+                disabled={this.props.global_store.calType === "4"}
+              >
                 Superhelical density
               </RadioButton>
             </RadioGroup>

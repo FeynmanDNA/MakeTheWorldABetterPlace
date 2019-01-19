@@ -327,8 +327,8 @@ class OutputView extends React.Component {
             EstTime={this.props.global_store.calType === "2"
               ? "5 minutes"
               : "20-30 seconds"}
-            RelExtArray={this.state.extArray}
-            HelixArray={this.state.superHelixArray}
+            RelExtArray={this.state.extArray || ["NaN detected"]}
+            HelixArray={this.state.superHelixArray || ["NaN detected"]}
             TimeStart={this.state.startTime}
             TimeEnd={this.state.doneTime}
             TimeElap={this.state.elapsedTime}

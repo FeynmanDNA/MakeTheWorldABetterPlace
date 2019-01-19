@@ -43,6 +43,20 @@ class ResultPlot extends React.Component {
 
     const FileLink = `${HTTPconfig.gateway}${this.props.FilePath}`;
 
+    if (
+      this.props.RelExtArray[0] === "NaN detected" ||
+      this.props.HelixArray[0] === "NaN detected"
+    ) {
+      return (
+        <Alert
+          message="Error with computed extension"
+          description="Please make sure your polymer segment length and persistence length are set to meaningful values"
+          type="error"
+          banner
+        />
+      )
+    }
+
     return (
       <React.Fragment>
       {this.props.ServerError ? (
