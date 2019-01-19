@@ -13,6 +13,7 @@ class SliderInput extends React.Component {
     marksValue: PropTypes.object,
     toFixedNum: PropTypes.number,
     SliderStep: PropTypes.number,
+    isPolymer: PropTypes.bool
   };
 
   state = {
@@ -64,6 +65,7 @@ class SliderInput extends React.Component {
             onChange={this.onChangeSliderValue}
             value={this.state.sliderLength}
             step={this.props.SliderStep}
+            disabled={this.props.isPolymer}
           />
         </Col>
         <Col span={4}>
@@ -75,6 +77,7 @@ class SliderInput extends React.Component {
             style={{ marginLeft: 16 }}
             onChange={this.onChangeInputValue}
             value={this.state.sliderLength}
+            disabled={this.props.isPolymer}
           />
         </Col>
       </Row>

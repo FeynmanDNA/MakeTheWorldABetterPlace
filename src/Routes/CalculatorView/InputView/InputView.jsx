@@ -77,7 +77,9 @@ class InputView extends React.Component {
         <Divider />
         <h3>
           Inputs for {calculator}
-          &nbsp;with {mode}
+          &nbsp;with {calculator==="Polymer"
+            ? "ZERO Torque"
+            : mode}
         </h3>
         <InputForm
           calType={calculator}
