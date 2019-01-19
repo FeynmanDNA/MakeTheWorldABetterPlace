@@ -1,67 +1,38 @@
 import React from 'react';
-import { Button, Icon, Card } from 'antd';
+import { Card } from 'antd';
 
 class CardView extends React.Component {
-  state = {
-    key: 'pin',
-  }
-
-  componentDidMount() {
-    this.setState({
-      key: 'pin',
-    });
-  }
-
-  onTabChange = (key, type) => {
-    this.setState({
-      [type]: key,
-    });
-  }
-
   render() {
-    const tabList = [{
-      key: 'pin',
-      tab: <Icon type="picture" />,
-    }, {
-      key: 'info',
-      tab: <Icon type="question-circle-o" />,
-    }];
-    const contentList = {
-      pin:
-        <img
-          alt="whatever"
-          src={this.props.imgsrc}
-          style={{
-            width: 240,
-            height:200,
-          }}
-        />,
-      info:
-        this.props.info,
-    };
-
     return (
       <Card
         style={{
-          cursor:"default",
-          height:380
+          cursor:"pointer",
+          height:385,
+          width: 380,
+          padding: 0
         }}
         title={this.props.title}
-        tabList={tabList}
-        onTabChange={
-          (key) => {
-            this.onTabChange(key, 'key');
-          }
-        }
+        onClick={this.props.handleClick}
         hoverable
       >
-        <div style={{
-          fontSize:14,
-          height: 212,
-        }}>
-          {contentList[this.state.key]}
+        <Card.Grid
+          style={{
+            width: "100%",
+            padding:5,
+            height: 240
+          }}
+        >
+          <img
+            alt="whatever"
+            style={{
+              width: "310px"
+            }}
+            src={this.props.imgsrc}
+          />
+        </Card.Grid>
+        <div style={{ padding: 10}}>
+          {this.props.info}
         </div>
-        <Button onClick={this.props.handleClick}>Select</Button>
       </Card>
     );
   }

@@ -22,13 +22,13 @@ class CardView extends React.Component {
             padding:5
           }}
         >
-        <img
-          alt="whatever"
-          style={{
-            width: "150px"
-          }}
-          src={this.props.imgsrc}
-        />
+          <img
+            alt="whatever"
+            style={{
+              width: "150px"
+            }}
+            src={this.props.imgsrc}
+          />
         </Card.Grid>
         <Card.Grid
           style={{
