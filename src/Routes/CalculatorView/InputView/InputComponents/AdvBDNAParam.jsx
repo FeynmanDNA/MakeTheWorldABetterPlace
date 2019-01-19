@@ -164,7 +164,7 @@ class AdvBDNAParam extends React.Component {
               style={customPanelStyle}
               key="4"
             >
-              <Row type="flex" align="center">
+              <Row type="flex" align="middle">
                 <Col span={16}>
                   Determine B-DNA transition from the extended into supercoiled state (dimensionless)
                 </Col>

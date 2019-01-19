@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom"
 // sync step across pages
 import { inject, observer } from 'mobx-react';
 // antd js and css
@@ -16,7 +17,10 @@ class StepsBar extends React.Component {
           paddingRight: 70,
         }}>
         <Steps current={this.props.global_store.step}>
-          <Step title="Choose Calculator" description="from three types of calculators" />
+          <Step
+            title={<Link to="/calculator/choosecalculator">Choose Calculator</Link>}
+            description="from three types of calculators"
+          />
           <Step title="Choose Mode" description="Constant Force or Torque" />
           <Step title="Input Values" description="Parameters for calculation" />
           <Step title="Data and Plot" description="See the results" />

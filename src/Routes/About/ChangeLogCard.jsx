@@ -15,13 +15,25 @@ class ChangeLogCard extends React.Component {
       >
       <Timeline>
         <Timeline.Item>
-          <Tag style={{cursor: "default"}} color="green">
+          <Tag style={{cursor: "default"}} color="red">
+            2019 Jan 20th
+          </Tag>
+          Version 4.0: Added Polymer Calculator, refactored and upgraded React codebase
+        </Timeline.Item>
+        <Timeline.Item>
+          <Tag style={{cursor: "default"}} color="orange">
+            2018 Nov 2nd
+          </Tag>
+          Version 3.1b: Fixed npm security issues, added after_build script for easier deployment
+        </Timeline.Item>
+        <Timeline.Item>
+          <Tag style={{cursor: "default"}} color="orange">
             2018 Jul 13th
           </Tag>
           Version 3.1: Launched on an inhouse Xeon server, calculation time reduced to less than 30 seconds
         </Timeline.Item>
         <Timeline.Item>
-          <Tag style={{cursor: "default"}} color="green">
+          <Tag style={{cursor: "default"}} color="orange">
             2018 Jul 11th
           </Tag>
           Version 3: New webapp with React/Mobx/React-vis for frontend ready for internal testing

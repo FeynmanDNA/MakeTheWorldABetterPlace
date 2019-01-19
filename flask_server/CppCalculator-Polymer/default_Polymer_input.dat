@@ -1,0 +1,35 @@
+# Contains all the possible input values that can be changed
+# No need to actually list/change them, defaults are in the code
+
+# Jan 18th 2019, copied this file from BareDNA, and changed the following params:
+# C_B = 0
+# mu_L = 100
+# mu_P = 100
+
+# B-DNA (changed to Polymer for Polymer version)
+b_B = 0.1			   # size of individual polymer segment [nm]
+A_B = 10.0			   # B - polymer bending persistence length
+C_B = 0.1			   # B - DNA twisting persistence length
+lambda_B = 4.3		   # lambda parameter for B - DNA
+
+# L-DNA
+b_L = 0.675            # size of individual DNA segment in L - DNA state
+A_L = 0.1              # L - DNA bending persistence length
+C_L = 0.1             # L - DNA twisting persistence length
+lambda_L = 4.3         # lambda parameter for L - DNA
+mu_L = 100.0             # the energy difference [k_B*T] at zero torque per DNA base - pair from B - DNA to L - DNA
+lk_L_0 = -0.158653846  # the DNA relaxed linking number change per base - pair from B - DNA to L - DNA
+
+# P-DNA
+b_P = 0.85             # size of individual DNA segment in P - DNA state
+A_P = 0.1             # P - DNA bending persistence length
+C_P = 0.1             # P - DNA twisting persistence length
+lambda_P = -0.5        # lambda parameter for P - DNA
+mu_P = 100.0            # the energy difference [k_B*T] at zero torque per DNA base - pair from B - DNA to P - DNA
+lk_P_0 = 0.237179487   # the DNA relaxed linking number change per base - pair from B - DNA to P - DNA
+
+# Other
+coop = 9.0             # energy penalty appearing due to B - L - DNA, B - P - DNA and P - L - DNA boundaries
+cutoff = 3.1415926535  # probably best to leave unchanged, or commented even
+plus_coeff = 1.0001
+minus_coeff = 0.9999

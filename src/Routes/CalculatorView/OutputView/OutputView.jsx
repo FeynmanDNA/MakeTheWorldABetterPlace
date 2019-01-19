@@ -7,9 +7,7 @@ import ResultPlot from './ResultPlot';
 
 // get current states from global_store
 import { inject, observer } from 'mobx-react';
-import { Button, Icon, Alert, Popconfirm, message } from 'antd';
-
-const ButtonGroup = Button.Group;
+import { Button, Icon, Alert, Popconfirm, message, Divider } from 'antd';
 
 
 @inject('global_store')
@@ -67,6 +65,9 @@ class OutputView extends React.Component {
           break;
         case "3":
           params = "WithIns";
+          break;
+        case "4":
+          params = "Polymer";
           break;
         default:
           break;
@@ -276,6 +277,40 @@ class OutputView extends React.Component {
   render() {
     return (
       <React.Fragment>
+        <Popconfirm
+          title="Your calculation is still being processed. Do you want to leave this page?"
+          visible={this.state.PopconfirmGoBackVisible}
+          onVisibleChange={this.handlePopconfirmGoBackVisibleChange}
+          onConfirm={this.ProceedBack}
+          onCancel={this.cancelPopconfirm}
+          okText="Yes"
+          cancelText="No"
+        >
+          <Button
+            type="primary"
+          >
+            <Icon type="left" />
+            Go back
+          </Button>
+          {' '}
+        </Popconfirm>
+        <Popconfirm
+          title="Your calculation is still being processed. Do you want to leave this page?"
+          visible={this.state.PopconfirmReCalVisible}
+          onVisibleChange={this.handlePopconfirmReCalVisibleChange}
+          onConfirm={this.HandleReCalculation}
+          onCancel={this.cancelPopconfirm}
+          okText="Yes"
+          cancelText="No"
+        >
+          <Button
+            type="primary"
+          >
+            Restart from Step1
+            <Icon type="reload" />
+          </Button>
+        </Popconfirm>
+        <Divider />
         {this.state.NoJSONError ? (
           <Alert
             message="No Input Values"
@@ -289,8 +324,8 @@ class OutputView extends React.Component {
             EstTime={this.props.global_store.calType === "2"
               ? "5 minutes"
               : "20-30 seconds"}
-            RelExtArray={this.state.extArray}
-            HelixArray={this.state.superHelixArray}
+            RelExtArray={this.state.extArray || ["NaN detected"]}
+            HelixArray={this.state.superHelixArray || ["NaN detected"]}
             TimeStart={this.state.startTime}
             TimeEnd={this.state.doneTime}
             TimeElap={this.state.elapsedTime}
@@ -298,41 +333,6 @@ class OutputView extends React.Component {
             ServerError={this.state.ServiceErrorServer}
           />
         )}
-        <br />
-        <ButtonGroup>
-          <Popconfirm
-            title="Your calculation is still being processed. Do you want to leave this page?"
-            visible={this.state.PopconfirmGoBackVisible}
-            onVisibleChange={this.handlePopconfirmGoBackVisibleChange}
-            onConfirm={this.ProceedBack}
-            onCancel={this.cancelPopconfirm}
-            okText="Yes"
-            cancelText="No"
-          >
-            <Button
-              type="primary"
-            >
-              <Icon type="left" />
-              Go back
-            </Button>
-          </Popconfirm>
-          <Popconfirm
-            title="Your calculation is still being processed. Do you want to leave this page?"
-            visible={this.state.PopconfirmReCalVisible}
-            onVisibleChange={this.handlePopconfirmReCalVisibleChange}
-            onConfirm={this.HandleReCalculation}
-            onCancel={this.cancelPopconfirm}
-            okText="Yes"
-            cancelText="No"
-          >
-            <Button
-              type="primary"
-            >
-              Restart from Step1
-              <Icon type="reload" />
-            </Button>
-          </Popconfirm>
-        </ButtonGroup>
       </React.Fragment>
     );
   }

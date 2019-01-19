@@ -6,15 +6,15 @@ import ConstForce from '../../../Assets/ConstForce.png';
 // get current step from global_store
 // and to manage global states
 import { inject, observer } from 'mobx-react';
-import { Button, Icon, Col, Row } from 'antd';
+import { Button, Icon, Col, Row, Divider } from 'antd';
 
 
 const ConstTorqueInfo =  (
-  <p>Plot the DNA force-extension/force-superhelical-density curve at a fixed value of the torque and predict the structural state of the DNA at given force values.</p>
+  <p>Plot the DNA (or polymer) <b>force-extension/force-superhelical-density curve</b> at a fixed value of the torque and predict the structural state of the DNA/polymer at given force values.</p>
 );
 
 const ConstForceInfo = (
-  <p>Plot the DNA torque-extension/torque-superhelical-density curve at a fixed value of the force and predict the structural state of DNA at given torque values.</p>
+  <p>Plot the DNA <b>torque-extension/torque-superhelical-density curve</b> at a fixed value of the force and predict the structural state of DNA at given torque values.</p>
 );
 
 @inject('global_store')
@@ -47,6 +47,11 @@ class ChooseConstantTF extends React.Component {
       case "With DNA-insert":
         this.props.history.push(
           '/calculator/3/1/inputview'
+        );
+        break;
+      case "Polymer":
+        this.props.history.push(
+          '/calculator/4/1/inputview'
         );
         break;
       default:
@@ -84,27 +89,9 @@ class ChooseConstantTF extends React.Component {
   }
 
   render() {
+    const { calType } = this.props.match.params;
     return (
       <React.Fragment>
-        <Row type="flex" justify="space-around">
-          <Col span={8}>
-            <CardView
-              title="Constant Torque"
-              imgsrc={ConstTorque}
-              info={ConstTorqueInfo}
-              handleClick={this.clickTorque}
-            />
-          </Col>
-          <Col span={8}>
-            <CardView
-              title="Constant Force"
-              imgsrc={ConstForce}
-              info={ConstForceInfo}
-              handleClick={this.clickForce}
-            />
-          </Col>
-        </Row>
-        <br />
         <Button
           onClick={this.ProceedBack}
           type="primary"
@@ -112,6 +99,27 @@ class ChooseConstantTF extends React.Component {
           <Icon type="left" />
           Go back
         </Button>
+        <Divider />
+        <Row gutter={16}>
+          <Col span={12}>
+            <CardView
+              title={<b>Constant Torque</b>}
+              imgsrc={ConstTorque}
+              info={ConstTorqueInfo}
+              handleClick={this.clickTorque}
+            />
+          </Col>
+          {/* Polymer calculator only allow for Zero Torque */}
+          {calType !== "4" &&
+            <Col span={12}>
+              <CardView
+                title={<b>Constant Force</b>}
+                imgsrc={ConstForce}
+                info={ConstForceInfo}
+                handleClick={this.clickForce}
+              />
+            </Col>}
+        </Row>
       </React.Fragment>
     );
   }

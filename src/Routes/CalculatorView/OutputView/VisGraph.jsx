@@ -68,7 +68,7 @@ class VisGraph extends React.Component {
     minTorque = minTorque - 0.05*(Math.abs(minTorque));
     let maxTorque = Math.max(...FormInputs.torque);
     maxTorque = maxTorque + 0.05*(Math.abs(maxTorque));
-    // calType 1,2,3; calMode 1,2;
+    // calType 1,2,3,4; calMode 1,2;
     // BareDNA Version
     if (calType === "1") {
       if (calMode === "1") {
@@ -120,6 +120,13 @@ class VisGraph extends React.Component {
           xmin: minTorque,
         });
       }
+    } else if (calType === "4") {
+      this.setState({
+        ConstLegend: `Torque: ${FormInputs.torque} pN*nm`,
+        XaxisTitle: "Force",
+        xmax: maxForce,
+        xmin: minForce,
+      });
     }
   }
 
@@ -262,7 +269,10 @@ class VisGraph extends React.Component {
               <RadioButton value="Relative DNA Ext">
                 Relative DNA extension
               </RadioButton>
-              <RadioButton value="Superhelical density">
+              <RadioButton
+                value="Superhelical density"
+                disabled={this.props.global_store.calType === "4"}
+              >
                 Superhelical density
               </RadioButton>
             </RadioGroup>

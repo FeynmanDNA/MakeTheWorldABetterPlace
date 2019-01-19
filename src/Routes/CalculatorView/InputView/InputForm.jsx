@@ -11,6 +11,7 @@ import ConstTorqueRow from './InputComponents/ConstTorqueRow';
 import ProteinERow from './InputComponents/ProteinERow';
 import MaxModeRow from './InputComponents/MaxModeRow';
 import AdvParamRow from './InputComponents/AdvParamRow';
+import AdvPolymerParam from "./InputComponents/AdvPolymerParam"
 // access the global_store to modify the SubmitBtnStatus
 import { inject, observer } from 'mobx-react';
 
@@ -112,9 +113,11 @@ class InputForm extends React.Component {
     let ForceArrayTitle = `Force Array of ${this.state.ArrayDisplay.length} elements:`;
     let TorqueArrayTitle = `Torque Array of ${this.state.ArrayDisplay.length} elements:`;
 
+    const isPolymer = this.props.calType === "Polymer"
+
     return (
       <Form>
-        <DNALengthRow />
+        <DNALengthRow isPolymer={isPolymer} />
         {this.props.calType === "With DNA-insert" &&
           <InsertLengthRow />
         }
@@ -173,7 +176,7 @@ class InputForm extends React.Component {
                 );
               })}
             </Card>
-            <ConstTorqueRow />
+            <ConstTorqueRow isPolymer={isPolymer} />
           </React.Fragment>
           )
           : (
@@ -238,6 +241,9 @@ class InputForm extends React.Component {
         <MaxModeRow />
         {this.props.calType === "Bare DNA" &&
           <AdvParamRow forWithIns={false} />
+        }
+        {this.props.calType === "Polymer" &&
+          <AdvPolymerParam />
         }
         {this.props.calType === "With DNA-insert" &&
           <AdvParamRow forWithIns={true} />

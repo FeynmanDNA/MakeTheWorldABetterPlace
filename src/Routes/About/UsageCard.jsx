@@ -13,6 +13,12 @@ import Carousel from 'nuka-carousel';
 
 
 class UsageCard extends React.Component {
+  // temp fix for no image displayed on inital render
+  componentDidUpdate() {
+    setTimeout(() => {
+        window.dispatchEvent(new Event('resize'));
+    }, 0);
+  }
   render() {
     return (
       <Card
