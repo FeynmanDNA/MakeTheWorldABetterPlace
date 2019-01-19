@@ -8,7 +8,7 @@ class CardView extends React.Component {
       <Card
         style={{
           cursor:"pointer",
-          height:310,
+          height:360,
           width: 380,
           padding: 0
         }}
@@ -33,7 +33,9 @@ class CardView extends React.Component {
         <Card.Grid
           style={{
             width: '57%',
-            textAlign: 'center',
+            textAlign: 'left',
+            paddingTop: 10,
+            paddingBottom: 0
           }}
         >
           {this.props.info}
