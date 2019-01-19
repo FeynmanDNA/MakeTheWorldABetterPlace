@@ -76,6 +76,13 @@ class ChooseCalculator extends React.Component {
     );
   }
 
+  clickPolymer = () => {
+    this.props.global_store.chooseCalculator("Polymer");
+    this.props.history.push(
+      '/calculator/4/choosemode'
+    );
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -112,7 +119,7 @@ class ChooseCalculator extends React.Component {
               title={PolymerTitle}
               imgsrc={PolymerImg}
               info={PolymerInfo}
-              handleClick={this.clickWithIns}
+              handleClick={this.clickPolymer}
             />
           </Col>
         </Row>

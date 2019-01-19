@@ -51,6 +51,9 @@ class GlobalStore {
       case "3":
         this.calculator = "With DNA-insert";
         break;
+      case "4":
+        this.calculator = "Polymer";
+        break;
       default:
         break;
     }
@@ -153,7 +156,8 @@ class GlobalStore {
   @action.bound addStateMobx(calType, newState)
   {
     // BareDNA's AdvBDNAParam
-    if (calType === "forBDNA") {
+    // Polymer's AdvPolymerParam, same to AdvBDNAParam
+    if (calType === ("forBDNA" || "forPolymer")) {
       const { b_BValue, A_BValue, C_BValue, lambda_B } = newState;
       // extendObservable can be used to add new observable properties to an object
       extendObservable(this.FormInputs, {
