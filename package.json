@@ -11,6 +11,7 @@
     "prop-types": "^15.6.2",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
+    "react-ga": "^2.5.6",
     "react-pdf": "^3.0.6",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.4",

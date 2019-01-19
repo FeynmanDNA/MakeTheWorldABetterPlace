@@ -10,9 +10,14 @@ import {Switch,Route} from 'react-router-dom';
 import RouteWithSubRoutes from './RouteWithSubRoutes';
 //Layout components
 import Layout from './Layout/Main';
+//Google Analytics
+import ReactGA from 'react-ga';
 // routes is route config
 // cannot use import routes due to webpack
 const routes = require('./Routes/RouteConfig').default();
+
+ReactGA.initialize('UA-48967212-3');
+ReactGA.pageview(window.location.pathname + window.location.search);
 
 ReactDOM.render(
   (
