@@ -68,6 +68,9 @@ class OutputView extends React.Component {
         case "3":
           params = "WithIns";
           break;
+        case "4":
+          params = "Polymer";
+          break;
         default:
           break;
       };
