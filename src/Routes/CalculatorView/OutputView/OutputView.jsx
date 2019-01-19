@@ -9,8 +9,6 @@ import ResultPlot from './ResultPlot';
 import { inject, observer } from 'mobx-react';
 import { Button, Icon, Alert, Popconfirm, message, Divider } from 'antd';
 
-const ButtonGroup = Button.Group;
-
 
 @inject('global_store')
 @observer
@@ -279,40 +277,39 @@ class OutputView extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <ButtonGroup>
-          <Popconfirm
-            title="Your calculation is still being processed. Do you want to leave this page?"
-            visible={this.state.PopconfirmGoBackVisible}
-            onVisibleChange={this.handlePopconfirmGoBackVisibleChange}
-            onConfirm={this.ProceedBack}
-            onCancel={this.cancelPopconfirm}
-            okText="Yes"
-            cancelText="No"
+        <Popconfirm
+          title="Your calculation is still being processed. Do you want to leave this page?"
+          visible={this.state.PopconfirmGoBackVisible}
+          onVisibleChange={this.handlePopconfirmGoBackVisibleChange}
+          onConfirm={this.ProceedBack}
+          onCancel={this.cancelPopconfirm}
+          okText="Yes"
+          cancelText="No"
+        >
+          <Button
+            type="primary"
           >
-            <Button
-              type="primary"
-            >
-              <Icon type="left" />
-              Go back
-            </Button>
-          </Popconfirm>
-          <Popconfirm
-            title="Your calculation is still being processed. Do you want to leave this page?"
-            visible={this.state.PopconfirmReCalVisible}
-            onVisibleChange={this.handlePopconfirmReCalVisibleChange}
-            onConfirm={this.HandleReCalculation}
-            onCancel={this.cancelPopconfirm}
-            okText="Yes"
-            cancelText="No"
+            <Icon type="left" />
+            Go back
+          </Button>
+          {' '}
+        </Popconfirm>
+        <Popconfirm
+          title="Your calculation is still being processed. Do you want to leave this page?"
+          visible={this.state.PopconfirmReCalVisible}
+          onVisibleChange={this.handlePopconfirmReCalVisibleChange}
+          onConfirm={this.HandleReCalculation}
+          onCancel={this.cancelPopconfirm}
+          okText="Yes"
+          cancelText="No"
+        >
+          <Button
+            type="primary"
           >
-            <Button
-              type="primary"
-            >
-              Restart from Step1
-              <Icon type="reload" />
-            </Button>
-          </Popconfirm>
-        </ButtonGroup>
+            Restart from Step1
+            <Icon type="reload" />
+          </Button>
+        </Popconfirm>
         <Divider />
         {this.state.NoJSONError ? (
           <Alert

@@ -4,8 +4,6 @@ import InputForm from './InputForm';
 import { inject, observer } from 'mobx-react';
 import { Button, Icon, Divider } from 'antd';
 
-const ButtonGroup = Button.Group;
-
 
 @inject('global_store')
 @observer
@@ -55,25 +53,24 @@ class InputView extends React.Component {
 
     return (
       <React.Fragment>
-        <ButtonGroup>
-          <Button
-            onClick={this.ProceedBack}
-            type="primary"
-          >
-            <Icon type="left" />
-            Go back
-          </Button>
-          <Button
-            onClick={this.handleSubmit}
-            type="primary"
-            disabled={inputStatus === false
-              ? true
-              : false}
-          >
-            Submit
-            <Icon type="upload" />
-          </Button>
-        </ButtonGroup>
+        <Button
+          onClick={this.ProceedBack}
+          type="primary"
+        >
+          <Icon type="left" />
+          Go back
+        </Button>
+        {" "}
+        <Button
+          onClick={this.handleSubmit}
+          type="primary"
+          disabled={inputStatus === false
+            ? true
+            : false}
+        >
+          Submit
+          <Icon type="upload" />
+        </Button>
         <Divider />
         <h3>
           Inputs for {calculator}
