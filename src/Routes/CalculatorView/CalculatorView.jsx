@@ -23,14 +23,15 @@ class CalculatorView extends React.Component {
       <Content style={{ padding: '0 50px' }}>
         <DetectBrowser />
         <StepsBar />
-        <Layout style={{ padding: '24px 0', background: '#fff' }}>
+        <Layout style={{ padding: '24px 0', background: '#fff', minWidth: 1000 }}>
           <Sider width={220} style={{ background: '#fff' }}>
             <MenuSider />
           </Sider>
           <Content
             style={{
               padding: '0 24px',
-              minHeight: 500
+              minHeight: 500,
+              minWidth: 770
             }}>
             <Switch>
               {this.props.routes.map((route, i) => (

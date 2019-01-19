@@ -58,8 +58,8 @@ class ChooseCalculator extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Row type="flex" justify="space-around">
-          <Col span={7}>
+        <Row gutter={8}>
+          <Col span={12}>
             <CardView
               title="Bare DNA"
               imgsrc={BareDNAImg}
@@ -67,7 +67,7 @@ class ChooseCalculator extends React.Component {
               handleClick={this.clickBareDNA}
             />
           </Col>
-          <Col span={7}>
+          <Col span={12}>
             <CardView
               title="With Nucleosome"
               imgsrc={WithNulImg}
@@ -75,7 +75,18 @@ class ChooseCalculator extends React.Component {
               handleClick={this.clickWithNul}
             />
           </Col>
-          <Col span={7}>
+        </Row>
+        <br />
+        <Row gutter={8}>
+          <Col span={12}>
+            <CardView
+              title="With DNA-insert"
+              imgsrc={WithInsImg}
+              info={WithInsInfo}
+              handleClick={this.clickWithIns}
+            />
+          </Col>
+          <Col span={12}>
             <CardView
               title="With DNA-insert"
               imgsrc={WithInsImg}
@@ -84,7 +95,6 @@ class ChooseCalculator extends React.Component {
             />
           </Col>
         </Row>
-      <br />
       </React.Fragment>
     );
   }
