@@ -2,9 +2,7 @@ import React from 'react';
 import InputForm from './InputForm';
 // get current states from global_store
 import { inject, observer } from 'mobx-react';
-import { Button, Icon } from 'antd';
-
-const ButtonGroup = Button.Group;
+import { Button, Icon, Divider } from 'antd';
 
 
 @inject('global_store')
@@ -55,33 +53,35 @@ class InputView extends React.Component {
 
     return (
       <React.Fragment>
+        <Button
+          onClick={this.ProceedBack}
+          type="primary"
+        >
+          <Icon type="left" />
+          Go back
+        </Button>
+        {" "}
+        <Button
+          onClick={this.handleSubmit}
+          type="primary"
+          disabled={inputStatus === false
+            ? true
+            : false}
+        >
+          Submit
+          <Icon type="upload" />
+        </Button>
+        <Divider />
         <h3>
           Inputs for {calculator}
-          &nbsp;with {mode}
+          &nbsp;with {calculator==="Polymer"
+            ? "ZERO Torque"
+            : mode}
         </h3>
         <InputForm
           calType={calculator}
           calMode={mode}
         />
-        <ButtonGroup>
-          <Button
-            onClick={this.ProceedBack}
-            type="primary"
-          >
-            <Icon type="left" />
-            Go back
-          </Button>
-          <Button
-            onClick={this.handleSubmit}
-            type="primary"
-            disabled={inputStatus === false
-              ? true
-              : false}
-          >
-            Submit
-            <Icon type="upload" />
-          </Button>
-        </ButtonGroup>
       </React.Fragment>
     );
   }

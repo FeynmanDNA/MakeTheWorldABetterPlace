@@ -5,24 +5,34 @@ import SliderInput from './SliderInput';
 const FormItem = Form.Item;
 
 class DNALengthRow extends React.Component {
-
   render() {
     const formItemLayout = {
       labelCol: {span: 6},
       wrapperCol: {span: 14},
     };
 
+    const DynamicLabel = this.props.isPolymer
+      ? (
+        <span>
+          Polymer Length&nbsp;(nm)&nbsp;
+          <Tooltip title="Polymer length is the contour length in nm.">
+            <Icon type="question-circle-o" />
+          </Tooltip>
+        </span>
+      )
+      : (
+        <span>
+          DNA Length&nbsp;(nm)&nbsp;
+          <Tooltip title="DNA length is the contour length in B-DNA state in nm.">
+            <Icon type="question-circle-o" />
+          </Tooltip>
+        </span>
+      )
+
     return (
       <FormItem
         {...formItemLayout}
-        label={(
-          <span>
-            DNA Length&nbsp;(nm)&nbsp;
-            <Tooltip title="DNA length is the contour length in B-DNA state in nm.">
-              <Icon type="question-circle-o" />
-            </Tooltip>
-          </span>
-        )}
+        label={DynamicLabel}
       >
         <SliderInput
           idValue="DNALength"

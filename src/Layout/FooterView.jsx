@@ -20,7 +20,7 @@ class FooterView extends React.Component {
           </a>
         </Tooltip>
         &nbsp;
-        © 2018 
+        © 2019 
       </Footer>
     );
   }
