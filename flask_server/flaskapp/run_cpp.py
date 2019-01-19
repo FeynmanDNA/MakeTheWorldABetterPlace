@@ -62,7 +62,7 @@ def init_cpp(input_JSON={}, cal_Type="", n_cpu=""):
         file_adv.write('A_B = %s\n' % input_JSON['A_B'])
         file_adv.close()
 
-        cpp_proc = "../../../../CppCalculator-Polymer/PolymerVersion.out %s %s %s %s" % (
+        cpp_proc = "../../../CppCalculator-Polymer/PolymerVersion.out %s %s %s %s" % (
             input_JSON['DNALength'],
             'input_ft.dat',
             input_JSON['maxmode'],
