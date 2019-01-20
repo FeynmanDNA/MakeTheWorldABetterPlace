@@ -58,12 +58,12 @@ def init_cpp(input_JSON={}, cal_Type="", n_cpu=""):
     elif cal_Type == "Polymer":
         file_adv = open('input.dat', 'w')
         # Polymer advanced parameter need to overwrite 2 advanced params:
-        file_adv.write('b_B = %s\n' % input_JSON['b_B'])
-        file_adv.write('A_B = %s\n' % input_JSON['A_B'])
+        file_adv.write('b_Polymer = %s\n' % input_JSON['b_Polymer'])
+        file_adv.write('A_Polymer = %s\n' % input_JSON['A_Polymer'])
         file_adv.close()
 
         cpp_proc = "../../../../CppCalculator-Polymer/PolymerVersion.out %s %s %s %s" % (
-            input_JSON['DNALength'],
+            input_JSON['PolymerLength'],
             'input_ft.dat',
             input_JSON['maxmode'],
             n_cpu)
