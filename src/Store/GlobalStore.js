@@ -152,7 +152,7 @@ class GlobalStore {
     // Format 7 Polymer Zero Torque, Force Array
     } else if (calType === "Polymer") {
       this.FormInputs = {
-        "DNALength": parseInt(document.getElementById("DNALength").value, 10),
+        "PolymerLength": parseInt(document.getElementById("DNALength").value, 10),
         "force": inputArray,
         "torque": 0,
         "maxmode": parseInt(document.getElementById("MaxMode").value, 10),
@@ -178,8 +178,8 @@ class GlobalStore {
       const { b_BValue, A_BValue, C_BValue, lambda_B } = newState;
       // extendObservable can be used to add new observable properties to an object
       extendObservable(this.FormInputs, {
-        "b_B": b_BValue,
-        "A_B": A_BValue,
+        "b_Polymer": b_BValue,
+        "A_Polymer": A_BValue,
         "C_B": C_BValue,
         "lambda_B": lambda_B,
       });
