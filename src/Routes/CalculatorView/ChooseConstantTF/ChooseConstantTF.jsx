@@ -89,7 +89,6 @@ class ChooseConstantTF extends React.Component {
   }
 
   render() {
-    const { calType } = this.props.match.params;
     return (
       <React.Fragment>
         <Button
@@ -109,16 +108,15 @@ class ChooseConstantTF extends React.Component {
               handleClick={this.clickTorque}
             />
           </Col>
-          {/* Polymer calculator only allow for Zero Torque */}
-          {calType !== "4" &&
-            <Col span={12}>
-              <CardView
-                title={<b>Constant Force</b>}
-                imgsrc={ConstForce}
-                info={ConstForceInfo}
-                handleClick={this.clickForce}
-              />
-            </Col>}
+          {/* Polymer calculator skips this page */}
+          <Col span={12}>
+            <CardView
+              title={<b>Constant Force</b>}
+              imgsrc={ConstForce}
+              info={ConstForceInfo}
+              handleClick={this.clickForce}
+            />
+          </Col>
         </Row>
       </React.Fragment>
     );

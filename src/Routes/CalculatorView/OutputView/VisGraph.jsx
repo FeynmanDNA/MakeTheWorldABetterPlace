@@ -124,6 +124,7 @@ class VisGraph extends React.Component {
       this.setState({
         ConstLegend: `Torque: ${FormInputs.torque} pN*nm`,
         XaxisTitle: "Force",
+        YaxisTitle: "Relative Polymer Ext",
         xmax: maxForce,
         xmin: minForce,
       });
@@ -267,7 +268,7 @@ class VisGraph extends React.Component {
           <Col span={18}>
             <RadioGroup onChange={this.selectYaxis} defaultValue="Relative DNA Ext">
               <RadioButton value="Relative DNA Ext">
-                Relative DNA extension
+                Relative {this.props.global_store.calType === "4" ? "Polymer" : "DNA"} extension
               </RadioButton>
               <RadioButton
                 value="Superhelical density"

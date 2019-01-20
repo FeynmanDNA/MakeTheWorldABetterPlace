@@ -29,11 +29,17 @@ class InputView extends React.Component {
   }
 
   ProceedBack = () => {
-    this.props.history.push(
-      '/calculator/'
-      +this.props.global_store.calType
-      +'/choosemode'
-    );
+    if (this.props.match.params.calType === "4") {
+      this.props.history.push(
+        '/calculator/choosecalculator'
+      )
+    } else {
+      this.props.history.push(
+        '/calculator/'
+        +this.props.global_store.calType
+        +'/choosemode'
+      );
+    }
   }
 
   handleSubmit = () => {

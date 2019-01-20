@@ -79,7 +79,7 @@ class ChooseCalculator extends React.Component {
   clickPolymer = () => {
     this.props.global_store.chooseCalculator("Polymer");
     this.props.history.push(
-      '/calculator/4/choosemode'
+      '/calculator/4/1/inputview'
     );
   }
 
